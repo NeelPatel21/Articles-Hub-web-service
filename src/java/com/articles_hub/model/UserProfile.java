@@ -24,19 +24,39 @@
 package com.articles_hub.model;
 
 import java.util.List;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author Neel Patel
  */
+@Entity 
+@Table(name = "user_profiles")
 public class UserProfile {
+    @Id
+    @GenericGenerator (name = "userId_gen", strategy = "sequence")
+    @GeneratedValue(generator = "userId_gen")
     private long userId;
+    
+    @Column(name = "user_name", length = 50, nullable = false)
     private String userName;
+    
+    @Column(name = "passwd", length = 50, nullable = false)
     private String pass;
+    
+    @Column(name = "user_email", length = 100, nullable = false, unique = true)
     private String emailId;
+    
+    @Column(name = "user_info", length = 5000)
     private String info;
     
+    @Transient
     private List<Article> articles; // articles written by User.
+    
+    @Transient
     private List<Comment> comments; // comments by user.
+    
+    @Transient
     private List<Like> likes; // likes by this user.
 }

@@ -24,15 +24,31 @@
 package com.articles_hub.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author Neel Patel
  */
+@Entity
+@Table(name = "comments")
 public class Comment {
+    @Id
+    @GenericGenerator(name = "commentId_gen", strategy = "sequence")
+    @GeneratedValue(generator = "commentId_gen") 
     private long commentId;
+    
+    @Transient
     private long articleId; //foreign key Article(articleId)
+    
+    @Transient
     private long authorId; //foreign key :- UserProfile(userId)
+    
+    @Column(name = "data", length = 2000)
     private String commentBody;
+    
+    @Column(name = "comment_date")
     private LocalDateTime date;
 }

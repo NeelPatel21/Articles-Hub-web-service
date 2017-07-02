@@ -23,11 +23,22 @@
  */
 package com.articles_hub.model;
 
+import javax.persistence.Entity;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  *
  * @author Neel Patel
  */
+@Entity
+@Table(name = "tags")
 public class Tag {
+    @Id
+    @GenericGenerator(name = "tagId_gen", strategy = "sequence")
+    @GeneratedValue(generator = "tagId_gen") 
     private long tagId;
+    
+    @Column(name = "tag_name",unique = true, length = 50)
     private String tagName;
 }

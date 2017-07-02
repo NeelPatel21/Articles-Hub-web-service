@@ -43,8 +43,16 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernate</property>
+    <!--<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernate</property>-->
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">root</property>
+    <property name="show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+    <mapping class="com.articles_hub.model.UserProfile" package="com.articles_hub.model"/>
+    <mapping class="com.articles_hub.model.Article" package="com.articles_hub.model"/>
+    <mapping class="com.articles_hub.model.Comment" package="com.articles_hub.model"/>
+    <mapping class="com.articles_hub.model.Like" package="com.articles_hub.model"/>
+    <mapping class="com.articles_hub.model.Tag" package="com.articles_hub.model"/>
   </session-factory>
 </hibernate-configuration>

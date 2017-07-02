@@ -25,20 +25,42 @@ package com.articles_hub.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author Neel Patel
  */
+@Entity
+@Table(name = "articles")
 public class Article {
+    
+    @Id
+    @GenericGenerator(name = "articleId_gen", strategy = "sequence")
+    @GeneratedValue(generator = "articleId_gen")
     private long articleId;
+    
+    @Transient
     private long authorId; //foreign key :- UserProfile(userId)
+    
+    @Column(name = "article_title", nullable = false, length = 1000)
     private String title;
+    
+    @Column(name = "publish_datetime")
     private LocalDateTime publishDate;
+    
+    @Transient
     private List<Tag> tags;
+    
+    @Lob
+    @Column(name = "article_data",nullable = false)
     private List<String> articleContant;
     
+    @Transient
     private List<Comment> comments; // comments on this article
+    
+    @Transient
     private List<Like> likes; // likes on this article
     
 }

@@ -23,12 +23,27 @@
  */
 package com.articles_hub.model;
 
+import javax.persistence.Entity;
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  *
  * @author Neel Patel
  */
+@Entity
+@Table(name = "likes")
 public class Like {
+    
+    @Id
+    @GenericGenerator(name = "likeId_gen", strategy = "sequence")
+    @GeneratedValue(generator = "likeId_gen")
+    
     private long likeId;
+    
+    @Transient
     private long userId; //foreign key :- UserProfile(userId)
+    
+    @Transient
     private long articleId; //foreign key Article(articleId)
 }
