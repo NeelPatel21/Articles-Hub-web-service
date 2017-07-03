@@ -23,7 +23,7 @@
  */
 package com.articles_hub.model;
 
-import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -51,12 +51,12 @@ public class UserProfile {
     @Column(name = "user_info", length = 5000)
     private String info;
     
-    @Transient
-    private List<Article> articles; // articles written by User.
+    @OneToMany(mappedBy = "author")
+    private Set<Article> articles; // articles written by User.
+    
+    @OneToMany(mappedBy = "author")
+    private Set<Comment> comments; // comments by user.
     
     @Transient
-    private List<Comment> comments; // comments by user.
-    
-    @Transient
-    private List<Like> likes; // likes by this user.
+    private Set<Like> likes; // likes by this user.
 }

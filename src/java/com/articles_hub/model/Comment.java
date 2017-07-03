@@ -40,13 +40,15 @@ public class Comment {
     @GeneratedValue(generator = "commentId_gen") 
     private long commentId;
     
-    @Transient
-    private long articleId; //foreign key Article(articleId)
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article article; //foreign key Article(articleId)
     
-    @Transient
-    private long authorId; //foreign key :- UserProfile(userId)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserProfile author; //foreign key :- UserProfile(userId)
     
-    @Column(name = "data", length = 2000)
+    @Column(name = "comment_data", length = 2000)
     private String commentBody;
     
     @Column(name = "comment_date")
