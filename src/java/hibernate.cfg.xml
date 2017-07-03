@@ -49,10 +49,10 @@ Contributor(s):
     <property name="show_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
-    <mapping class="com.articles_hub.model.UserProfile" package="com.articles_hub.model"/>
-    <mapping class="com.articles_hub.model.Article" package="com.articles_hub.model"/>
-    <mapping class="com.articles_hub.model.Comment" package="com.articles_hub.model"/>
-    <mapping class="com.articles_hub.model.Like" package="com.articles_hub.model"/>
-    <mapping class="com.articles_hub.model.Tag" package="com.articles_hub.model"/>
+    <mapping class="com.articles_hub.database.beans.UserProfile" package="com.articles_hub.database.beans"/>
+    <mapping class="com.articles_hub.database.beans.Article" package="com.articles_hub.database.beans"/>
+    <mapping class="com.articles_hub.database.beans.Comment" package="com.articles_hub.database.beans"/>
+    <!--<mapping class="com.articles_hub.model.Like" package="com.articles_hub.model"/>-->
+    <mapping class="com.articles_hub.database.beans.Tag" package="com.articles_hub.database.beans"/>
   </session-factory>
 </hibernate-configuration>

@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/UserProfile.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/test/hibernate/HibernateTest.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Tag.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Like.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Article.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Comment.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/UserProfile.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Tag.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Article.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Comment.java</file>
         </group>
     </open-files>
 </project-private>

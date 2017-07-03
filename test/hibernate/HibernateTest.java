@@ -37,5 +37,6 @@ public class HibernateTest {
         SessionFactory sf=new Configuration().configure().buildSessionFactory();
         Session s = sf.openSession();
         s.beginTransaction();
+        s.close();
     }
 }
