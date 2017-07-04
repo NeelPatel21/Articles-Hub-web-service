@@ -75,6 +75,19 @@ public class Article {
     
 //methods & constructors
 
+    /**
+     * initialized object with specified id.
+     * @deprecated object initialized with this constructor might not be
+       able to used with database as the userId is auto-generated field.
+     * @param id articleId
+     */
+    public Article(long id){
+        this.articleId=id;
+    }
+
+    public Article() {
+    }
+    
     public long getArticleId() {
         return articleId;
     }
@@ -106,6 +119,88 @@ public class Article {
     public Set<UserProfile> getLikes() {
         return Collections.unmodifiableSet(likes);
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * update publish date of the article.
+     * @param publishDate new publish date
+     */
+    public void setPublishDate(LocalDateTime publishDate) {
+        if(publishDate == null)
+            return;
+        this.publishDate = publishDate;
+    }
     
+    /**
+     * update author with 'user'
+     * @param user author of the article
+     */
+    void setAuthor(UserProfile user){
+        this.author=user;
+    }
+    
+    /**
+     * this method add comment to the article.
+     * this method will add the comment to the articles record of comments.
+     * it also update the comment author of the object with the current object.
+     * if 'comment' parameter is {@code null} then this method do nothing.<br>
+     * Note:- if the comment is already exist in the record (i.e. comment having
+       same commentId) then this method will do nothing.
+     * @param comment comment object going to be added.
+     */
+    public void addComment(Comment comment){
+        if(comment == null)
+            return;
+        if(this.comments.add(comment))
+            comment.setArticle(this);
+    }
+    
+    public void addLike(UserProfile user){
+        if(user == null)
+            return;
+        if(likes.add(user))
+            user.addLike(this);
+    }
+    
+    public void removeLike(UserProfile user){
+        if(user == null)
+            return;
+        likes.remove(user);
+        user.removeLike(this);
+    }
+    
+    public void removeComment(Comment comment){
+        comments.remove(comment);
+        comment.setAuthor(null);
+    }
+    
+    @Override
+    public String toString() {
+        return articleId+", "+title;
+    }
+
+    /**
+     * this method returns true only if 'obj' is instance of Article and it have
+       same 'articleId'.
+     * @param obj object
+     * @return true if object is equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Article))
+            return false;
+        Article up=(Article)obj;
+        return this.articleId==up.articleId;
+    }
+ 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (int) (this.articleId ^ (this.articleId >>> 32));
+        return hash;
+    }
     
 }

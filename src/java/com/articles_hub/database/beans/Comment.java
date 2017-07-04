@@ -55,4 +55,84 @@ public class Comment {
     
     @Column(name = "comment_date")
     private LocalDateTime date;
+
+//constructors & methods    
+    
+    /**
+     * initialized object with specified id.
+     * @deprecated object initialized with this constructor might not be
+       able to used with database as the userId is auto-generated field.
+     * @param id articleId
+     */
+    public Comment(long id){
+        this.commentId=id;
+    }
+
+    public Comment() {
+    }
+    
+    public long getCommentId() {
+        return commentId;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public UserProfile getAuthor() {
+        return author;
+    }
+
+    public String getCommentBody() {
+        return commentBody;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setCommentBody(String commentBody) {
+        this.commentBody = commentBody;
+    }
+    
+    void setAuthor(UserProfile user){
+        this.author=user;
+    }
+    
+    void setArticle(Article article){
+        this.article=article;
+    }
+
+    public void setDate(LocalDateTime date) {
+        if(date == null)
+            return;
+        this.date = date;
+    }
+    
+    @Override
+    public String toString() {
+        return commentId+"";
+    }
+
+    /**
+     * this method returns true only if 'obj' is instance of Comment and it have
+       same 'commentId'.
+     * @param obj object
+     * @return true if object is equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Comment))
+            return false;
+        Comment up=(Comment)obj;
+        return this.commentId==up.commentId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (int) (this.commentId ^ (this.commentId >>> 32));
+        return hash;
+    }
+    
 }

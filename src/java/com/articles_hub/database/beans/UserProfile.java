@@ -66,6 +66,19 @@ public class UserProfile {
     
 //methods & constructors
 
+    /**
+     * initialized object with specified id.
+     * @deprecated object initialized with this constructor might not be
+       able to used with database as the userId is auto-generated field.
+     * @param id userId
+     */
+    public UserProfile(long id){
+        this.userId=id;
+    }
+
+    public UserProfile() {
+    }
+    
     public long getUserId() {
         return userId;
     }
@@ -108,6 +121,92 @@ public class UserProfile {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public void setEmailId(String emailId) {
+        if(emailId == null || emailId.trim().equals(""))
+            return;
+        this.emailId = emailId;
+    }
+    
+    /**
+     * this method add article to the user.
+     * this method will add the article to the users record articles.
+     * it also update the article author of the object.
+     * if 'comment' parameter is {@code null} then this method do nothing.<br>
+     * Note:- if the article is already exist in the record (i.e. article having
+       same articleId) then this method will do nothing.
+     * @param article Article object going to be added.
+     */
+    public void addArticle(Article article){
+        if(article == null)
+            return;
+        if(articles.add(article))
+            article.setAuthor(this);
+    }
+    
+    /**
+     * this method add comment to the user.
+     * this method will add the comment to the users record of comments.
+     * it also update the comment author of the object with the current object.
+     * if 'comment' parameter is {@code null} then this method do nothing.<br>
+     * Note:- if the comment is already exist in the record (i.e. comment having
+       same commentId) then this method will do nothing.<br>
+     * this method will not remove comment from the record of previous author
+       of the comment. it is recommended to update old author before this operation.
+     * @param comment comment object going to be added.
+     */
+    public void addComment(Comment comment){
+        if(comment == null)
+            return;
+        if(comments.add(comment))
+            comment.setAuthor(this);
+    }
+    
+    void addLike(Article article){
+        if(article == null)
+            return;
+        likes.add(article);
+    }
+    
+    void removeLike(Article article){
+        likes.remove(article);
+    }
+    
+    public void removeComment(Comment comment){
+        comments.remove(comment);
+        comment.setAuthor(null);
+    }
+    
+    public void removeArticle(Article article){
+        articles.remove(article);
+        article.setAuthor(null);
+    }
+
+    @Override
+    public String toString() {
+        return userId+", "+userName;
+    }
+
+    /**
+     * this method returns true only if 'obj' is instance of UserProfile and
+       it have same 'userId'.
+     * @param obj object
+     * @return true if object is equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof UserProfile))
+            return false;
+        UserProfile up=(UserProfile)obj;
+        return this.userId==up.userId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + (int) (this.userId ^ (this.userId >>> 32));
+        return hash;
     }
     
     

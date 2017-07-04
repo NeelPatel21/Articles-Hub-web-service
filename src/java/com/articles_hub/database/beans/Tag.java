@@ -43,4 +43,33 @@ public class Tag {
     
     @Column(name = "tag_name",unique = true, length = 50)
     private String tagName;
+    
+//constructors & methods    
+
+    /**
+     * initialized object with specified id.
+     * @deprecated object initialized with this constructor might not be
+       able to used with database as the userId is auto-generated field.
+     * @param id articleId
+     */
+    public Tag(long id){
+        this.tagId=id;
+    }
+
+    public Tag() {
+    }
+   
+    public long getTagId() {
+        return tagId;
+    }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
+    
+    
 }
