@@ -37,6 +37,11 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Neel Patel
  */
 @Entity
+//@NamedQueries(value = {@NamedQuery(name = "Article.byTag",
+//          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)"),
+//    @NamedQuery(name = "Article.byTag",
+//          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
+//})
 @Table(name = "articles")
 public class Article {
 
@@ -58,7 +63,7 @@ public class Article {
     
     @Lob
     @Column(name = "article_data",nullable = false)
-    private List<String> articleContant = new ArrayList<>();
+    private ArticleContant articleContant = new ArticleContant();
     
     @ManyToMany
     @JoinTable(name = "article_tags", joinColumns = @JoinColumn(name = "article_id"),
@@ -105,11 +110,11 @@ public class Article {
     }
 
     public List<String> getArticleContant() {
-        return articleContant;
+        return articleContant.getContant();
     }
 
     public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
+        return tags;
     }
 
     public Set<Comment> getComments() {

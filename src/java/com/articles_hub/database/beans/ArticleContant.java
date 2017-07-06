@@ -23,55 +23,19 @@
  */
 package com.articles_hub.database.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Neel Patel
  */
-@Entity
-@NamedQuery(name = "Tag.byName",
-          query = "from Tag where tagName = :name")
-@Table(name = "tags")
-public class Tag {
+class ArticleContant implements Serializable{
+    private List<String> contant=new ArrayList<>();
 
-//schema
-    @Id
-    @GenericGenerator(name = "tagId_gen", strategy = "sequence")
-    @GeneratedValue(generator = "tagId_gen") 
-    private long tagId;
-    
-    @Column(name = "tag_name",unique = true, length = 50)
-    private String tagName;
-    
-//constructors & methods    
-
-    /**
-     * initialized object with specified id.
-     * @deprecated object initialized with this constructor might not be
-       able to used with database as the userId is auto-generated field.
-     * @param id articleId
-     */
-    public Tag(long id){
-        this.tagId=id;
+    public List<String> getContant() {
+        return contant;
     }
-
-    public Tag() {
-    }
-   
-    public long getTagId() {
-        return tagId;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-    
     
 }

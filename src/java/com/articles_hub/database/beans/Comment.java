@@ -114,19 +114,21 @@ public class Comment {
         return commentId+"";
     }
 
-    /**
-     * this method returns true only if 'obj' is instance of Comment and it have
-       same 'commentId'.
-     * @param obj object
-     * @return true if object is equal, false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof Comment))
-            return false;
-        Comment up=(Comment)obj;
-        return this.commentId==up.commentId;
-    }
+//    /**
+//     * this method returns true only if 'obj' is instance of Comment and it have
+//       same 'commentId'.
+//     * @param obj object
+//     * @return true if object is equal, false otherwise.
+//     */
+//    @Override
+//    public boolean equals(Object obj) {
+//        if(!(obj instanceof Comment))
+//            return false;
+//        Comment up=(Comment)obj;
+//        if(this.commentId==0 || up.commentId==0)
+//            return false;
+//        return this.commentId==up.commentId;
+//    }
 
     @Override
     public int hashCode() {

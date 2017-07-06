@@ -26,14 +26,24 @@ package com.articles_hub.database.beans;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  * @author Neel Patel
  */
-@Entity 
+@Entity
+@NamedQuery(name = "UserProfile.byName",
+          query = "from UserProfile where userName = :name")
 @Table(name = "user_profiles")
 public class UserProfile {
     

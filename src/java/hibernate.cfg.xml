@@ -47,7 +47,7 @@ Contributor(s):
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">root</property>
     <property name="show_sql">true</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
     <mapping class="com.articles_hub.database.beans.UserProfile" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Article" package="com.articles_hub.database.beans"/>
