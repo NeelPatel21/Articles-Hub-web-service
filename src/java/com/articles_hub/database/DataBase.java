@@ -26,8 +26,12 @@ package com.articles_hub.database;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 //import static com.articles_hub.database.beans.UserProfile_.userName;
 import java.util.List;
+import java.util.stream.Stream;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -133,6 +137,28 @@ public class DataBase {
             ex.printStackTrace();
         }
         return null;
+    }
+    
+    /**
+     * this method return List of type articles which have any
+       of specified tags.
+     * objects in the list return by this method is persistent i.e. if any
+       changes made in future on this objects will be reflected to the database.
+     * this method return empty list if there is no such article exist or error
+       occur while processing.
+     * @param tags article tags
+     * @return list of Article. 
+     */
+    public List<Article> getArticles(Tag... tags){
+        try{
+            Query q= session.createNamedQuery("Article.byTag");
+            q.setParameterList("tags", Stream.of(tags).map(t->t.getTagName()).toArray());
+            List<Article> list = q.list();
+            return list;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return Collections.EMPTY_LIST;
     }
     
     /**

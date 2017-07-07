@@ -24,7 +24,6 @@
 package com.articles_hub.database.beans;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -37,8 +36,8 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Neel Patel
  */
 @Entity
-//@NamedQueries(value = {@NamedQuery(name = "Article.byTag",
-//          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)"),
+@NamedQuery(name = "Article.byTag",
+          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //    @NamedQuery(name = "Article.byTag",
 //          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //})

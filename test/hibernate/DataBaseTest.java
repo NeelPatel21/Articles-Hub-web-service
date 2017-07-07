@@ -43,11 +43,12 @@ public class DataBaseTest {
         System.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/Articles_Hub");
         db=new DataBase();
 //        addUsers(15);
-        getUserbyId();
+//        getUserbyId();
 //        getUserbyName();
 //        getArticlebyId();
+        addArticles(2);
+        getArticleByTag();
 //        addTag(2);
-//        addArticles(2);
 //        addComments(4);
 //        addlike(10);
         System.exit(0);
@@ -167,4 +168,11 @@ public class DataBaseTest {
         }
     }
     
+    public static void getArticleByTag(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("tag id ?");
+        long id=sc.nextLong();
+        db.getArticles(db.getTag(id)).forEach(x->System.out.println("test - "+x));
+        
+    }
 }
