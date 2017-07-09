@@ -32,4 +32,17 @@ import java.util.List;
 public class TagDetail {
     private String tagName;
     private List<Link> links;
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+    
 }

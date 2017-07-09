@@ -27,6 +27,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.2.10.Final</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- optional -->
@@ -67,6 +68,7 @@
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
             <version>2.26-b07</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--postgrey-->
@@ -74,6 +76,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1200-jdbc41</version>
+            <scope>provided</scope>
         </dependency>
 
 
