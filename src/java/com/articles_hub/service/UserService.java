@@ -28,7 +28,7 @@ import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
-import org.hibernate.FlushMode;
+import javax.persistence.FlushModeType;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -84,7 +84,7 @@ public class UserService {
             if(user==null)
                 return false;
 //            System.out.println("check 1");
-            session.setFlushMode(FlushMode.AUTO);
+            session.setFlushMode(FlushModeType.AUTO);
             session.save(Util.makeUserProfile(user));
             session.flush();
             t.commit();

@@ -19,6 +19,7 @@ public class RestApplication extends Application {
     private Set<Class<?>> resource=new HashSet<>();
     private Map<String,Object> pro=new HashMap<>();
     public RestApplication() {
+        
         System.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/Articles_Hub");     
     }
 

@@ -25,7 +25,7 @@ package hibernate;
 
 import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.service.ArticleService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,8 +44,8 @@ public class ArticleServiceTest {
 //        addUsers(1,15);
 //        getUserbyName();
 //        getUserbyId();
-//        getArticlebyId();
-        addArticles(4);
+        getArticlebyId();
+//        addArticles(4);
 //        getArticleByTag();
 //        addTag(2);
 //        addComments(4);
@@ -99,7 +99,7 @@ public class ArticleServiceTest {
         for(int i=0;i<x;i++){
             ArticleDetail ar=new ArticleDetail();
             ar.setTitle("article "+i);
-            ar.setDate(LocalDateTime.now());
+            ar.setDate(LocalDate.now());
             List<String> li=new ArrayList<>();
             for(int j=0;j<i*x;j++)
                 li.add("line "+j+" "+i+" "+x);

@@ -32,12 +32,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 //import org.hibernate.annotations.NamedQuery;
 
 /**
@@ -45,11 +45,11 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Neel Patel
  */
 @Entity
-@Table(name = "user_profiles")
 @NamedQueries({
     @NamedQuery(name = "UserProfile.byName",
           query = "from UserProfile where userName = :name")
 })
+@Table(name = "user_profiles")
 //@XmlRootElement
 public class UserProfile {
     

@@ -25,11 +25,13 @@ package com.articles_hub.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Neel Patel
  */
+@XmlRootElement
 public class TagDetail {
     private String tagName;
     private List<Link> links=new ArrayList<>();

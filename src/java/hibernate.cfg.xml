@@ -36,7 +36,7 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Articles_Hub</property>-->
 <!--    <property name="hibernate.connection.username">root</property>
@@ -46,12 +46,12 @@ Contributor(s):
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
     <!--<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>-->
-    <property name="hibernate.jdbc.use_streams_for_binary">true</property>
+    <!--<property name="hibernate.jdbc.use_streams_for_binary">true</property>-->
     <property name="hibernate.show_sql">true</property>
-    <mapping class="com.articles_hub.database.beans.UserProfile"/>
-    <mapping class="com.articles_hub.database.beans.Article"/>
-    <mapping class="com.articles_hub.database.beans.Comment"/>
+    <mapping class="com.articles_hub.database.beans.UserProfile" package="com.articles_hub.database.beans"/>
+    <mapping class="com.articles_hub.database.beans.Article" package="com.articles_hub.database.beans"/>
+    <mapping class="com.articles_hub.database.beans.Comment" package="com.articles_hub.database.beans"/>
     <!--<mapping class="com.articles_hub.model.Like" package="com.articles_hub.model"/>-->
-    <mapping class="com.articles_hub.database.beans.Tag"/>
+    <mapping class="com.articles_hub.database.beans.Tag" package="com.articles_hub.database.beans"/>
   </session-factory>
 </hibernate-configuration>

@@ -23,20 +23,29 @@
  */
 package com.articles_hub.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAttachmentRef;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Neel Patel
  */
+@XmlRootElement
 public class CommentDetail {
     private long commentId;
     private long articleId;
     private String userName;
     private String Contant;
-    private LocalDateTime date;
+    @XmlTransient
+    private LocalDate date;
+    @XmlTransient
+    private LocalTime time;
     private List<Link> links=new ArrayList<>();
 
     public long getCommentId() {
@@ -75,12 +84,20 @@ public class CommentDetail {
         return links;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
     
     

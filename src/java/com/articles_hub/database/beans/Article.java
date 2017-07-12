@@ -23,27 +23,42 @@
  */
 package com.articles_hub.database.beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+//import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  *
  * @author Neel Patel
  */
 @Entity
-@Table(name = "articles")
 @NamedQuery(name = "Article.byTag",
           query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //    @NamedQuery(name = "Article.byTag",
 //          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //})
 //@XmlRootElement
+@Table(name = "articles")
 public class Article {
 
 //schema    
@@ -59,8 +74,8 @@ public class Article {
     @Column(name = "article_title", nullable = false, length = 1000)
     private String title;
     
-    @Column(name = "publish_datetime")
-    private LocalDateTime publishDate;
+    @Column(name = "publish_date")
+    private LocalDate publishDate;
     
     @Lob
     @Column(name = "article_data",nullable = false)
@@ -106,7 +121,7 @@ public class Article {
         return title;
     }
 
-    public LocalDateTime getPublishDate() {
+    public LocalDate getPublishDate() {
         return publishDate;
     }
 
@@ -137,7 +152,7 @@ public class Article {
      * update publish date of the article.
      * @param publishDate new publish date
      */
-    public void setPublishDate(LocalDateTime publishDate) {
+    public void setPublishDate(LocalDate publishDate) {
         if(publishDate == null)
             return;
         this.publishDate = publishDate;

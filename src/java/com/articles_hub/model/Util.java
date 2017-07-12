@@ -27,6 +27,8 @@ import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Comment;
 import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.stream.Collectors;
 
 /**
@@ -76,7 +78,11 @@ public class Util {
             articleDetail.setContant(article.getArticleContant());
             articleDetail.setDate(article.getPublishDate());
             articleDetail.setTitle(article.getTitle());
-            articleDetail.setTag(article.getTags().stream().map(x->x.getTagName())
+            articleDetail.setAuthor(article.getAuthor().getUserName());
+            System.out.println("article tags "+article.getTags());
+            articleDetail.setTag(article.getTags().stream()
+                      .peek(x->System.out.println("tags found :- "+x))
+                      .map(x->x.getTagName())
                         .collect(Collectors.toSet()));
             return articleDetail;
         }catch(Exception ex){
@@ -91,8 +97,9 @@ public class Util {
                 return null;
             Article article=new Article();
             article.setTitle(articleDetail.getTitle());
-            article.setPublishDate(articleDetail.getDate());
-//            article.getTags(articleDetail.getTag().stream()tag);
+//            article.setPublishDate(articleDetail.getDate());
+            article.setPublishDate(LocalDate.now());
+//            article.getTags(articleDetail.getTag().stream().map());
             article.getArticleContant().clear();
             article.getArticleContant().addAll(articleDetail.getContant());
             return article;
@@ -111,6 +118,8 @@ public class Util {
             commentDetail.setCommentId(comment.getCommentId());
             commentDetail.setContant(comment.getCommentBody());
             commentDetail.setUserName(comment.getAuthor().getUserName());
+            commentDetail.setDate(comment.getDate());
+            commentDetail.setTime(comment.getTime());
             return commentDetail;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -124,7 +133,9 @@ public class Util {
                 return null;
             Comment comment=new Comment();
             comment.setCommentBody(commentDetail.getContant());
-            comment.setDate(commentDetail.getDate());
+//            comment.setDate(commentDetail.getDate());
+            comment.setDate(LocalDate.now());
+            comment.setTime(LocalTime.now());
             return comment;
         }catch(Exception ex){
             ex.printStackTrace();

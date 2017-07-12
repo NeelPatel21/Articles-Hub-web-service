@@ -30,7 +30,7 @@ import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
-import org.hibernate.FlushMode;
+import javax.persistence.FlushModeType;
 import org.hibernate.Query;
 //import javax.persistence.Query;
 import org.hibernate.Session;
@@ -54,7 +54,7 @@ public class CommentService {
     
     private CommentService(){
         db=DataBase.getDataBase();
-        System.err.println("user service initialized");
+        System.err.println("comment service initialized");
     }
     
     public CommentDetail getCommentDetail(long commentId){
@@ -79,7 +79,7 @@ public class CommentService {
             if(commentDetail==null)
                 return false;
             Comment comment=Util.makeComment(commentDetail);
-            session.setFlushMode(FlushMode.AUTO);
+            session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", commentDetail.getUserName());
             List<UserProfile> list = q.list();

@@ -23,6 +23,7 @@
  */
 package com.articles_hub.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ArticleDetail {
     private long articleId;
     private String title;
     private String author;
-    private LocalDateTime date;
+    private LocalDate date;
     private List<String> contant;
     private Set<String> tag;
     private List<Link> links = new ArrayList<>();
@@ -59,11 +60,11 @@ public class ArticleDetail {
         this.title = title;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

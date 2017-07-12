@@ -25,7 +25,8 @@ package hibernate;
 
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.service.CommentService;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
@@ -147,7 +148,8 @@ public class CommentServiceTest {
         for(int i=0;i<x;i++){
             CommentDetail ar=new CommentDetail();
             ar.setContant("line "+i+" "+x);
-            ar.setDate(LocalDateTime.now());
+            ar.setDate(LocalDate.now());
+            ar.setTime(LocalTime.now());
             System.out.println("article id ?");
             long tid=sc.nextLong();
             ar.setArticleId(tid);

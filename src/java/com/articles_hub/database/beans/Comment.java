@@ -23,10 +23,17 @@
  */
 package com.articles_hub.database.beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+//import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -35,7 +42,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "comments")
-@XmlRootElement
+//@XmlRootElement
 public class Comment {
 
 //schema
@@ -56,7 +63,10 @@ public class Comment {
     private String commentBody;
     
     @Column(name = "comment_date")
-    private LocalDateTime date;
+    private LocalDate date;
+    
+    @Column(name = "comment_time")
+    private LocalTime time;
 
 //constructors & methods    
     
@@ -89,10 +99,6 @@ public class Comment {
         return commentBody;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
     public void setCommentBody(String commentBody) {
         this.commentBody = commentBody;
     }
@@ -105,11 +111,24 @@ public class Comment {
         this.article=article;
     }
 
-    public void setDate(LocalDateTime date) {
-        if(date == null)
-            return;
-        this.date = date;
+    public LocalDate getDate() {
+        return date;
     }
+
+    public void setDate(LocalDate date) {
+        if(date!=null)
+            this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        if(time!=null)
+            this.time = time;
+    }
+
     
     @Override
     public String toString() {

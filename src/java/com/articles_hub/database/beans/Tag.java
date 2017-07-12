@@ -23,10 +23,14 @@
  */
 package com.articles_hub.database.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+//import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQuery;
 
 /**
  *
@@ -36,7 +40,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQuery(name = "Tag.byName",
           query = "from Tag where tagName = :name")
 @Table(name = "tags")
-@XmlRootElement
+//@XmlRootElement
 public class Tag {
 
 //schema

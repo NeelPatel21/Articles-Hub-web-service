@@ -25,7 +25,6 @@ package com.articles_hub.database;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
@@ -52,12 +51,12 @@ public class DataBase {
         return db;
     }
     
-    private SessionFactory sf;
+    private SessionFactory sf=new Configuration().configure().buildSessionFactory();
     private DataBase(){
-        Configuration config=new Configuration();
-        config.configure();
-        sf=config.buildSessionFactory(new StandardServiceRegistryBuilder()
-                  .applySettings(config.getProperties()).build());
+//        Configuration config=new Configuration();
+//        config.configure();
+//        sf=config.buildSessionFactory(new StandardServiceRegistryBuilder()
+//                  .applySettings(config.getProperties()).build());
     }
     
     public Session getSession(){

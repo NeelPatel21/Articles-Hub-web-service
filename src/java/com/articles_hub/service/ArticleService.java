@@ -25,12 +25,13 @@ package com.articles_hub.service;
 
 import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
+import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
 //import javax.persistence.Query;
-import org.hibernate.FlushMode;
+import javax.persistence.FlushModeType;
 import org.hibernate.Query;
 //import javax.persistence.Query;
 import org.hibernate.Session;
@@ -79,13 +80,14 @@ public class ArticleService {
             if(articleDetail==null)
                 return false;
             Article article=Util.makeArticle(articleDetail);
-            session.setFlushMode(FlushMode.AUTO);
+            session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", articleDetail.getAuthor());
             List<UserProfile> list = q.list();
             System.out.println("check 5 - "+articleDetail.getAuthor());
             if(list.size()!=1)
                 return false;
+            addTags(article, articleDetail);
 //            session.save(article);
             list.get(0).addArticle(article);
             session.flush();
@@ -102,4 +104,24 @@ public class ArticleService {
         return false;
     }
    
+    private void addTags(Article article,ArticleDetail articleDetail){
+        article.getTags().clear();
+        articleDetail.getTag().forEach(tagName->{
+            Session session=db.getSession();
+            Transaction t=session.beginTransaction();
+            try{
+                Query q= session.getNamedQuery("Tag.byName");
+                q.setParameter("name", tagName);
+                List<Tag> list = q.list();
+                if(list.size()==1)
+                    article.getTags().add(list.get(0));
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }finally{
+                if(t!=null&&t.isActive())
+                    t.commit();
+            }
+        });
+        
+    }
 }
