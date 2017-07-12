@@ -79,7 +79,7 @@ public class Util {
             articleDetail.setDate(article.getPublishDate());
             articleDetail.setTitle(article.getTitle());
             articleDetail.setAuthor(article.getAuthor().getUserName());
-            System.out.println("article tags "+article.getTags());
+//            System.out.println("article tags "+article.getTags());
             articleDetail.setTag(article.getTags().stream()
                       .peek(x->System.out.println("tags found :- "+x))
                       .map(x->x.getTagName())
@@ -168,4 +168,22 @@ public class Util {
             return null;
         }
     }
+    
+    public static ShortArticleDetail makeShortArticleDetail(Article article){
+        try{
+            if(article==null)
+                return null;
+            ShortArticleDetail articleDetail=new ShortArticleDetail();
+            articleDetail.setArticleId(article.getArticleId());
+            articleDetail.setDate(article.getPublishDate());
+            articleDetail.setTitle(article.getTitle());
+            articleDetail.setAuthor(article.getAuthor().getUserName());
+//            System.out.println("article tags "+article.getTags());
+            return articleDetail;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
 }

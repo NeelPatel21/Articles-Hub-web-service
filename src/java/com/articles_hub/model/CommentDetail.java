@@ -23,14 +23,14 @@
  */
 package com.articles_hub.model;
 
+import com.articles_hub.model.xml_adapter.LocalDateXmlAdapter;
+import com.articles_hub.model.xml_adapter.LocalTimeXmlAdapter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAttachmentRef;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -42,12 +42,11 @@ public class CommentDetail {
     private long articleId;
     private String userName;
     private String Contant;
-    @XmlTransient
     private LocalDate date;
-    @XmlTransient
     private LocalTime time;
     private List<Link> links=new ArrayList<>();
 
+    
     public long getCommentId() {
         return commentId;
     }
@@ -84,6 +83,7 @@ public class CommentDetail {
         return links;
     }
 
+    @XmlJavaTypeAdapter(value = LocalDateXmlAdapter.class)
     public LocalDate getDate() {
         return date;
     }
@@ -92,6 +92,7 @@ public class CommentDetail {
         this.date = date;
     }
 
+    @XmlJavaTypeAdapter(value = LocalTimeXmlAdapter.class)
     public LocalTime getTime() {
         return time;
     }

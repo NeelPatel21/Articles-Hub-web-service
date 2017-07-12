@@ -24,9 +24,12 @@
 package com.articles_hub.resource;
 
 
+import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.service.UserService;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -70,13 +73,49 @@ public class UserResource {
     
     @PUT
     @Path("/{userName}")
-    public String updateUserDetail(@PathParam("userName") String userName){
-        return "service :- "+userName;
+    public void updateUserDetail(@PathParam("userName") String userName, UserDetail user){
+        if(user.getUserName().equals(userName))
+            service.updateUser(user);
     }
     
     @POST
     public void createUserDetail(UserDetail user){
         service.addUser(user);
+    }
+    
+    @GET
+    @Path("/{userName}/comments")
+    @Produces(MediaType.APPLICATION_XML)
+    public CommentDetail[] getAllComments(@PathParam("userName") String userName){
+        return service.getAllComments(userName);
+    }
+    
+    @GET
+    @Path("/{userName}/articles")
+    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getAllArticles(@PathParam("userName") String userName){
+        return service.getAllArticles(userName);
+    }
+    
+    @GET
+    @Path("/{userName}/likes")
+    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getAllLikes(@PathParam("userName") String userName){
+        return service.getAllLikes(userName);
+    }
+    
+    @POST
+    @Path("/{userName}/like/{articleId}")
+    public void addLike(@PathParam("userName") String userName,
+                @PathParam("articleId") long articleId){
+        service.addLike(userName, articleId);
+    }
+    
+    @DELETE
+    @Path("/{userName}/like/{articleId}")
+    public void removeLike(@PathParam("userName") String userName,
+                @PathParam("articleId") long articleId){
+        service.removeLike(userName, articleId);
     }
     
 }

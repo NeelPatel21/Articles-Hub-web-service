@@ -9,15 +9,20 @@
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/ArticleService.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Tag.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/ArticleDetail.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/CommentResource.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/xml_adapter/LocalDateXmlAdapter.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/UserResource.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/ArticleResource.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Link.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/Util.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/CommentDetail.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/UserService.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/test/hibernate/ArticleServiceTest.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/TagService.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/CommentService.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/TagResource.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Article.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/ShortArticleDetail.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/xml_adapter/LocalTimeXmlAdapter.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Comment.java</file>
         </group>
     </open-files>

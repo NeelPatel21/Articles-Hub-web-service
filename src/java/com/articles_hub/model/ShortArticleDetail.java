@@ -36,15 +36,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * @author Neel Patel
  */
 @XmlRootElement
-public class ArticleDetail {
+public class ShortArticleDetail {
     private long articleId;
     private String title;
     private String author;
     private LocalDate date;
-    private List<String> contant;
-    private Set<String> tag;
-    private List<Link> links = new ArrayList<>();
-
+    
     public long getArticleId() {
         return articleId;
     }
@@ -68,26 +65,6 @@ public class ArticleDetail {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public List<String> getContant() {
-        return contant;
-    }
-
-    public void setContant(List<String> contant) {
-        this.contant = contant;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public Set<String> getTag() {
-        return tag;
-    }
-
-    public void setTag(Set<String> tag) {
-        this.tag = tag;
     }
 
     public String getAuthor() {

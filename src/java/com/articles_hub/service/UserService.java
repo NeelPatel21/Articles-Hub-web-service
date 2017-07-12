@@ -24,7 +24,10 @@
 package com.articles_hub.service;
 
 import com.articles_hub.database.DataBase;
+import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.UserProfile;
+import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
@@ -72,7 +75,7 @@ public class UserService {
             ex.printStackTrace();
         }finally{
             if(t!=null&&t.isActive())
-            t.commit();
+                t.commit();
         }
         return null;
     }
@@ -99,5 +102,150 @@ public class UserService {
         }
         return false;
     }
-   
+    
+    public boolean updateUser(UserDetail user){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            if(user==null)
+                return false;
+//            System.out.println("check 1");
+            session.setFlushMode(FlushModeType.AUTO);
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", user.getUserName());
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return false;
+            UserProfile userProfile=list.get(0);
+            userProfile.setPass(user.getPass());
+            userProfile.setInfo(user.getInfo());
+            userProfile.setEmailId(user.getEmailId());
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null && t.isActive())
+                t.rollback();
+//            if(session!=null)
+//                session.flush();
+        }
+        return false;
+    }
+    
+    public CommentDetail[] getAllComments(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return null;
+            UserProfile user = list.get(0);
+            return user.getComments().stream()
+                      .map(Util::makeCommentDetail)
+                      .toArray(CommentDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return null;
+    }
+    
+    public ShortArticleDetail[] getAllArticles(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return null;
+            UserProfile user = list.get(0);
+            return user.getArticles().stream()
+                      .map(Util::makeShortArticleDetail)
+                      .toArray(ShortArticleDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return null;
+    }
+    
+    public ShortArticleDetail[] getAllLikes(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return null;
+            UserProfile user = list.get(0);
+            return user.getLikes().stream()
+                      .map(Util::makeShortArticleDetail)
+                      .toArray(ShortArticleDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return null;
+    }
+    
+    public boolean addLike(String userName, long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return false;
+            UserProfile user = list.get(0);
+            Article article = (Article) session.get(Article.class, articleId);
+            article.addLike(user);
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return false;
+    }
+    
+    public boolean removeLike(String userName, long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return false;
+            UserProfile user = list.get(0);
+            Article article = (Article) session.get(Article.class, articleId);
+            article.removeLike(user);
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return false;
+    }
+    
 }
