@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Neel Patel
  */
-@XmlRootElement
+@XmlRootElement(name = "tag")
 public class TagDetail {
     private String tagName;
     private List<Link> links=new ArrayList<>();

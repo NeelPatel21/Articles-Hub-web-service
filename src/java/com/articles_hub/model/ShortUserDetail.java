@@ -23,8 +23,6 @@
  */
 package com.articles_hub.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,12 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Neel Patel
  */
 @XmlRootElement(name = "user")
-public class UserDetail {
+public class ShortUserDetail {
     private String userName;
-    private String info;
     private String emailId;
-    private String pass;
-    private List<Link> links=new ArrayList<>();
 
     public String getUserName() {
         return userName;
@@ -45,14 +40,6 @@ public class UserDetail {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
     }
 
     public String getEmailId() {
@@ -63,16 +50,4 @@ public class UserDetail {
         this.emailId = emailId;
     }
 
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-    
 }

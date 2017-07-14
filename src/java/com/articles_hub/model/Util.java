@@ -53,6 +53,20 @@ public class Util {
         }
     }
     
+    public static ShortUserDetail makeShortUserDetail(UserProfile user){
+        try{
+            if(user==null)
+                return null;
+            ShortUserDetail userDetail=new ShortUserDetail();
+            userDetail.setUserName(user.getUserName());
+            userDetail.setEmailId(user.getEmailId());
+            return userDetail;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
     public static UserProfile makeUserProfile(UserDetail user){
         try{
             if(user==null)

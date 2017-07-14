@@ -27,6 +27,7 @@ import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Comment;
 import com.articles_hub.database.beans.UserProfile;
+import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
@@ -104,4 +105,31 @@ public class CommentService {
         return false;
     }
    
+    public boolean updateComment(CommentDetail commentDetail){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            if(commentDetail==null)
+                return false;
+//            System.out.println("check 1");
+            session.setFlushMode(FlushModeType.AUTO);
+            Comment comment=session.get(Comment.class, commentDetail.getCommentId());
+            if(comment==null)
+                return false;
+            comment.setCommentBody(commentDetail.getContant());
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null && t.isActive())
+                t.rollback();
+//            if(session!=null)
+//                session.flush();
+        }
+        return false;
+    }
+    
+    
 }

@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Neel Patel
  */
-@XmlRootElement
+@XmlRootElement(name = "article")
 public class ArticleDetail {
     private long articleId;
     private String title;

@@ -25,9 +25,6 @@ package com.articles_hub.model;
 
 import com.articles_hub.model.xml_adapter.LocalDateXmlAdapter;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -35,7 +32,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Neel Patel
  */
-@XmlRootElement
+@XmlRootElement(name = "article")
 public class ShortArticleDetail {
     private long articleId;
     private String title;

@@ -28,6 +28,8 @@ import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.ArticleDetail;
+import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.ShortUserDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
 //import javax.persistence.Query;
@@ -103,7 +105,74 @@ public class ArticleService {
         }
         return false;
     }
-   
+    
+    public boolean updateArticle(ArticleDetail articleDetail){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            if(articleDetail==null)
+                return false;
+//            System.out.println("check 1");
+            session.setFlushMode(FlushModeType.AUTO);
+            Article article=session.get(Article.class, articleDetail.getArticleId());
+            if(article==null)
+                return false;
+            article.setTitle(articleDetail.getTitle());
+            article.getArticleContant().clear();
+            article.getArticleContant().addAll(articleDetail.getContant());
+            addTags(article, articleDetail);
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null && t.isActive())
+                t.rollback();
+//            if(session!=null)
+//                session.flush();
+        }
+        return false;
+    }
+    
+    public CommentDetail[] getAllComments(long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Article article=(Article) session.get(Article.class, articleId);
+            if(article==null)
+                return null;
+            return article.getComments().stream()
+                      .map(Util::makeCommentDetail)
+                      .toArray(CommentDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return null;
+    }
+    
+    public ShortUserDetail[] getAllLikes(long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Article article=(Article) session.get(Article.class, articleId);
+            if(article==null)
+                return null;
+            return article.getLikes().stream()
+                      .map(Util::makeShortUserDetail)
+                      .toArray(ShortUserDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return null;
+    }
+    
     private void addTags(Article article,ArticleDetail articleDetail){
         article.getTags().clear();
         articleDetail.getTag().forEach(tagName->{
@@ -121,7 +190,25 @@ public class ArticleService {
                 if(t!=null&&t.isActive())
                     t.commit();
             }
-        });
-        
+        });     
     }
+    
+    public boolean removeArticleDetail(long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Article article=(Article) session.get(Article.class, articleId);
+            if(article==null)
+                return false;
+            session.delete(article);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive())
+                t.commit();
+        }
+        return false;
+    }
+    
 }

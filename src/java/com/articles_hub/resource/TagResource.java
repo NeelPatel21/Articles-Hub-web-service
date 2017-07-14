@@ -24,6 +24,7 @@
 package com.articles_hub.resource;
 
 
+import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.TagDetail;
 import com.articles_hub.service.TagService;
 import javax.ws.rs.Consumes;
@@ -40,8 +41,8 @@ import javax.ws.rs.core.MediaType;
  * @author Neel Patel
  */
 @Path("/tag")
-@Consumes({MediaType.APPLICATION_XML})
-@Produces({MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 public class TagResource {
     
     private TagService service;
@@ -77,6 +78,13 @@ public class TagResource {
     @POST
     public void createTagDetail(TagDetail tag){
         service.addTag(tag);
+    }
+    
+    @GET
+    @Path("/{tagname}/articles")
+    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getAllLikes(@PathParam("tagName") String tags){
+        return service.getAllArticles(tags);
     }
     
 }

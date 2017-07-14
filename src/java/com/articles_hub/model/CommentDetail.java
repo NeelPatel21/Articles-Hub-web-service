@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Neel Patel
  */
-@XmlRootElement
+@XmlRootElement(name = "comment")
 public class CommentDetail {
     private long commentId;
     private long articleId;

@@ -24,6 +24,7 @@
 package com.articles_hub.resource;
 
 
+import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.service.CommentService;
 import javax.ws.rs.Consumes;
@@ -40,8 +41,8 @@ import javax.ws.rs.core.MediaType;
  * @author Neel Patel
  */
 @Path("/comment")
-@Consumes({MediaType.APPLICATION_XML})
-@Produces({MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 public class CommentResource {
     
     private CommentService service;
@@ -70,8 +71,10 @@ public class CommentResource {
     
     @PUT
     @Path("/{commentId}")
-    public String updateCommentDetail(@PathParam("commentId") long commentId){
-        return "service :- "+commentId;
+    public void updateUserDetail(@PathParam("commentId") long commentId,
+              CommentDetail commentDetail){
+        if(commentDetail.getCommentId() == commentId)
+            service.updateComment(commentDetail);
     }
     
     @POST

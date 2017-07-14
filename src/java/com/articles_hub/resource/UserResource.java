@@ -43,8 +43,8 @@ import javax.ws.rs.core.MediaType;
  * @author Neel Patel
  */
 @Path("/user")
-@Consumes({MediaType.APPLICATION_XML})
-@Produces({MediaType.APPLICATION_XML})
+@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 public class UserResource {
     
     private UserService service;

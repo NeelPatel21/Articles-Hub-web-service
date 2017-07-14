@@ -26,23 +26,23 @@
 		method :- post
 		url :- /user/{username}/like/{articleId}
 	
-#Article resource
+#Article resource #done
 	to get article basic information & contant #done
 		method :- get
 		url :- /article/{articleId} 
-	to update article information
+	to update article information #done
 		method :- put
 		url :- /article/{articleId} 
-	to get comments on article
+	to get comments on article #done
 		method :- get
 		url :- /article/{articleId}/comments
-	to get likes on article
+	to get likes on article #done
 		method :- get
 		url :- /article/{articleId}/likes
 	to add article #done
 		method :- post
 		url :- /article
-	to remove article
+	to remove article #done
 		method :- delete
 		url :- /article/{articleId}
 	
@@ -52,7 +52,7 @@
 		url :- /tag/{tagname} 
 	to search articles using tag
 		method :- get
-		url :- /tag/{tagname}/atricles
+		url :- /tag/{tagname}/articles
 	to add tag #done
 		method :- post
 		url :- /tag
@@ -61,12 +61,12 @@
 	to get Comment basic information & contant #done
 		method :- get
 		url :- /comment/{commentId} 
-	to update comment information
+	to update comment information #done
 		method :- put
 		url :- /comment/{commentId} 
 	to add comment #done
 		method :- post
 		url :- /comment/{username}/{articleId}
-	to remove comment
+	to remove comment 
 		method :- delete
 		url :- /comment/{commentId}
