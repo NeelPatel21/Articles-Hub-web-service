@@ -57,7 +57,7 @@ public class ArticleService {
     
     private ArticleService(){
         db=DataBase.getDataBase();
-        System.err.println("Article service initialized");
+//        System.err.println("Article service initialized");
     }
     
     public ArticleDetail getArticleDetail(long articleId){
@@ -86,7 +86,7 @@ public class ArticleService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", articleDetail.getAuthor());
             List<UserProfile> list = q.list();
-            System.out.println("check 5 - "+articleDetail.getAuthor());
+//            System.out.println("check 5 - "+articleDetail.getAuthor());
             if(list.size()!=1)
                 return false;
             addTags(article, articleDetail);

@@ -26,12 +26,10 @@ package com.articles_hub.service;
 import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Tag;
-import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.TagDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
-import java.util.stream.Stream;
 import javax.persistence.FlushModeType;
 import org.hibernate.Query;
 //import javax.persistence.Query;
@@ -56,7 +54,7 @@ public class TagService {
     
     private TagService(){
         db=DataBase.getDataBase();
-        System.err.println("tag service initialized");
+//        System.err.println("tag service initialized");
     }
     
     public TagDetail getTagDetail(String tagName){
@@ -102,12 +100,12 @@ public class TagService {
         Transaction t=session.beginTransaction();
         try{
             Query q= session.createNamedQuery("Article.byTag");
-            System.out.println("scsacacawcacsc afffafwfafafafw"+tags[0]);
+//            System.out.println("scsacacawcacsc afffafwfafafafw"+tags[0]);
             q.setParameterList("tags",tags);
             List<Article> list = q.list();
-            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
+//            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
             return list.stream()
-                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
+//                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
                       .map(Util::makeShortArticleDetail)
                       .toArray(ShortArticleDetail[]::new);
         }catch(Exception ex){

@@ -30,7 +30,6 @@ import com.articles_hub.service.TagService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -54,7 +53,7 @@ public class TagResource {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        System.out.println("tag service request");
+//        System.out.println("tag service request");
     }
 //    @GET
 //    public String getTagDetail(){
@@ -69,12 +68,12 @@ public class TagResource {
         return tag;
     }
     
-    @PUT
-    @Path("/{tagName}")
-    public String updateTagDetail(@PathParam("tagName") String tagName){
-        return "service :- "+tagName;
-    }
-    
+//    @PUT
+//    @Path("/{tagName}")
+//    public String updateTagDetail(@PathParam("tagName") String tagName){
+//        return "service :- "+tagName;
+//    }
+//    
     @POST
     public void createTagDetail(TagDetail tag){
         service.addTag(tag);

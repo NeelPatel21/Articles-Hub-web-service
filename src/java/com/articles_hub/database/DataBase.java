@@ -40,11 +40,11 @@ public class DataBase {
     public static DataBase getDataBase(){
         if(db==null)
             synchronized(DataBase.class){
-            try {
-                Class.forName("org.hibernate.cfg.Configuration");
-            } catch(ClassNotFoundException ex) {
-                System.err.println("hibernate config not found");
-            }
+//            try {
+//                Class.forName("org.hibernate.cfg.Configuration");
+//            } catch(ClassNotFoundException ex) {
+//                System.err.println("hibernate config not found");
+//            }
                 if(db==null)
                     db=new DataBase();
             }

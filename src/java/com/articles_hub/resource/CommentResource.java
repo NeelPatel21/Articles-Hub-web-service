@@ -24,7 +24,6 @@
 package com.articles_hub.resource;
 
 
-import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.service.CommentService;
 import javax.ws.rs.Consumes;
@@ -55,7 +54,7 @@ public class CommentResource {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        System.out.println("user service request");
+//        System.out.println("comment service request");
     }
 //    @GET
 //    public String getUserDetail(){

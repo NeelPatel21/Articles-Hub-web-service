@@ -59,7 +59,7 @@ public class UserService {
     
     private UserService(){
         db=DataBase.getDataBase();
-        System.err.println("user service initialized");
+//        System.err.println("user service initialized");
     }
     
     public UserDetail getUserDetail(String userName){

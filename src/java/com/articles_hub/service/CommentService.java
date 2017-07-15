@@ -27,7 +27,6 @@ import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Comment;
 import com.articles_hub.database.beans.UserProfile;
-import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
@@ -55,7 +54,7 @@ public class CommentService {
     
     private CommentService(){
         db=DataBase.getDataBase();
-        System.err.println("comment service initialized");
+//        System.err.println("comment service initialized");
     }
     
     public CommentDetail getCommentDetail(long commentId){

@@ -95,7 +95,7 @@ public class Util {
             articleDetail.setAuthor(article.getAuthor().getUserName());
 //            System.out.println("article tags "+article.getTags());
             articleDetail.setTag(article.getTags().stream()
-                      .peek(x->System.out.println("tags found :- "+x))
+//                      .peek(x->System.out.println("tags found :- "+x))
                       .map(x->x.getTagName())
                         .collect(Collectors.toSet()));
             return articleDetail;

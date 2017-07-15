@@ -56,7 +56,7 @@ public class ArticleResource {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        System.out.println("user service request");
+//        System.out.println("article service request");
     }
 //    @GET
 //    public String getUserDetail(){
@@ -68,7 +68,7 @@ public class ArticleResource {
 //    @Produces(MediaType.APPLICATION_XML)
     public ArticleDetail getArticleDetail(@PathParam("articleId") long articleId){
         ArticleDetail article=service.getArticleDetail(articleId);
-        System.out.println("article request "+article);
+//        System.out.println("article request "+article);
         return article;
     }
     

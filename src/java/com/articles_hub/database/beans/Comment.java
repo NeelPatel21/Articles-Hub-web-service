@@ -24,7 +24,6 @@
 package com.articles_hub.database.beans;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;

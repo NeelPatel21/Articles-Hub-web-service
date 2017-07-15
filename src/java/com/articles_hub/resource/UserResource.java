@@ -56,7 +56,7 @@ public class UserResource {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        System.out.println("user service request");
+//        System.out.println("user service request");
     }
 //    @GET
 //    public String getUserDetail(){
