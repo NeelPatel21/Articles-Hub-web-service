@@ -67,7 +67,7 @@ public class CommentService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -131,5 +131,29 @@ public class CommentService {
         return false;
     }
     
+    public boolean removeCommentDetail(long commentId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            session.setFlushMode(FlushModeType.AUTO);
+            Comment comment=session.get(Comment.class, commentId);
+            if(comment==null)
+                return false;
+            UserProfile user=comment.getAuthor();
+            Article article=comment.getArticle();
+            if(user!=null)
+                user.removeComment(comment);
+            if(article!=null)
+                article.removeComment(comment);
+            session.delete(comment);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
+    }
     
 }

@@ -69,7 +69,7 @@ public class ArticleService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -148,7 +148,7 @@ public class ArticleService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -167,10 +167,29 @@ public class ArticleService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
+    }
+    
+    public boolean removeArticleDetail(long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            session.setFlushMode(FlushModeType.AUTO);
+            Article article=(Article) session.get(Article.class, articleId);
+            if(article==null)
+                return false;
+            session.delete(article);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
     }
     
     private void addTags(Article article,ArticleDetail articleDetail){
@@ -187,28 +206,10 @@ public class ArticleService {
             }catch(Exception ex){
                 ex.printStackTrace();
             }finally{
-                if(t!=null&&t.isActive())
+                if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                     t.commit();
             }
         });     
-    }
-    
-    public boolean removeArticleDetail(long articleId){
-        Session session=db.getSession();
-        Transaction t=session.beginTransaction();
-        try{
-            Article article=(Article) session.get(Article.class, articleId);
-            if(article==null)
-                return false;
-            session.delete(article);
-            return true;
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            if(t!=null&&t.isActive())
-                t.commit();
-        }
-        return false;
     }
     
 }

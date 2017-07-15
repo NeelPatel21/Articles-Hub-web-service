@@ -74,7 +74,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -150,7 +150,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -172,7 +172,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -194,7 +194,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -218,7 +218,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return false;
@@ -242,7 +242,7 @@ public class UserService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return false;

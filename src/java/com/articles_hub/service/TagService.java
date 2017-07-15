@@ -71,7 +71,7 @@ public class TagService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;
@@ -102,7 +102,8 @@ public class TagService {
         Transaction t=session.beginTransaction();
         try{
             Query q= session.createNamedQuery("Article.byTag");
-            q.setParameterList("tags", Stream.of(tags).toArray());
+            System.out.println("scsacacawcacsc afffafwfafafafw"+tags[0]);
+            q.setParameterList("tags",tags);
             List<Article> list = q.list();
             System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
             return list.stream()
@@ -112,7 +113,7 @@ public class TagService {
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
-            if(t!=null&&t.isActive())
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
                 t.commit();
         }
         return null;

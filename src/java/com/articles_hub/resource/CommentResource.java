@@ -28,6 +28,7 @@ import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.service.CommentService;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -80,6 +81,13 @@ public class CommentResource {
     @POST
     public void createCommentDetail(CommentDetail comment){
         service.addComment(comment);
+    }
+    
+    @DELETE
+    @Path("/{commentId}")
+//    @Produces(MediaType.APPLICATION_XML)
+    public void deleteUserDetail(@PathParam("commentId") long commentId){
+        service.removeCommentDetail(commentId);
     }
     
 }

@@ -31,6 +31,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -51,7 +52,7 @@ import org.hibernate.annotations.NamedQuery;
  */
 @Entity
 @NamedQuery(name = "Article.byTag",
-          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
+          query = "select distinct a from Article a inner join a.tags t where t.tagName in (:tags)")
 //    @NamedQuery(name = "Article.byTag",
 //          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //})
@@ -79,7 +80,7 @@ public class Article {
     @Column(name = "article_data",nullable = false)
     private ArticleContant articleContant = new ArticleContant();
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "article_tags", joinColumns = @JoinColumn(name = "article_id"),
               inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags = new HashSet<>();

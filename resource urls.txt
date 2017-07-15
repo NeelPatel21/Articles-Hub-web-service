@@ -46,18 +46,18 @@
 		method :- delete
 		url :- /article/{articleId}
 	
-#Tag resource
+#Tag resource #done
 	to get Tag basic information & contant #done
 		method :- get
 		url :- /tag/{tagname} 
-	to search articles using tag
+	to search articles using tag #done
 		method :- get
 		url :- /tag/{tagname}/articles
 	to add tag #done
 		method :- post
 		url :- /tag
 	
-#Comment resource
+#Comment resource #done
 	to get Comment basic information & contant #done
 		method :- get
 		url :- /comment/{commentId} 
@@ -67,6 +67,6 @@
 	to add comment #done
 		method :- post
 		url :- /comment/{username}/{articleId}
-	to remove comment 
+	to remove comment #done
 		method :- delete
 		url :- /comment/{commentId}

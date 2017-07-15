@@ -81,7 +81,7 @@ public class TagResource {
     }
     
     @GET
-    @Path("/{tagname}/articles")
+    @Path("/{tagName}/articles")
     @Produces(MediaType.APPLICATION_XML)
     public ShortArticleDetail[] getAllLikes(@PathParam("tagName") String tags){
         return service.getAllArticles(tags);
