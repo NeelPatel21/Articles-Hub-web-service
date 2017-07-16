@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/AuthenticationService.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/UserProfile.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/service/ArticleService.java</file>
-            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Tag.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/providers/AuthenticationFilter.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/UserToken.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/application/RestApplication.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/providers/Secured.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/database/beans/Article.java</file>
             <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/ArticleResource.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/resource/UserResource.java</file>
+            <file>file:/C:/My%20folder/Fun/Data/Articles%20Hub/src/java/com/articles_hub/model/xml_adapter/LocalDateXmlAdapter.java</file>
         </group>
     </open-files>
 </project-private>

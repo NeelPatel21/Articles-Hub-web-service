@@ -51,7 +51,7 @@ Contributor(s):
     <mapping class="com.articles_hub.database.beans.UserProfile" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Article" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Comment" package="com.articles_hub.database.beans"/>
-    <!--<mapping class="com.articles_hub.model.Like" package="com.articles_hub.model"/>-->
+    <mapping class="com.articles_hub.database.beans.UserToken" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Tag" package="com.articles_hub.database.beans"/>
   </session-factory>
 </hibernate-configuration>
