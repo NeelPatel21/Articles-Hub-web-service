@@ -27,6 +27,7 @@ package com.articles_hub.resource;
 import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.ShortUserDetail;
+import com.articles_hub.providers.Secured;
 import com.articles_hub.service.ArticleService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,7 +37,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  *
@@ -73,14 +76,20 @@ public class ArticleResource {
     }
     
     @POST
-    public void createArticleDetail(ArticleDetail article){
+    @Secured
+    public void createArticleDetail(ArticleDetail article, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(article.getAuthor()))
+            return;
         service.addArticle(article);
     }
     
     @PUT
     @Path("/{articleId}")
+    @Secured
     public void updateUserDetail(@PathParam("articleId") long articleId,
-              ArticleDetail articleDetail){
+              ArticleDetail articleDetail, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(articleDetail.getAuthor()))
+            return;
         if(articleDetail.getArticleId() == articleId)
             service.updateArticle(articleDetail);
     }
@@ -100,8 +109,13 @@ public class ArticleResource {
     }
     
     @DELETE
+    @Secured
     @Path("/{articleId}")
-    public void removeArticle(@PathParam("articleId") long articleId){
+    public void removeArticle(@PathParam("articleId") long articleId,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(service
+                  .getArticleDetail(articleId).getAuthor()))
+            return;
         service.removeArticleDetail(articleId);
     }
     

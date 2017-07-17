@@ -46,7 +46,6 @@ import javax.ws.rs.ext.Provider;
 public class AuthenticationFilter implements ContainerRequestFilter{
     
     private AuthenticationService service;
-    public static final String AUTH_USER="Authentication.auth_user";
     
     public AuthenticationFilter(){
         service=AuthenticationService.getAuthenticationService();
@@ -60,12 +59,12 @@ public class AuthenticationFilter implements ContainerRequestFilter{
             requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 //        requestContext.removeProperty(AUTH_USER);
         // Check if the HTTP Authorization header is present and formatted correctly 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("token ")) {
             throw new NotAuthorizedException("Authorization header must be provided");
         }
 
         // Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.replaceFirst("Bearer ","").trim();
+        String token = authorizationHeader.replaceFirst("token ","").trim();
 
         try {
 
@@ -95,7 +94,7 @@ public class AuthenticationFilter implements ContainerRequestFilter{
                 }
                 @Override
                 public String getAuthenticationScheme() {
-                    return "Bearer";
+                    return "token";
                 }
             });
         } catch (Exception e) {

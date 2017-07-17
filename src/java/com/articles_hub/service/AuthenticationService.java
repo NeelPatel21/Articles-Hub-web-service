@@ -62,6 +62,7 @@ public class AuthenticationService {
         String token = getToken(userName);
         if(token!=null && !token.trim().equals(""))
             return token;
+//        System.out.println("check 3 "+token);
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
@@ -70,17 +71,23 @@ public class AuthenticationService {
             List<UserProfile> list = q.list();
             if(list.size()!=1)
                 return null;
+//            System.out.println("check 4 "+userName+" "+pass);
             UserProfile user=list.get(0);
             if(!user.getPass().equals(pass))
                 return null;
+//            System.out.println("check 5 "+user.getPass()+" "+pass);
             UserToken tokenOb=new UserToken(user);
+//            System.out.println("check 6 "+tokenOb.getToken()+" "+tokenOb.getUser());
             session.save(tokenOb);
+            session.flush();
+            t.commit();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             if(t!=null&&t.isActive())
                 t.rollback();
         }
+//        System.out.println("token "+getToken(userName));
         return getToken(userName);
     }
     
@@ -107,12 +114,13 @@ public class AuthenticationService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            Query q= session.getNamedQuery("UserToken.byName");
+            Query q= session.getNamedQuery("UserTokens.byName");
             q.setParameter("name", userName);
             List<UserToken> list = q.list();
             if(list.size()!=1)
                 return null;
-            list.get(0).getToken();
+//            System.out.println("check 7 "+list.get(0).getToken());
+            return list.get(0).getToken();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{

@@ -70,3 +70,11 @@
 	to remove comment #done
 		method :- delete
 		url :- /comment/{commentId}
+		
+#Authentication resource
+	to login user
+		method :- post
+		url :- /authentication/{username} 
+	to logout user information
+		method :- delete
+		url :- /authentication/{username} 

@@ -27,6 +27,7 @@ package com.articles_hub.resource;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.UserDetail;
+import com.articles_hub.providers.Secured;
 import com.articles_hub.service.UserService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,7 +37,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  *
@@ -72,8 +75,12 @@ public class UserResource {
     }
     
     @PUT
+    @Secured
     @Path("/{userName}")
-    public void updateUserDetail(@PathParam("userName") String userName, UserDetail user){
+    public void updateUserDetail(@PathParam("userName") String userName,
+              UserDetail user, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return;
         if(user.getUserName().equals(userName))
             service.updateUser(user);
     }
@@ -85,36 +92,54 @@ public class UserResource {
     
     @GET
     @Path("/{userName}/comments")
+    @Secured
     @Produces(MediaType.APPLICATION_XML)
-    public CommentDetail[] getAllComments(@PathParam("userName") String userName){
+    public CommentDetail[] getAllComments(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
         return service.getAllComments(userName);
     }
     
     @GET
     @Path("/{userName}/articles")
+    @Secured
     @Produces(MediaType.APPLICATION_XML)
-    public ShortArticleDetail[] getAllArticles(@PathParam("userName") String userName){
+    public ShortArticleDetail[] getAllArticles(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
         return service.getAllArticles(userName);
     }
     
     @GET
     @Path("/{userName}/likes")
+    @Secured
     @Produces(MediaType.APPLICATION_XML)
-    public ShortArticleDetail[] getAllLikes(@PathParam("userName") String userName){
+    public ShortArticleDetail[] getAllLikes(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
         return service.getAllLikes(userName);
     }
     
     @POST
     @Path("/{userName}/like/{articleId}")
+    @Secured
     public void addLike(@PathParam("userName") String userName,
-                @PathParam("articleId") long articleId){
+                @PathParam("articleId") long articleId, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return;
         service.addLike(userName, articleId);
     }
     
     @DELETE
     @Path("/{userName}/like/{articleId}")
+    @Secured
     public void removeLike(@PathParam("userName") String userName,
-                @PathParam("articleId") long articleId){
+                @PathParam("articleId") long articleId, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return;
         service.removeLike(userName, articleId);
     }
     

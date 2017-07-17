@@ -25,6 +25,7 @@ package com.articles_hub.resource;
 
 
 import com.articles_hub.model.CommentDetail;
+import com.articles_hub.providers.Secured;
 import com.articles_hub.service.CommentService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,7 +35,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  *
@@ -70,22 +73,32 @@ public class CommentResource {
     }
     
     @PUT
+    @Secured
     @Path("/{commentId}")
     public void updateUserDetail(@PathParam("commentId") long commentId,
-              CommentDetail commentDetail){
+              CommentDetail commentDetail, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(commentDetail.getUserName()))
+            return;
         if(commentDetail.getCommentId() == commentId)
             service.updateComment(commentDetail);
     }
     
     @POST
-    public void createCommentDetail(CommentDetail comment){
+    @Secured
+    public void createCommentDetail(CommentDetail comment, @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(comment.getUserName()))
+            return;
         service.addComment(comment);
     }
     
     @DELETE
     @Path("/{commentId}")
-//    @Produces(MediaType.APPLICATION_XML)
-    public void deleteUserDetail(@PathParam("commentId") long commentId){
+    @Secured
+    public void deleteUserDetail(@PathParam("commentId") long commentId,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(service
+                  .getCommentDetail(commentId).getUserName()))
+            return;
         service.removeCommentDetail(commentId);
     }
     

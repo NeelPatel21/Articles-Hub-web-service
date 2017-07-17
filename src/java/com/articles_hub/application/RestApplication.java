@@ -24,7 +24,9 @@
 package com.articles_hub.application;
 
 //import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.articles_hub.providers.AuthenticationFilter;
 import com.articles_hub.resource.ArticleResource;
+import com.articles_hub.resource.AuthenticationResource;
 import com.articles_hub.resource.CommentResource;
 import com.articles_hub.resource.TagResource;
 import com.articles_hub.resource.UserResource;
@@ -58,6 +60,8 @@ public class RestApplication extends Application {
         resource.add(ArticleResource.class);
         resource.add(CommentResource.class);
         resource.add(TagResource.class);
+        resource.add(AuthenticationResource.class);
+        resource.add(AuthenticationFilter.class);
         return resource;
     }
     

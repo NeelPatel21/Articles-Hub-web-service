@@ -24,12 +24,11 @@
 package com.articles_hub.resource;
 
 
-import com.articles_hub.model.ShortArticleDetail;
-import com.articles_hub.model.TagDetail;
-import com.articles_hub.providers.Secured;
-import com.articles_hub.service.TagService;
+import com.articles_hub.model.UserDetail;
+import com.articles_hub.service.AuthenticationService;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -40,52 +39,45 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Neel Patel
  */
-@Path("/tag")
-@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-public class TagResource {
+@Path("/authentication")
+//@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+public class AuthenticationResource {
     
-    private TagService service;
+    private AuthenticationService service;
     
-    public TagResource(){
+    public AuthenticationResource(){
         try{
-            service=TagService.getTagService();
+            service=AuthenticationService.getAuthenticationService();
 //            System.out.println(" dccewcahcajhcabcjabcajcbac "+service);
         }catch(Exception ex){
             ex.printStackTrace();
         }
-//        System.out.println("tag service request");
+//        System.out.println("user service request");
     }
 //    @GET
-//    public String getTagDetail(){
+//    public String getUserDetail(){
 //        return "service :- ";
 //    }
     
-    @GET
-    @Path("/{tagName}")
-    @Produces(MediaType.APPLICATION_XML)
-    public TagDetail getTagDetail(@PathParam("tagName") String tagName){
-        TagDetail tag=service.getTagDetail(tagName);
-        return tag;
-    }
-    
-//    @PUT
-//    @Path("/{tagName}")
-//    public String updateTagDetail(@PathParam("tagName") String tagName){
-//        return "service :- "+tagName;
-//    }
-//    
     @POST
-    @Secured
-    public void createTagDetail(TagDetail tag){
-        service.addTag(tag);
+    @Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/{userName}")
+    public String login(@PathParam("userName") String userName, UserDetail user){
+        if(!user.getUserName().equals(userName))
+            return null;
+//        System.out.println("check 1");
+        String s= service.userLogin(user.getUserName(), user.getPass());
+//        System.out.println("check 2 "+s);
+        return s;
     }
     
-    @GET
-    @Path("/{tagName}/articles")
-    @Produces(MediaType.APPLICATION_XML)
-    public ShortArticleDetail[] getAllLikes(@PathParam("tagName") String tags){
-        return service.getAllArticles(tags);
+    @DELETE
+    @Path("/{userName}")
+    public void logout(@HeaderParam("token") String token, @PathParam("userName") String userName){
+        if(!service.getUserName(token).equals(userName))
+            return;
+        service.userLogout(token);
     }
     
 }
