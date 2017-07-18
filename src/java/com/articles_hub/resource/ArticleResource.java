@@ -74,7 +74,22 @@ public class ArticleResource {
 //        System.out.println("article request "+article);
         return article;
     }
+
+    @GET
+    @Path("/{articleId}/comments")
+//    @Produces(MediaType.APPLICATION_XML)
+    public CommentDetail[] getAllComments(@PathParam("articleId") long articleId){
+        return service.getAllComments(articleId);
+    }
     
+    @GET
+    @Path("/{articleId}/likes")
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortUserDetail[] getAllLikes(@PathParam("articleId") long articleId){
+        return service.getAllLikes(articleId);
+    }
+    
+//secured    
     @POST
     @Secured
     public void createArticleDetail(ArticleDetail article, @Context SecurityContext secure){
@@ -92,20 +107,6 @@ public class ArticleResource {
             return;
         if(articleDetail.getArticleId() == articleId)
             service.updateArticle(articleDetail);
-    }
-    
-    @GET
-    @Path("/{articleId}/comments")
-//    @Produces(MediaType.APPLICATION_XML)
-    public CommentDetail[] getAllComments(@PathParam("articleId") long articleId){
-        return service.getAllComments(articleId);
-    }
-    
-    @GET
-    @Path("/{articleId}/likes")
-//    @Produces(MediaType.APPLICATION_XML)
-    public ShortUserDetail[] getAllLikes(@PathParam("articleId") long articleId){
-        return service.getAllLikes(articleId);
     }
     
     @DELETE

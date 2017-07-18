@@ -74,6 +74,11 @@ public class UserResource {
         return user;
     }
     
+    @POST
+    public void createUserDetail(UserDetail user){
+        service.addUser(user);
+    }
+    
     @PUT
     @Secured
     @Path("/{userName}")
@@ -85,11 +90,7 @@ public class UserResource {
             service.updateUser(user);
     }
     
-    @POST
-    public void createUserDetail(UserDetail user){
-        service.addUser(user);
-    }
-    
+//secured   
     @GET
     @Path("/{userName}/comments")
     @Secured

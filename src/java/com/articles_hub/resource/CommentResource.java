@@ -71,7 +71,8 @@ public class CommentResource {
         CommentDetail comment=service.getCommentDetail(commentId);
         return comment;
     }
-    
+
+//secured    
     @PUT
     @Secured
     @Path("/{commentId}")
