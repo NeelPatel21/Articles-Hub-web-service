@@ -68,12 +68,18 @@ public class UserResource {
     
     @GET
     @Path("/{userName}")
-    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
     public UserDetail getUserDetail(@PathParam("userName") String userName){
         UserDetail user=service.getUserDetail(userName);
         return user;
     }
     
+    @POST
+    public void createUserDetail(UserDetail user){
+        service.addUser(user);
+    }
+    
+//secure
     @PUT
     @Secured
     @Path("/{userName}")
@@ -85,15 +91,10 @@ public class UserResource {
             service.updateUser(user);
     }
     
-    @POST
-    public void createUserDetail(UserDetail user){
-        service.addUser(user);
-    }
-    
     @GET
     @Path("/{userName}/comments")
     @Secured
-    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
     public CommentDetail[] getAllComments(@PathParam("userName") String userName,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
@@ -104,7 +105,7 @@ public class UserResource {
     @GET
     @Path("/{userName}/articles")
     @Secured
-    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
     public ShortArticleDetail[] getAllArticles(@PathParam("userName") String userName,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
@@ -115,7 +116,7 @@ public class UserResource {
     @GET
     @Path("/{userName}/likes")
     @Secured
-    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
     public ShortArticleDetail[] getAllLikes(@PathParam("userName") String userName,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))

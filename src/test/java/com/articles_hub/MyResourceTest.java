@@ -8,14 +8,14 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import com.articles_hub.MyResource;
+//import com.articles_hub.MyResource;
 
 public class MyResourceTest extends JerseyTest {
 
-    @Override
-    protected Application configure() {
-        return new ResourceConfig(MyResource.class);
-    }
+//    @Override
+//    protected Application configure() {
+//        return new ResourceConfig(MyResource.class);
+//    }
 
     /**
      * Test to see that the message "Got it!" is sent in the response.

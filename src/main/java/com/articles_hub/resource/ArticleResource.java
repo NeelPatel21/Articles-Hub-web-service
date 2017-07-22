@@ -75,6 +75,21 @@ public class ArticleResource {
         return article;
     }
     
+    @GET
+    @Path("/{articleId}/likes")
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortUserDetail[] getAllLikes(@PathParam("articleId") long articleId){
+        return service.getAllLikes(articleId);
+    }
+    
+    @GET
+    @Path("/{articleId}/comments")
+//    @Produces(MediaType.APPLICATION_XML)
+    public CommentDetail[] getAllComments(@PathParam("articleId") long articleId){
+        return service.getAllComments(articleId);
+    }
+    
+//secure
     @POST
     @Secured
     public void createArticleDetail(ArticleDetail article, @Context SecurityContext secure){
@@ -86,26 +101,12 @@ public class ArticleResource {
     @PUT
     @Path("/{articleId}")
     @Secured
-    public void updateUserDetail(@PathParam("articleId") long articleId,
+    public void updateArticleDetail(@PathParam("articleId") long articleId,
               ArticleDetail articleDetail, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(articleDetail.getAuthor()))
             return;
         if(articleDetail.getArticleId() == articleId)
             service.updateArticle(articleDetail);
-    }
-    
-    @GET
-    @Path("/{articleId}/comments")
-//    @Produces(MediaType.APPLICATION_XML)
-    public CommentDetail[] getAllComments(@PathParam("articleId") long articleId){
-        return service.getAllComments(articleId);
-    }
-    
-    @GET
-    @Path("/{articleId}/likes")
-//    @Produces(MediaType.APPLICATION_XML)
-    public ShortUserDetail[] getAllLikes(@PathParam("articleId") long articleId){
-        return service.getAllLikes(articleId);
     }
     
     @DELETE

@@ -60,22 +60,23 @@ public class CommentResource {
 //        System.out.println("comment service request");
     }
 //    @GET
-//    public String getUserDetail(){
+//    public String getCommentDetail(){
 //        return "service :- ";
 //    }
     
     @GET
     @Path("/{commentId}")
-    @Produces(MediaType.APPLICATION_XML)
-    public CommentDetail getUserDetail(@PathParam("commentId") long commentId){
+//    @Produces(MediaType.APPLICATION_XML)
+    public CommentDetail getCommentDetail(@PathParam("commentId") long commentId){
         CommentDetail comment=service.getCommentDetail(commentId);
         return comment;
     }
     
+//secure
     @PUT
     @Secured
     @Path("/{commentId}")
-    public void updateUserDetail(@PathParam("commentId") long commentId,
+    public void updateCommentDetail(@PathParam("commentId") long commentId,
               CommentDetail commentDetail, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(commentDetail.getUserName()))
             return;
@@ -94,7 +95,7 @@ public class CommentResource {
     @DELETE
     @Path("/{commentId}")
     @Secured
-    public void deleteUserDetail(@PathParam("commentId") long commentId,
+    public void deleteCommentDetail(@PathParam("commentId") long commentId,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(service
                   .getCommentDetail(commentId).getUserName()))

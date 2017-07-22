@@ -63,10 +63,17 @@ public class TagResource {
     
     @GET
     @Path("/{tagName}")
-    @Produces(MediaType.APPLICATION_XML)
+//    @Produces(MediaType.APPLICATION_XML)
     public TagDetail getTagDetail(@PathParam("tagName") String tagName){
         TagDetail tag=service.getTagDetail(tagName);
         return tag;
+    }
+    
+    @GET
+    @Path("/{tagName}/articles")
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getAllArticles(@PathParam("tagName") String tags){
+        return service.getAllArticles(tags);
     }
     
 //    @PUT
@@ -74,18 +81,14 @@ public class TagResource {
 //    public String updateTagDetail(@PathParam("tagName") String tagName){
 //        return "service :- "+tagName;
 //    }
-//    
+//  
+    
+//secure    
     @POST
     @Secured
     public void createTagDetail(TagDetail tag){
         service.addTag(tag);
     }
     
-    @GET
-    @Path("/{tagName}/articles")
-    @Produces(MediaType.APPLICATION_XML)
-    public ShortArticleDetail[] getAllLikes(@PathParam("tagName") String tags){
-        return service.getAllArticles(tags);
-    }
     
 }

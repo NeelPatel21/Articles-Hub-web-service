@@ -31,10 +31,11 @@ public class Main {
         root.setParentLoaderPriority(true);
 
         final String webappDirLocation = "src/main/webapp/";
-        root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
+//        root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
+//        root.addServerClass("com.articles_hub.application.RestApplication");
         server.setHandler(root);
-
+//        server.addBean(new com.articles_hub.application.RestApplication());
         server.start();
         server.join();
     }
