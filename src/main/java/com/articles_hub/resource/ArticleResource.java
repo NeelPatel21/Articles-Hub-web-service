@@ -26,6 +26,7 @@ package com.articles_hub.resource;
 
 import com.articles_hub.model.ArticleDetail;
 import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortUserDetail;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.ArticleService;
@@ -40,14 +41,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
  * @author Neel Patel
  */
 @Path("/article")
-@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 public class ArticleResource {
     
     private ArticleService service;
@@ -61,6 +63,10 @@ public class ArticleResource {
         }
 //        System.out.println("article service request");
     }
+    
+    @Context
+    private UriInfo urif;
+    
 //    @GET
 //    public String getUserDetail(){
 //        return "service :- ";
@@ -72,6 +78,7 @@ public class ArticleResource {
     public ArticleDetail getArticleDetail(@PathParam("articleId") long articleId){
         ArticleDetail article=service.getArticleDetail(articleId);
 //        System.out.println("article request "+article);
+        LinkMaker.popLinks(urif,article);
         return article;
     }
     
@@ -79,14 +86,18 @@ public class ArticleResource {
     @Path("/{articleId}/likes")
 //    @Produces(MediaType.APPLICATION_XML)
     public ShortUserDetail[] getAllLikes(@PathParam("articleId") long articleId){
-        return service.getAllLikes(articleId);
+        ShortUserDetail ar[]=service.getAllLikes(articleId);
+        LinkMaker.popLinks(urif,ar);
+        return ar;
     }
     
     @GET
     @Path("/{articleId}/comments")
 //    @Produces(MediaType.APPLICATION_XML)
     public CommentDetail[] getAllComments(@PathParam("articleId") long articleId){
-        return service.getAllComments(articleId);
+        CommentDetail ar[]=service.getAllComments(articleId);
+        LinkMaker.popLinks(urif,ar);
+        return ar;
     }
     
 //secure

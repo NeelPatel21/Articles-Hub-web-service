@@ -24,6 +24,7 @@
 package com.articles_hub.resource;
 
 
+import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.TagDetail;
 import com.articles_hub.providers.Secured;
@@ -34,15 +35,17 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
  * @author Neel Patel
  */
 @Path("/tag")
-@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 public class TagResource {
     
     private TagService service;
@@ -56,6 +59,10 @@ public class TagResource {
         }
 //        System.out.println("tag service request");
     }
+    
+    @Context
+    private UriInfo urif;
+    
 //    @GET
 //    public String getTagDetail(){
 //        return "service :- ";
@@ -66,6 +73,7 @@ public class TagResource {
 //    @Produces(MediaType.APPLICATION_XML)
     public TagDetail getTagDetail(@PathParam("tagName") String tagName){
         TagDetail tag=service.getTagDetail(tagName);
+        LinkMaker.popLinks(urif, tag);
         return tag;
     }
     
@@ -73,7 +81,9 @@ public class TagResource {
     @Path("/{tagName}/articles")
 //    @Produces(MediaType.APPLICATION_XML)
     public ShortArticleDetail[] getAllArticles(@PathParam("tagName") String tags){
-        return service.getAllArticles(tags);
+        ShortArticleDetail ar[]=service.getAllArticles(tags);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
     }
     
 //    @PUT

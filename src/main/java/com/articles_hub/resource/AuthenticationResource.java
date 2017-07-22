@@ -60,7 +60,7 @@ public class AuthenticationResource {
 //    }
     
     @POST
-    @Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/{userName}")
     public String login(@PathParam("userName") String userName, UserDetail user){

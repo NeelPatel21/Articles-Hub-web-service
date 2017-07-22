@@ -25,6 +25,7 @@ package com.articles_hub.resource;
 
 
 import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.providers.Secured;
@@ -40,14 +41,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
  * @author Neel Patel
  */
 @Path("/user")
-@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 public class UserResource {
     
     private UserService service;
@@ -61,6 +63,10 @@ public class UserResource {
         }
 //        System.out.println("user service request");
     }
+    
+    @Context
+    private UriInfo urif;
+    
 //    @GET
 //    public String getUserDetail(){
 //        return "service :- ";
@@ -71,6 +77,7 @@ public class UserResource {
 //    @Produces(MediaType.APPLICATION_XML)
     public UserDetail getUserDetail(@PathParam("userName") String userName){
         UserDetail user=service.getUserDetail(userName);
+        LinkMaker.popLinks(urif,user);
         return user;
     }
     
@@ -99,7 +106,9 @@ public class UserResource {
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
             return null;
-        return service.getAllComments(userName);
+        CommentDetail ar[]=service.getAllComments(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
     }
     
     @GET
@@ -110,7 +119,9 @@ public class UserResource {
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
             return null;
-        return service.getAllArticles(userName);
+        ShortArticleDetail ar[]=service.getAllArticles(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
     }
     
     @GET
@@ -121,7 +132,9 @@ public class UserResource {
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
             return null;
-        return service.getAllLikes(userName);
+        ShortArticleDetail ar[]=service.getAllLikes(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
     }
     
     @POST

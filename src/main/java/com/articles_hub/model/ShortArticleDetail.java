@@ -38,6 +38,7 @@ public class ShortArticleDetail {
     private String title;
     private String author;
     private LocalDate date;
+    private String link;
     
     public long getArticleId() {
         return articleId;
@@ -70,6 +71,14 @@ public class ShortArticleDetail {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
     
 }

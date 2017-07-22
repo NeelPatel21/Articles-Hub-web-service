@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ShortUserDetail {
     private String userName;
     private String emailId;
-
+    private String link;
+    
     public String getUserName() {
         return userName;
     }
@@ -50,4 +51,12 @@ public class ShortUserDetail {
         this.emailId = emailId;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+    
 }

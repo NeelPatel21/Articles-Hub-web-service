@@ -25,6 +25,7 @@ package com.articles_hub.resource;
 
 
 import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.LinkMaker;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.CommentService;
 import javax.ws.rs.Consumes;
@@ -38,14 +39,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
  * @author Neel Patel
  */
 @Path("/comment")
-@Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 public class CommentResource {
     
     private CommentService service;
@@ -59,6 +61,10 @@ public class CommentResource {
         }
 //        System.out.println("comment service request");
     }
+    
+    @Context
+    private UriInfo urif;
+    
 //    @GET
 //    public String getCommentDetail(){
 //        return "service :- ";
@@ -69,6 +75,7 @@ public class CommentResource {
 //    @Produces(MediaType.APPLICATION_XML)
     public CommentDetail getCommentDetail(@PathParam("commentId") long commentId){
         CommentDetail comment=service.getCommentDetail(commentId);
+        LinkMaker.popLinks(urif, comment);
         return comment;
     }
     
