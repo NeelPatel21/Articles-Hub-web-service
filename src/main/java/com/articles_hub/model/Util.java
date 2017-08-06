@@ -89,7 +89,7 @@ public class Util {
                 return null;
             ArticleDetail articleDetail=new ArticleDetail();
             articleDetail.setArticleId(article.getArticleId());
-            articleDetail.setContant(article.getArticleContant());
+            articleDetail.setContent(article.getArticleContent());
             articleDetail.setDate(article.getPublishDate());
             articleDetail.setTitle(article.getTitle());
             articleDetail.setAuthor(article.getAuthor().getUserName());
@@ -114,8 +114,8 @@ public class Util {
 //            article.setPublishDate(articleDetail.getDate());
             article.setPublishDate(LocalDate.now());
 //            article.getTags(articleDetail.getTag().stream().map());
-            article.getArticleContant().clear();
-            article.getArticleContant().addAll(articleDetail.getContant());
+            article.getArticleContent().clear();
+            article.getArticleContent().addAll(articleDetail.getContent());
             return article;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -130,7 +130,7 @@ public class Util {
             CommentDetail commentDetail=new CommentDetail();
             commentDetail.setArticleId(comment.getArticle().getArticleId());
             commentDetail.setCommentId(comment.getCommentId());
-            commentDetail.setContant(comment.getCommentBody());
+            commentDetail.setContent(comment.getCommentBody());
             commentDetail.setUserName(comment.getAuthor().getUserName());
             commentDetail.setDate(comment.getDate());
             commentDetail.setTime(comment.getTime());
@@ -146,7 +146,7 @@ public class Util {
             if(commentDetail==null)
                 return null;
             Comment comment=new Comment();
-            comment.setCommentBody(commentDetail.getContant());
+            comment.setCommentBody(commentDetail.getContent());
 //            comment.setDate(commentDetail.getDate());
             comment.setDate(LocalDate.now());
             comment.setTime(LocalTime.now());

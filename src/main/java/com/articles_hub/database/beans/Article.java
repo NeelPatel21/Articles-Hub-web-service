@@ -78,7 +78,7 @@ public class Article {
     
     @Lob
     @Column(name = "article_data",nullable = false)
-    private ArticleContant articleContant = new ArticleContant();
+    private ArticleContent articleContent = new ArticleContent();
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "article_tags", joinColumns = @JoinColumn(name = "article_id"),
@@ -124,8 +124,8 @@ public class Article {
         return publishDate;
     }
 
-    public List<String> getArticleContant() {
-        return articleContant.getContant();
+    public List<String> getArticleContent() {
+        return articleContent.getContent();
     }
 
     @XmlTransient

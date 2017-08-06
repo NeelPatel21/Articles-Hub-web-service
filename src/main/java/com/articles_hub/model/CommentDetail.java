@@ -41,7 +41,7 @@ public class CommentDetail {
     private long commentId;
     private long articleId;
     private String userName;
-    private String Contant;
+    private String content;
     private LocalDate date;
     private LocalTime time;
     private List<Link> links=new ArrayList<>();
@@ -71,12 +71,12 @@ public class CommentDetail {
         this.userName = userName;
     }
 
-    public String getContant() {
-        return Contant;
+    public String getContent() {
+        return content;
     }
 
-    public void setContant(String Contant) {
-        this.Contant = Contant;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public List<Link> getLinks() {

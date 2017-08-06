@@ -59,9 +59,6 @@ public class AuthenticationService {
     }
     
     public String userLogin(String userName,String pass){
-        String token = getToken(userName);
-        if(token!=null && !token.trim().equals(""))
-            return token;
 //        System.out.println("check 3 "+token);
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
@@ -75,6 +72,9 @@ public class AuthenticationService {
             UserProfile user=list.get(0);
             if(!user.getPass().equals(pass))
                 return null;
+            String token = getToken(userName);
+            if(token!=null && !token.trim().equals(""))
+                return token;
 //            System.out.println("check 5 "+user.getPass()+" "+pass);
             UserToken tokenOb=new UserToken(user);
 //            System.out.println("check 6 "+tokenOb.getToken()+" "+tokenOb.getUser());

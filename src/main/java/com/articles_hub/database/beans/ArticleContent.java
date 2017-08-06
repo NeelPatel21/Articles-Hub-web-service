@@ -31,13 +31,13 @@ import java.util.List;
  *
  * @author Neel Patel
  */
-class ArticleContant implements Serializable{
+class ArticleContent implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private List<String> contant=new ArrayList<>();
+    private List<String> content=new ArrayList<>();
 
-    public List<String> getContant() {
-        return contant;
+    public List<String> getContent() {
+        return content;
     }
     
 }

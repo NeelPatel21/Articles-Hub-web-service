@@ -41,7 +41,7 @@ public class ArticleDetail {
     private String title;
     private String author;
     private LocalDate date;
-    private List<String> contant;
+    private List<String> content;
     private Set<String> tag;
     private List<Link> links = new ArrayList<>();
 
@@ -70,12 +70,12 @@ public class ArticleDetail {
         this.date = date;
     }
 
-    public List<String> getContant() {
-        return contant;
+    public List<String> getContent() {
+        return content;
     }
 
-    public void setContant(List<String> contant) {
-        this.contant = contant;
+    public void setContent(List<String> content) {
+        this.content = content;
     }
 
     public List<Link> getLinks() {

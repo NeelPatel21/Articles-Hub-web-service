@@ -118,8 +118,8 @@ public class ArticleService {
             if(article==null)
                 return false;
             article.setTitle(articleDetail.getTitle());
-            article.getArticleContant().clear();
-            article.getArticleContant().addAll(articleDetail.getContant());
+            article.getArticleContent().clear();
+            article.getArticleContent().addAll(articleDetail.getContent());
             addTags(article, articleDetail);
             session.flush();
             t.commit();

@@ -115,7 +115,7 @@ public class CommentService {
             Comment comment=session.get(Comment.class, commentDetail.getCommentId());
             if(comment==null)
                 return false;
-            comment.setCommentBody(commentDetail.getContant());
+            comment.setCommentBody(commentDetail.getContent());
             session.flush();
             t.commit();
             return true;
