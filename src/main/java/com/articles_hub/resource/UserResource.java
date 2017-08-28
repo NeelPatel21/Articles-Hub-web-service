@@ -40,6 +40,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
@@ -82,20 +83,25 @@ public class UserResource {
     }
     
     @POST
-    public void createUserDetail(UserDetail user){
-        service.addUser(user);
+    public Response createUserDetail(UserDetail user){
+        if(service.addUser(user))
+            return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
 //secure
     @PUT
     @Secured
     @Path("/{userName}")
-    public void updateUserDetail(@PathParam("userName") String userName,
+    public Response updateUserDetail(@PathParam("userName") String userName,
               UserDetail user, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
-            return;
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         if(user.getUserName().equals(userName))
-            service.updateUser(user);
+            if(service.updateUser(user))
+                return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    
     }
     
     @GET
