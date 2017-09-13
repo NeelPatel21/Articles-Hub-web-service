@@ -27,6 +27,7 @@ package com.articles_hub.resource;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortArticleDetail;
+import com.articles_hub.model.TagDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.UserService;
@@ -143,6 +144,19 @@ public class UserResource {
         return ar;
     }
     
+    @GET
+    @Path("/{userName}/favorite-tags")
+    @Secured
+//    @Produces(MediaType.APPLICATION_XML)
+    public TagDetail[] getFavoriteTags(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
+        TagDetail ar[]=service.getFavoriteTags(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
+    }
+    
     @POST
     @Path("/{userName}/like/{articleId}")
     @Secured
@@ -161,6 +175,19 @@ public class UserResource {
         if(!secure.getUserPrincipal().getName().equals(userName))
             return;
         service.removeLike(userName, articleId);
+    }
+    
+    @POST
+    @Path("/{userName}/favorite-tags")
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addFavoriteTags(@PathParam("userName") String userName,
+                TagDetail[] tags,
+                @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        service.setFavoriteTags(userName, tags);
+        return Response.status(Response.Status.OK).build();
     }
     
 }

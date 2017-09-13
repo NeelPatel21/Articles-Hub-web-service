@@ -25,11 +25,14 @@ package com.articles_hub.service;
 
 import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
+import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.ShortArticleDetail;
+import com.articles_hub.model.TagDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.model.Util;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.FlushModeType;
 import org.hibernate.Query;
@@ -246,6 +249,71 @@ public class UserService {
                 t.commit();
         }
         return false;
+    }
+    
+    public boolean setFavoriteTags(String userName,TagDetail[] tags){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return false;
+            UserProfile user = list.get(0);
+            
+            // logic
+            user.getFavoriteTag().clear(); // clear favorite tags
+            
+            // add new favorite tags 
+            Arrays.stream(tags).forEach(tagName->{
+                try{
+                    // get tag from hibernate
+                    Query q2= session.getNamedQuery("Tag.byName");
+                    q2.setParameter("name", tagName.getTagName());
+                    List<Tag> list2 = q2.list();
+                    if(list.size()==1)
+                        user.getFavoriteTag().add(list2.get(0)); // add new tag
+                }catch(Exception ex){
+                    System.err.println("test 1");
+                    ex.printStackTrace();
+//                }finally{
+//                    if(t2!=null&&t2.isActive()&&!t2.getRollbackOnly())
+//                        t2.commit();
+                }
+            });
+            session.flush();
+            t.commit();
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
+    }
+    
+    public TagDetail[] getFavoriteTags(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()!=1)
+                return null;
+            UserProfile user = list.get(0);
+            return user.getFavoriteTag().stream()
+                      .map(Util::makeTagDetail)
+                      .toArray(TagDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return null;
     }
     
 }

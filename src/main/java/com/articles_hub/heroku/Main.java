@@ -1,6 +1,17 @@
 package com.articles_hub.heroku;
 
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.SecuredRedirectHandler;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
@@ -20,6 +31,8 @@ public class Main {
         	System.setProperty("hibernate.connection.url", System.getenv("hibernate.connection.url"));
         
         final Server server = new Server(Integer.valueOf(webPort));
+//        final Server server = new Server();
+        
         final WebAppContext root = new WebAppContext();
 
         root.setContextPath("/");
@@ -34,6 +47,38 @@ public class Main {
 //        root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
 //        root.addServerClass("com.articles_hub.application.RestApplication");
+        
+//        HandlerCollection handlers = new HandlerCollection(
+//                            root,
+//                            new SecuredRedirectHandler(),
+//                            new ContextHandlerCollection(),
+//                            new DefaultHandler());
+//        
+//        HttpConfiguration httpConfig = new HttpConfiguration();
+//        httpConfig.setSecureScheme("https");
+//        httpConfig.setSecurePort(Integer.parseInt(webPort));
+//        
+//        HttpConfiguration httpsConfig = new HttpConfiguration();
+//        httpsConfig.addCustomizer(new SecureRequestCustomizer());
+//        
+//        ServerConnector connector = new ServerConnector(server,
+//                            new HttpConnectionFactory(httpConfig));
+//        connector.setPort(8080);
+//        
+//        SslContextFactory sslContextFactory = new SslContextFactory(true);
+//        sslContextFactory.setKeyStorePath("keystore/temp");
+//        sslContextFactory.setKeyStorePassword("neel");
+//        
+//        SslConnectionFactory sslConnectionFactory = new SslConnectionFactory(
+//                            sslContextFactory, "http/1.1");
+//        
+//        ServerConnector sslConnector = new ServerConnector(server,
+//                            sslConnectionFactory,
+//                            new HttpConnectionFactory(httpsConfig));
+//        sslConnector.setPort(Integer.parseInt(webPort));
+//        
+//        server.setConnectors(new Connector[]{connector,sslConnector});
+//        
         server.setHandler(root);
 //        server.addBean(new com.articles_hub.application.RestApplication());
         server.start();

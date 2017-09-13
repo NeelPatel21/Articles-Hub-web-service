@@ -29,8 +29,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -59,7 +62,7 @@ public class UserProfile {
     @GeneratedValue(generator = "userId_gen")
     private long userId;
     
-    @Column(name = "user_name", length = 50, nullable = false)
+    @Column(name = "user_name", length = 50, nullable = false, unique = true)
     private String userName;
     
     @Column(name = "passwd", length = 50, nullable = false)
@@ -79,6 +82,11 @@ public class UserProfile {
     
     @ManyToMany(mappedBy = "likes", cascade = CascadeType.ALL)
     private Set<Article> likes = new HashSet<>(); // likes by this user.
+    
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_favorite_tags", joinColumns = @JoinColumn(name = "userId"),
+              inverseJoinColumns = @JoinColumn(name = "tagId"))
+    private Set<Tag> favoriteTag = new HashSet<>(); // favorite tags of this user.
     
 //methods & constructors
 
@@ -128,6 +136,10 @@ public class UserProfile {
     @XmlTransient
     public Set<Article> getLikes() {
         return Collections.unmodifiableSet(likes);
+    }
+
+    public Set<Tag> getFavoriteTag() {
+        return favoriteTag;
     }
 
     public void setUserName(String userName) {
