@@ -110,10 +110,13 @@ public class ArticleResource {
         if(!secure.getUserPrincipal().getName().equals(article.getAuthor()))
             return Response.status(Response.Status.BAD_REQUEST).build();
         long id=service.addArticle(article);
-        if(id>=0)
-            return Response.created(URI.create(service.getArticleDetail(id)
-                      .getLinks().stream().filter(x->x.getName()
-                      .equalsIgnoreCase("self")).findAny().get().getUrl())).build();
+        if(id>=0){
+            ArticleDetail newArticle=service.getArticleDetail(id);
+            LinkMaker.popLinks(urif, newArticle);
+            return Response.created(URI.create(newArticle.getLinks().stream()
+                      .filter(x->x.getName().equalsIgnoreCase("self"))
+                      .findAny().get().getUrl())).build();
+        }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     

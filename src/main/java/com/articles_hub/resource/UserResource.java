@@ -89,7 +89,7 @@ public class UserResource {
         if(service.addUser(user)){
             UserDetail newUser= service.getUserDetail(user.getUserName());
             LinkMaker.popLinks(urif, newUser);
-            return Response.created(URI.create(user.getLinks().stream()
+            return Response.created(URI.create(newUser.getLinks().stream()
                       .filter(x->x.getName().equalsIgnoreCase("self"))
                       .findAny().get().getUrl())).build();
         }
