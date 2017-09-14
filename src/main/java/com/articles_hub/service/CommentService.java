@@ -62,7 +62,14 @@ public class CommentService {
         Transaction t=session.beginTransaction();
         try{
             Comment comment=(Comment) session.get(Comment.class, commentId);
-            return Util.makeCommentDetail(comment);
+            if(comment!=null){
+                LogService.getLogger().info("CommentService, getCommentDetail :- ",
+                          "commentId :- "+commentId);
+                return Util.makeCommentDetail(comment);
+            }else{
+                LogService.getLogger().warn("CommentService, getCommentDetail :- ",
+                          "comment not found, commentId :- "+commentId);
+            }
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -72,28 +79,48 @@ public class CommentService {
         return null;
     }
     
-    public boolean addComment(CommentDetail commentDetail){
+    public long addComment(CommentDetail commentDetail){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(commentDetail==null)
-                return false;
+            if(commentDetail==null){
+                LogService.getLogger().warn("CommentService, addComment :- ",
+                          "null reference commentDetail");
+                return -1;
+            }
             Comment comment=Util.makeComment(commentDetail);
             session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", commentDetail.getUserName());
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
-                return false;
+            if(list.size()<1){
+                LogService.getLogger().warn("CommentService, addComment :- ",
+                            "UserProfile not found, userName :- "+
+                            commentDetail.getUserName());
+                return -1;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("CommentService, addComment :- ",
+                            "multiple UserProfile found, userName :- "+
+                            commentDetail.getUserName());
+                return -1;
+            }
             Article article=(Article) session.get(Article.class, commentDetail.getArticleId());
+            if(article == null){
+                LogService.getLogger().warn("CommentService, addComment :- ",
+                            "Article not found, articleId :- "+
+                            commentDetail.getArticleId());
+                return -1;
+            }
             if(list.get(0)==null||article==null)
-                return false;
+                return -1;
 //            session.save(comment);
             article.addComment(comment);
             list.get(0).addComment(comment);
             session.flush();
             t.commit();
-            return true;
+            LogService.getLogger().info("CommentService, addComment :- ",
+                      "comment added, commentId :- "+comment.getCommentId());
+            return comment.getCommentId();
         }catch(Exception ex){
             ex.printStackTrace();
             t.rollback();
@@ -101,23 +128,32 @@ public class CommentService {
             if(t!=null&&t.isActive())
                 t.rollback();
         }
-        return false;
+        return -1;
     }
    
     public boolean updateComment(CommentDetail commentDetail){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(commentDetail==null)
+            if(commentDetail==null){
+                LogService.getLogger().warn("CommentService, updateComment :- ",
+                            "null reference commentDetail");
                 return false;
+            }
 //            System.out.println("check 1");
             session.setFlushMode(FlushModeType.AUTO);
             Comment comment=session.get(Comment.class, commentDetail.getCommentId());
-            if(comment==null)
+            if(comment==null){
+                LogService.getLogger().warn("CommentService, updateComment :- ",
+                            "Comment not found, commentId :- "+
+                            commentDetail.getCommentId());
                 return false;
+            }
             comment.setCommentBody(commentDetail.getContent());
             session.flush();
             t.commit();
+            LogService.getLogger().info("CommentService, updateComment :- ",
+                        "Comment updated, commentId :- "+commentDetail.getCommentId());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -136,8 +172,11 @@ public class CommentService {
         try{
             session.setFlushMode(FlushModeType.AUTO);
             Comment comment=session.get(Comment.class, commentId);
-            if(comment==null)
+            if(comment==null){
+                LogService.getLogger().warn("CommentService, removeCommentDetail :- ",
+                            "Comment not found, commentId :- "+commentId);
                 return false;
+            }
             UserProfile user=comment.getAuthor();
             Article article=comment.getArticle();
             if(user!=null)
@@ -145,6 +184,8 @@ public class CommentService {
             if(article!=null)
                 article.removeComment(comment);
             session.delete(comment);
+            LogService.getLogger().info("CommentService, removeCommentDetail :- ",
+                        "Comment removed, commentId :- "+commentId);
             return true;
         }catch(Exception ex){
             ex.printStackTrace();

@@ -29,6 +29,7 @@ import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.model.TagDetail;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.TagService;
+import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -37,6 +38,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -96,8 +98,15 @@ public class TagResource {
 //secure    
     @POST
     @Secured
-    public void createTagDetail(TagDetail tag){
-        service.addTag(tag);
+    public Response createTagDetail(TagDetail tag){
+        if(service.addTag(tag)){
+            TagDetail newTag=service.getTagDetail(tag.getTagName());
+            LinkMaker.popLinks(urif, newTag);
+            return Response.created(URI.create(newTag.getLinks().stream()
+                      .filter(x->x.getName().equalsIgnoreCase("self"))
+                      .findAny().get().getUrl())).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     

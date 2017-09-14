@@ -28,6 +28,7 @@ import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.LinkMaker;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.CommentService;
+import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,6 +39,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
@@ -83,31 +85,42 @@ public class CommentResource {
     @PUT
     @Secured
     @Path("/{commentId}")
-    public void updateCommentDetail(@PathParam("commentId") long commentId,
+    public Response updateCommentDetail(@PathParam("commentId") long commentId,
               CommentDetail commentDetail, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(commentDetail.getUserName()))
-            return;
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         if(commentDetail.getCommentId() == commentId)
-            service.updateComment(commentDetail);
+            if(service.updateComment(commentDetail))
+                return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     @POST
     @Secured
-    public void createCommentDetail(CommentDetail comment, @Context SecurityContext secure){
+    public Response createCommentDetail(CommentDetail comment, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(comment.getUserName()))
-            return;
-        service.addComment(comment);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        long id=service.addComment(comment);
+        if(id>=0){
+            CommentDetail newComment = service.getCommentDetail(id);
+            LinkMaker.popLinks(urif, newComment);
+            return Response.created(URI.create(newComment.getLinks().stream()
+                      .filter(x->x.getName().equalsIgnoreCase("self"))
+                      .findAny().get().getUrl())).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     @DELETE
     @Path("/{commentId}")
     @Secured
-    public void deleteCommentDetail(@PathParam("commentId") long commentId,
+    public Response deleteCommentDetail(@PathParam("commentId") long commentId,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(service
                   .getCommentDetail(commentId).getUserName()))
-            return;
-        service.removeCommentDetail(commentId);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        if(service.removeCommentDetail(commentId))
+            return Response.accepted().build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
-    
 }

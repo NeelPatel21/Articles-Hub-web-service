@@ -64,8 +64,17 @@ public class TagService {
             Query q= session.getNamedQuery("Tag.byName");
             q.setParameter("name", tagName);
             List<Tag> list = q.list();
-            if(list.size()==1)
+            if(list.size()==1){
+                LogService.getLogger().info("TagService, getTagDetail :- ",
+                          "tagName :- "+tagName);
                 return Util.makeTagDetail(list.get(0));
+            }else if(list.size()<1){
+                LogService.getLogger().warn("TagService, getTagDetail :- ",
+                          "tag not found, tagName :- "+tagName);
+            }else{
+                LogService.getLogger().warn("TagService, getTagDetail :- ",
+                          "multiple tag found, tagName :- "+tagName);
+            }
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -79,12 +88,17 @@ public class TagService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(tagDetail==null)
+            if(tagDetail==null){
+                LogService.getLogger().warn("TagService, addTag :- ",
+                          "null reference tagDetail");
                 return false;
+            }
             session.setFlushMode(FlushModeType.AUTO);
             session.save(Util.makeTag(tagDetail));
             session.flush();
             t.commit();
+            LogService.getLogger().info("TagService, addTag :- ",
+                      "tag added, tagName :- "+tagDetail.getTagName());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -104,6 +118,8 @@ public class TagService {
             q.setParameterList("tags",tags);
             List<Article> list = q.list();
 //            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
+            LogService.getLogger().info("TagService, getAllArticles :- ",
+                      "number of articles :- "+list.size());
             return list.stream()
 //                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
                       .map(Util::makeShortArticleDetail)
