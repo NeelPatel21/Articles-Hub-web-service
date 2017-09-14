@@ -102,13 +102,13 @@ public class UserResource {
     @Path("/{userName}")
     public Response updateUserDetail(@PathParam("userName") String userName,
               UserDetail user, @Context SecurityContext secure){
+        if(!user.getUserName().equals(userName))
+            return Response.status(Response.Status.BAD_REQUEST).build();
         if(!secure.getUserPrincipal().getName().equals(userName))
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        if(user.getUserName().equals(userName))
-            if(service.updateUser(user))
-                return Response.status(Response.Status.ACCEPTED).build();
+        if(service.updateUser(user))
+            return Response.status(Response.Status.ACCEPTED).build();
         return Response.status(Response.Status.BAD_REQUEST).build();
-    
     }
     
     @GET

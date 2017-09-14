@@ -125,11 +125,13 @@ public class ArticleResource {
     @Secured
     public Response updateArticleDetail(@PathParam("articleId") long articleId,
               ArticleDetail articleDetail, @Context SecurityContext secure){
-        if(!secure.getUserPrincipal().getName().equals(articleDetail.getAuthor()))
+        if(articleDetail.getArticleId() != articleId)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        if(!secure.getUserPrincipal().getName()
+                  .equals(service.getArticleDetail(articleId).getAuthor()))
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        if(articleDetail.getArticleId() == articleId)
-            if(service.updateArticle(articleDetail))
-                return Response.status(Response.Status.ACCEPTED).build();
+        if(service.updateArticle(articleDetail))
+            return Response.status(Response.Status.ACCEPTED).build();
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
