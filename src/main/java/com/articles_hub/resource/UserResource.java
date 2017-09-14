@@ -31,6 +31,7 @@ import com.articles_hub.model.TagDetail;
 import com.articles_hub.model.UserDetail;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.UserService;
+import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -85,8 +86,13 @@ public class UserResource {
     
     @POST
     public Response createUserDetail(UserDetail user){
-        if(service.addUser(user))
-            return Response.status(Response.Status.CREATED).build();
+        if(service.addUser(user)){
+            UserDetail newUser= service.getUserDetail(user.getUserName());
+            LinkMaker.popLinks(urif, newUser);
+            return Response.created(URI.create(user.getLinks().stream()
+                      .filter(x->x.getName().equalsIgnoreCase("self"))
+                      .findAny().get().getUrl())).build();
+        }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
@@ -160,21 +166,25 @@ public class UserResource {
     @POST
     @Path("/{userName}/like/{articleId}")
     @Secured
-    public void addLike(@PathParam("userName") String userName,
+    public Response addLike(@PathParam("userName") String userName,
                 @PathParam("articleId") long articleId, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
-            return;
-        service.addLike(userName, articleId);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        if(service.addLike(userName, articleId))
+            return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     @DELETE
     @Path("/{userName}/like/{articleId}")
     @Secured
-    public void removeLike(@PathParam("userName") String userName,
+    public Response removeLike(@PathParam("userName") String userName,
                 @PathParam("articleId") long articleId, @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
-            return;
-        service.removeLike(userName, articleId);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        if(service.removeLike(userName, articleId))
+            return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
     @POST
@@ -186,8 +196,9 @@ public class UserResource {
                 @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        service.setFavoriteTags(userName, tags);
-        return Response.status(Response.Status.OK).build();
+        if(service.setFavoriteTags(userName, tags))
+            return Response.status(Response.Status.ACCEPTED).build();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
     
 }

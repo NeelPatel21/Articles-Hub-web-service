@@ -72,8 +72,17 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()==1)
+            if(list.size()==1){
+                LogService.getLogger().info("UserService, getUserDetail :- ",
+                          "userName :- "+userName);
                 return Util.makeUserDetail(list.get(0));
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, getUserDetail :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+            }else{
+                LogService.getLogger().warn("UserService, getUserDetail :- ",
+                          "UserProfile not found, userName :- "+userName);
+            }
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -87,13 +96,18 @@ public class UserService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(user==null)
+            if(user==null){
+                LogService.getLogger().warn("UserService, addUser :- ",
+                          "null reference user");
                 return false;
+            }
 //            System.out.println("check 1");
             session.setFlushMode(FlushModeType.AUTO);
             session.save(Util.makeUserProfile(user));
             session.flush();
             t.commit();
+            LogService.getLogger().info("UserService, addUser",
+                      "userName :- "+user.getUserName());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -110,21 +124,30 @@ public class UserService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(user==null)
+            if(user==null){
+                LogService.getLogger().warn("UserService, updateUser :- ",
+                          "null reference user");
                 return false;
-//            System.out.println("check 1");
+            }
             session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", user.getUserName());
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()!=1){
+                LogService.getLogger().warn("UserService, updateUser :- ",
+                            "multiple UserProfile found, userName :- "
+                            +user.getUserName());
                 return false;
+            }
             UserProfile userProfile=list.get(0);
             userProfile.setPass(user.getPass());
             userProfile.setInfo(user.getInfo());
             userProfile.setEmailId(user.getEmailId());
             session.flush();
             t.commit();
+            LogService.getLogger().info("UserService, updateUser :- ",
+                        "UserProfile updated, userName :- "
+                        +user.getUserName());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -144,9 +167,19 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, getAllComments :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return null;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, getAllComments :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return null;
+            }
             UserProfile user = list.get(0);
+            LogService.getLogger().info("UserService, getAllComments :- ",
+                        "userName :- "+userName+", number of comments :- "+
+                        user.getComments().size());
             return user.getComments().stream()
                       .map(Util::makeCommentDetail)
                       .toArray(CommentDetail[]::new);
@@ -166,9 +199,19 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, getAllArticles :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return null;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, getAllArticles :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return null;
+            }
             UserProfile user = list.get(0);
+            LogService.getLogger().info("UserService, getAllArticles :- ",
+                        "userName :- "+userName+", number of articles :- "+
+                        user.getArticles().size());
             return user.getArticles().stream()
                       .map(Util::makeShortArticleDetail)
                       .toArray(ShortArticleDetail[]::new);
@@ -188,9 +231,19 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, getAllLikes :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return null;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, getAllLikes :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return null;
+            }
             UserProfile user = list.get(0);
+            LogService.getLogger().info("UserService, getAllLikes :- ",
+                        "userName :- "+userName+", number of Likes :- "+
+                        user.getLikes().size());
             return user.getLikes().stream()
                       .map(Util::makeShortArticleDetail)
                       .toArray(ShortArticleDetail[]::new);
@@ -210,13 +263,23 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, addLike :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return false;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, addLike :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return false;
+            }
             UserProfile user = list.get(0);
             Article article = (Article) session.get(Article.class, articleId);
             article.addLike(user);
             session.flush();
             t.commit();
+            LogService.getLogger().info("UserService, addLike :- ",
+                        "like added, userName :- "+userName
+                        +", articleId :- "+articleId);
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -234,13 +297,22 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, removeLike :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return false;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, removeLike :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return false;
+            }
             UserProfile user = list.get(0);
             Article article = (Article) session.get(Article.class, articleId);
             article.removeLike(user);
             session.flush();
             t.commit();
+            LogService.getLogger().info("UserService, removeLike :- ",
+                        "like removed, userName :- "+userName+", articleId :- "+articleId);
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -258,8 +330,15 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, setFavoriteTags :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return false;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, setFavoriteTags :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return false;
+            }
             UserProfile user = list.get(0);
             
             // logic
@@ -284,6 +363,8 @@ public class UserService {
             });
             session.flush();
             t.commit();
+            LogService.getLogger().info("UserService, setFavoriteTags :- ",
+                        "favorite tags updated, userName :- "+userName);
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -301,9 +382,19 @@ public class UserService {
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
-            if(list.size()!=1)
+            if(list.size()<1){
+                LogService.getLogger().warn("UserService, getFavoriteTags :- ",
+                          "UserProfile not found, userName :- "+userName);
                 return null;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("UserService, getFavoriteTags :- ",
+                          "multiple UserProfile found, userName :- "+userName);
+                return null;
+            }
             UserProfile user = list.get(0);
+            LogService.getLogger().info("UserService, setFavoriteTags :- ",
+                        "userName :- "+userName+", number of favorite tags :- "
+                        +user.getFavoriteTag().size());
             return user.getFavoriteTag().stream()
                       .map(Util::makeTagDetail)
                       .toArray(TagDetail[]::new);

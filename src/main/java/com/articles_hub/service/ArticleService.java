@@ -65,6 +65,13 @@ public class ArticleService {
         Transaction t=session.beginTransaction();
         try{
             Article article=(Article) session.get(Article.class, articleId);
+            if(article==null){
+                LogService.getLogger().warn("ArticleService, getArticleDetail :- ",
+                      "article not found, articleId :- "+articleId);
+                return null;
+            }
+            LogService.getLogger().info("ArticleService, getArticleDetail :- ",
+                      "articleId :- "+article.getArticleId());
             return Util.makeArticleDetail(article);
         }catch(Exception ex){
             ex.printStackTrace();
@@ -75,26 +82,35 @@ public class ArticleService {
         return null;
     }
     
-    public boolean addArticle(ArticleDetail articleDetail){
+    public long addArticle(ArticleDetail articleDetail){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(articleDetail==null)
-                return false;
+            if(articleDetail==null){
+                LogService.getLogger().warn("ArticleService, addArticle :- ",
+                          "Null reference articleDetail");
+                return -1;
+            }
             Article article=Util.makeArticle(articleDetail);
             session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", articleDetail.getAuthor());
             List<UserProfile> list = q.list();
 //            System.out.println("check 5 - "+articleDetail.getAuthor());
-            if(list.size()!=1)
-                return false;
+            if(list.size()!=1){
+                LogService.getLogger().warn("ArticleService, addArticle :- ",
+                            "Invalid UserProfile, number of UserProfile found :- "
+                            +list.size());
+                return -1;
+            }
             addTags(article, articleDetail);
 //            session.save(article);
             list.get(0).addArticle(article);
             session.flush();
             t.commit();
-            return true;
+            LogService.getLogger().info("ArticleService, addArticle :- ",
+                      "Article Created, articleId :- "+article.getArticleId());
+            return article.getArticleId();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -103,26 +119,35 @@ public class ArticleService {
 //            if(session!=null)
 //                session.flush();
         }
-        return false;
+        return -1;
     }
     
     public boolean updateArticle(ArticleDetail articleDetail){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            if(articleDetail==null)
+            if(articleDetail==null){
+                LogService.getLogger().warn("ArticleService, updateArticle :- ",
+                          "Null reference articleDetail");
                 return false;
+            }
 //            System.out.println("check 1");
             session.setFlushMode(FlushModeType.AUTO);
             Article article=session.get(Article.class, articleDetail.getArticleId());
-            if(article==null)
+            if(article==null){
+                LogService.getLogger().warn("ArticleService, updateArticle :- ",
+                            "article not found, articleId :- "
+                            +articleDetail.getArticleId());
                 return false;
+            }
             article.setTitle(articleDetail.getTitle());
             article.getArticleContent().clear();
             article.getArticleContent().addAll(articleDetail.getContent());
             addTags(article, articleDetail);
             session.flush();
             t.commit();
+            LogService.getLogger().info("ArticleService, updateArticle :- ",
+                      "article updated, aricleId :- "+article.getArticleId());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -140,8 +165,14 @@ public class ArticleService {
         Transaction t=session.beginTransaction();
         try{
             Article article=(Article) session.get(Article.class, articleId);
-            if(article==null)
+            if(article==null){
+                LogService.getLogger().warn("ArticleService, getAllComments :- ",
+                            "article not found, articleId :- "+articleId);
                 return null;
+            }
+            LogService.getLogger().info("ArticleService, getAllComments :- ",
+                        "articleId :- "+article.getArticleId()
+                        +", number of comments :- "+article.getComments().size());
             return article.getComments().stream()
                       .map(Util::makeCommentDetail)
                       .toArray(CommentDetail[]::new);
@@ -159,8 +190,14 @@ public class ArticleService {
         Transaction t=session.beginTransaction();
         try{
             Article article=(Article) session.get(Article.class, articleId);
-            if(article==null)
+            if(article==null){
+                LogService.getLogger().warn("ArticleService, getAllLikes :- ",
+                            "article not found, articleId :- "+articleId);
                 return null;
+            }
+            LogService.getLogger().info("ArticleService, getAllLikes :- ",
+                        "articleId :- "+article.getArticleId()
+                        +", number of Likes :- "+article.getLikes().size());
             return article.getLikes().stream()
                       .map(Util::makeShortUserDetail)
                       .toArray(ShortUserDetail[]::new);
@@ -179,9 +216,14 @@ public class ArticleService {
         try{
             session.setFlushMode(FlushModeType.AUTO);
             Article article=(Article) session.get(Article.class, articleId);
-            if(article==null)
+            if(article==null){
+                LogService.getLogger().warn("ArticleService, removeArticleDetail :- ",
+                            "article not found, articleId :- "+articleId);
                 return false;
+            }
             session.delete(article);
+            LogService.getLogger().info("ArticleService, removeArticleDetail :- ",
+                        "article removed, articleId :- "+article.getArticleId());
             return true;
         }catch(Exception ex){
             ex.printStackTrace();

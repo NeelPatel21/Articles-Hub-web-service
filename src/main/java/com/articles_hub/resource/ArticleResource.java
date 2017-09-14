@@ -30,6 +30,7 @@ import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortUserDetail;
 import com.articles_hub.providers.Secured;
 import com.articles_hub.service.ArticleService;
+import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -104,11 +105,15 @@ public class ArticleResource {
 //secure
     @POST
     @Secured
-    public Response createArticleDetail(ArticleDetail article, @Context SecurityContext secure){
+    public Response createArticleDetail(ArticleDetail article,
+              @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(article.getAuthor()))
             return Response.status(Response.Status.BAD_REQUEST).build();
-        if(service.addArticle(article))
-            return Response.status(Response.Status.CREATED).build();
+        long id=service.addArticle(article);
+        if(id>=0)
+            return Response.created(URI.create(service.getArticleDetail(id)
+                      .getLinks().stream().filter(x->x.getName()
+                      .equalsIgnoreCase("self")).findAny().get().getUrl())).build();
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
     

@@ -34,6 +34,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -74,10 +75,12 @@ public class AuthenticationResource {
     
     @DELETE
     @Path("/{userName}")
-    public void logout(@HeaderParam("token") String token, @PathParam("userName") String userName){
+    public Response logout(@HeaderParam("token") String token, @PathParam("userName") String userName){
         if(!service.getUserName(token).equals(userName))
-            return;
-        service.userLogout(token);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        if(service.userLogout(token))
+            return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
     
 }
