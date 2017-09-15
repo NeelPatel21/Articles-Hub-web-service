@@ -34,7 +34,7 @@ import com.articles_hub.model.Util;
 import java.util.List;
 //import javax.persistence.Query;
 import javax.persistence.FlushModeType;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 //import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

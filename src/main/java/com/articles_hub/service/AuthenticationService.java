@@ -28,7 +28,7 @@ import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.database.beans.UserToken;
 import java.util.List;
 import javax.persistence.FlushModeType;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 //import org.hibernate.resource.transaction.spi.TransactionStatus;

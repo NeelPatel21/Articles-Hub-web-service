@@ -31,7 +31,7 @@ import com.articles_hub.model.TagDetail;
 import com.articles_hub.model.Util;
 import java.util.List;
 import javax.persistence.FlushModeType;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 //import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -116,6 +116,32 @@ public class TagService {
             Query q= session.createNamedQuery("Article.byTag");
 //            System.out.println("scsacacawcacsc afffafwfafafafw"+tags[0]);
             q.setParameterList("tags",tags);
+            List<Article> list = q.list();
+//            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
+            LogService.getLogger().info("TagService, getAllArticles :- ",
+                      "number of articles :- "+list.size());
+            return list.stream()
+//                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
+                      .map(Util::makeShortArticleDetail)
+                      .toArray(ShortArticleDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return null;
+    }
+    
+    public ShortArticleDetail[] getArticles(int first, int size, String ... tags){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.createNamedQuery("Article.byTag");
+//            System.out.println("scsacacawcacsc afffafwfafafafw"+tags[0]);
+            q.setParameterList("tags",tags);
+            q.setFirstResult(first);
+            q.setMaxResults(size);
             List<Article> list = q.list();
 //            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
             LogService.getLogger().info("TagService, getAllArticles :- ",

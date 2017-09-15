@@ -1,0 +1,152 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2017 Neel Patel.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+package com.articles_hub.service;
+
+import com.articles_hub.database.DataBase;
+import com.articles_hub.database.beans.Article;
+import com.articles_hub.database.beans.Tag;
+import com.articles_hub.model.ShortArticleDetail;
+import com.articles_hub.model.Util;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+/**
+ *
+ * @author Neel Patel
+ */
+public class HomeService {
+    private static HomeService obj;
+    private List<Long> articleIds;
+    private int FATCH_SIZE=100;
+    private int LIST_SIZE=10;
+    private int REFRESH_DELAY_SECONDS=300;
+    private ScheduledExecutorService executor;
+    
+    public static HomeService getHomeService(){
+        if(obj==null)
+        synchronized(HomeService.class){
+            if(obj==null)
+                obj=new HomeService();
+        }    
+        return obj;
+    }
+    
+    private DataBase db;
+    
+    private HomeService(){
+        db=DataBase.getDataBase();
+//        System.err.println("user service initialized");
+        refresh();
+        executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleWithFixedDelay(this::refresh,
+                REFRESH_DELAY_SECONDS, REFRESH_DELAY_SECONDS, TimeUnit.SECONDS);
+    }
+    
+    private void refresh(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            List<Tag> tags = session.createCriteria(Tag.class).list();
+            Collections.shuffle(tags);
+            List<Long> articleIds = Arrays.stream(TagService.getTagService()
+                        .getArticles(0, FATCH_SIZE,tags.parallelStream()
+                        .map(x->x.getTagName()).unordered()
+                        .toArray(String[]::new)))
+                        .parallel()
+                        .map(x->x.getArticleId()).collect(Collectors.toList());
+            if(articleIds.size()>0){
+                LogService.getLogger().info("HomeService, getArticles :- ",
+                        "number of articleIds :- "+articleIds.size());
+                this.articleIds=Collections.unmodifiableList(articleIds);
+            }else{
+                LogService.getLogger().warn("HomeService, getArticles :- ",
+                        "list not updated, List of articleId :- "+articleIds);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+    }
+    
+    public ShortArticleDetail[] getArticles(){
+        List<Long> articleIds;
+        try{
+            for(articleIds = this.articleIds; articleIds==null;
+                      articleIds = this.articleIds);
+            articleIds = new ArrayList<>(articleIds);
+            Collections.shuffle(articleIds);
+            LogService.getLogger().info("HomeService, getArticles :- ",
+                      "number of articleIds :- "+articleIds.size());
+            return articleIds.parallelStream()
+                      .unordered()
+                      .map(x->getShortArticleDetail(x))
+                      .filter(x->x!=null)
+                      .limit(LIST_SIZE)
+                      .toArray(ShortArticleDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    private ShortArticleDetail getShortArticleDetail(long articleId){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Article article=(Article) session.get(Article.class, articleId);
+            if(article==null){
+                LogService.getLogger().warn("HomeService, getShortArticleDetail :- ",
+                      "article not found, articleId :- "+articleId);
+                return null;
+            }
+//            LogService.getLogger().info("HomeService, getShortArticleDetail :- ",
+//                      "articleId :- "+article.getArticleId());
+            return Util.makeShortArticleDetail(article);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return null;
+    }
+    
+    @Override
+    public void finalize()throws Throwable{
+        executor.shutdownNow();
+        super.finalize();
+    }
+    
+}

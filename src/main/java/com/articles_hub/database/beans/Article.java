@@ -52,7 +52,8 @@ import org.hibernate.annotations.NamedQuery;
  */
 @Entity
 @NamedQuery(name = "Article.byTag",
-          query = "select distinct a from Article a inner join a.tags t where t.tagName in (:tags)")
+          query = "select distinct a from Article a inner join "
+                    +"a.tags t where t.tagName in (:tags) order by a.articleId desc")
 //    @NamedQuery(name = "Article.byTag",
 //          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
 //})

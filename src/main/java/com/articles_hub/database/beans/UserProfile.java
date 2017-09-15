@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-//import org.hibernate.annotations.NamedQuery;
 
 /**
  *
@@ -96,7 +95,7 @@ public class UserProfile {
        able to used with database as the userId is auto-generated field.
      * @param id userId
      */
-    public UserProfile(long id){
+    public UserProfile(long id) {
         this.userId=id;
     }
 

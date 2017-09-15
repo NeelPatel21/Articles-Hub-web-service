@@ -35,7 +35,7 @@ import com.articles_hub.model.Util;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.FlushModeType;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 //import org.hibernate.resource.transaction.spi.TransactionStatus;
@@ -106,7 +106,7 @@ public class UserService {
             session.save(Util.makeUserProfile(user));
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, addUser",
+            LogService.getLogger().info("UserService, addUser :- ",
                       "userName :- "+user.getUserName());
             return true;
         }catch(Exception ex){

@@ -58,7 +58,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private UserProfile author; //foreign key :- UserProfile(userId)
     
-    @Column(name = "comment_data", length = 2000)
+    @Column(name = "comment_data", length = 2000, nullable = false)
     private String commentBody;
     
     @Column(name = "comment_date")
