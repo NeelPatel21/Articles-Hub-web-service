@@ -32,7 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 public class ShortUserDetail {
     private String userName;
-    private String emailId;
+    private String firstName;
+    private String lastName;
+//    private String emailId;
     private String link;
     
     public String getUserName() {
@@ -43,13 +45,31 @@ public class ShortUserDetail {
         this.userName = userName;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    
+
+//    public String getEmailId() {
+//        return emailId;
+//    }
+//
+//    public void setEmailId(String emailId) {
+//        this.emailId = emailId;
+//    }
 
     public String getLink() {
         return link;

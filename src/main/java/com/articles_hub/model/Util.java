@@ -44,6 +44,8 @@ public class Util {
                 return null;
             UserDetail userDetail=new UserDetail();
             userDetail.setUserName(user.getUserName());
+            userDetail.setFirstName(user.getFirstName());
+            userDetail.setLastName(user.getLastName());
             userDetail.setInfo(user.getInfo());
             userDetail.setEmailId(user.getEmailId());
             return userDetail;
@@ -59,7 +61,9 @@ public class Util {
                 return null;
             ShortUserDetail userDetail=new ShortUserDetail();
             userDetail.setUserName(user.getUserName());
-            userDetail.setEmailId(user.getEmailId());
+            userDetail.setFirstName(user.getFirstName());
+            userDetail.setLastName(user.getLastName());
+//            userDetail.setEmailId(user.getEmailId());
             return userDetail;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -73,6 +77,8 @@ public class Util {
                 return null;
             UserProfile userProfile=new UserProfile();
             userProfile.setUserName(user.getUserName());
+            userProfile.setFirstName(user.getFirstName());
+            userProfile.setLastName(user.getLastName());
             userProfile.setInfo(user.getInfo());
             userProfile.setEmailId(user.getEmailId());
             userProfile.setPass(user.getPass());

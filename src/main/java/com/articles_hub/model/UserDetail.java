@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 public class UserDetail {
     private String userName;
+    private String firstName;
+    private String lastName;
     private String info;
     private String emailId;
     private String pass;
@@ -45,6 +47,22 @@ public class UserDetail {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getInfo() {

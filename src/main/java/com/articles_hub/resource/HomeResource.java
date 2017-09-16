@@ -23,7 +23,6 @@
  */
 package com.articles_hub.resource;
 
-import com.articles_hub.model.CommentDetail;
 import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortArticleDetail;
 import com.articles_hub.providers.Secured;
@@ -74,7 +73,7 @@ public class HomeResource {
     @Path("/{userName}")
     @Secured
 //    @Produces(MediaType.APPLICATION_XML)
-    public ShortArticleDetail[] getAllComments(@PathParam("userName") String userName,
+    public ShortArticleDetail[] getPersonalList(@PathParam("userName") String userName,
               @Context SecurityContext secure){
         if(!secure.getUserPrincipal().getName().equals(userName))
             return null;
