@@ -46,11 +46,11 @@ import org.hibernate.Transaction;
  */
 public class HomeService {
     private static HomeService obj;
-    private List<Long> articleIds;
-    private int FATCH_SIZE=100;
-    private int LIST_SIZE=10;
-    private int REFRESH_DELAY_SECONDS=300;
-    private ScheduledExecutorService executor;
+    private List<Long> articleIds=Collections.emptyList();
+    private final int FATCH_SIZE=100;
+    private final int LIST_SIZE=10;
+    private final int REFRESH_DELAY_SECONDS=300;
+    private final ScheduledExecutorService executor;
     
     public static HomeService getHomeService(){
         if(obj==null)
@@ -72,38 +72,10 @@ public class HomeService {
                 REFRESH_DELAY_SECONDS, REFRESH_DELAY_SECONDS, TimeUnit.SECONDS);
     }
     
-    private void refresh(){
-        Session session=db.getSession();
-        Transaction t=session.beginTransaction();
-        try{
-            List<Tag> tags = session.createCriteria(Tag.class).list();
-            Collections.shuffle(tags);
-            List<Long> articleIds = Arrays.stream(TagService.getTagService()
-                        .getArticles(0, FATCH_SIZE,tags.parallelStream()
-                        .map(x->x.getTagName()).unordered()
-                        .toArray(String[]::new)))
-                        .parallel()
-                        .map(x->x.getArticleId()).collect(Collectors.toList());
-            if(articleIds.size()>0){
-                LogService.getLogger().info("HomeService, getArticles :- ",
-                        "number of articleIds :- "+articleIds.size());
-                this.articleIds=Collections.unmodifiableList(articleIds);
-            }else{
-                LogService.getLogger().warn("HomeService, getArticles :- ",
-                        "list not updated, List of articleId :- "+articleIds);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
-                t.commit();
-        }
-    }
-    
     public ShortArticleDetail[] getArticles(){
         List<Long> articleIds;
         try{
-            for(articleIds = this.articleIds; articleIds==null;
+            for(articleIds = this.articleIds; articleIds == null;
                       articleIds = this.articleIds);
             articleIds = new ArrayList<>(articleIds);
             Collections.shuffle(articleIds);
@@ -120,6 +92,83 @@ public class HomeService {
         }
         return null;
     }
+    
+    public ShortArticleDetail[] getArticles(String userName){
+        List<Long> articleIds;
+        try{
+            articleIds = getArticleIds(Arrays.asList(UserService.getUserService()
+                            .getFavoriteTags(userName)).stream()
+                            .map(x->x.getTagName()).toArray(String[]::new));
+            articleIds = new ArrayList<>(articleIds);
+//            Collections.shuffle(articleIds);
+            LogService.getLogger().info("HomeService, getArticles :- ",
+                        "userName :- "+userName+", number of articleIds :- "
+                        +articleIds.size());
+            return articleIds.parallelStream()
+                      .unordered()
+                      .map(x->getShortArticleDetail(x))
+                      .filter(x->x!=null)
+                      .limit(LIST_SIZE)
+                      .toArray(ShortArticleDetail[]::new);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    private void refresh(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            List<Tag> tags = session.createCriteria(Tag.class).list();
+            List<Long> articleIds=getArticleIds(tags.stream()
+                      .map(x->x.getTagName()).toArray(String[]::new));
+            if(articleIds!=null&&articleIds.size()>0){
+                this.articleIds=Collections.unmodifiableList(articleIds);
+                LogService.getLogger().info("HomeService, refresh :- ",
+                        "default list updated, number of articleIds :- "
+                        +articleIds.size());
+            }else{
+                LogService.getLogger().warn("HomeService, refresh :- ",
+                        "default list not updated, list of articleIds :- "
+                        +articleIds);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+    }
+    
+    private List<Long> getArticleIds(String ... tags){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+//            List<String> tagNames = Arrays.asList(tags);
+            Collections.shuffle(Arrays.asList(tags));
+            List<Long> articleIds = Arrays.stream(TagService.getTagService()
+                        .getArticles(0, FATCH_SIZE,tags))
+                        .parallel()
+                        .map(x->x.getArticleId()).collect(Collectors.toList());
+            if(articleIds!=null){
+                LogService.getLogger().info("HomeService, getArticleIds :- ",
+                        "number of articleIds :- "+articleIds.size());
+                Collections.shuffle(articleIds);
+                return articleIds;
+            }else{
+                LogService.getLogger().warn("HomeService, getArticleIds :- ",
+                        "list not updated, List of articleId :- "+articleIds);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return null;
+    }
+    
     
     private ShortArticleDetail getShortArticleDetail(long articleId){
         Session session=db.getSession();

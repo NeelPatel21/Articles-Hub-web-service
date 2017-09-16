@@ -23,14 +23,19 @@
  */
 package com.articles_hub.resource;
 
+import com.articles_hub.model.CommentDetail;
+import com.articles_hub.model.LinkMaker;
 import com.articles_hub.model.ShortArticleDetail;
+import com.articles_hub.providers.Secured;
 import com.articles_hub.service.HomeService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -60,10 +65,22 @@ public class HomeResource {
     @Path("")
 //    @Produces(MediaType.APPLICATION_XML)
     public ShortArticleDetail[] getDefaultList(){
-//        UserDetail user=service.getUserDetail(userName);
-//        LinkMaker.popLinks(urif,user);
-        return service.getArticles();
+        ShortArticleDetail ar[]=service.getArticles();
+        LinkMaker.popLinks(urif,ar);
+        return ar;
     }
     
+    @GET
+    @Path("/{userName}")
+    @Secured
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getAllComments(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
+        ShortArticleDetail ar[]=service.getArticles(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
+    }
     
 }
