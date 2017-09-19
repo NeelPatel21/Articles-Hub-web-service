@@ -24,6 +24,7 @@
 
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
+        <!--<url-pattern>/</url-pattern>-->
         <url-pattern>*.jsp</url-pattern>
         <url-pattern>*.jspf</url-pattern>
         <url-pattern>*.jspx</url-pattern>
@@ -34,6 +35,15 @@
         <url-pattern>*.XSP</url-pattern>
     </servlet-mapping>
     
+    
+    <servlet>
+        <servlet-name>invalid url</servlet-name>
+        <servlet-class>com.articles_hub.admin.InvalidUrl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>invalid url</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
     
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
