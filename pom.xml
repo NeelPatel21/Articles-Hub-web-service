@@ -38,7 +38,30 @@
             <scope>provided</scope>
         </dependency> -->
 
+        <!--jsp support--> 
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <version>${jetty.version}</version>
+            <!--<version>9.2.11.v20150529</version>-->
+        </dependency>
+        <!-- Jetty Dependencies end here -->
+
+        <!--Jetty Apache JSP dependency  -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>apache-jsp</artifactId>
+            <version>${jetty.version}</version>
+            <!--<version>9.2.11.v20150529</version>-->
+        </dependency>
         
+        <!-- JSTL Dependency -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+                
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
