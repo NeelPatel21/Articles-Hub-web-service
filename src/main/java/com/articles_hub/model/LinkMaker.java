@@ -50,6 +50,8 @@ public class LinkMaker {
     }
     
     public static void popLinks(UriInfo urif,ArticleDetail articleDetail){
+        if(urif==null|| articleDetail==null)
+            return;
         Link self=new Link("self",urif.getBaseUri()+"article/"
                   +articleDetail.getArticleId());
         Link comments=new Link("comments",self.getUrl()+"/comments");
@@ -63,6 +65,8 @@ public class LinkMaker {
     }
     
     public static void popLinks(UriInfo urif,UserDetail userDetail){
+        if(urif==null|| userDetail==null)
+            return;
         Link self=new Link("self",urif.getBaseUri()+"user/"
                   +userDetail.getUserName());
         Link articles=new Link("articles",self.getUrl()+"/articles");
@@ -75,6 +79,8 @@ public class LinkMaker {
     }
     
     public static void popLinks(UriInfo urif,CommentDetail commentDetail){
+        if(urif==null|| commentDetail==null)
+            return;
         Link self=new Link("self",urif.getBaseUri()+"comment/"
                   +commentDetail.getCommentId());
         Link article=new Link("article",urif.getBaseUri()+"article/"
@@ -87,6 +93,8 @@ public class LinkMaker {
     }
     
     public static void popLinks(UriInfo urif,TagDetail tagDetail){
+        if(urif==null|| tagDetail==null)
+            return;
         Link self=new Link("self",urif.getBaseUri()+"tag/"
                   +tagDetail.getTagName());
         Link articles=new Link("articles",self.getUrl()+"/articles");
@@ -95,11 +103,15 @@ public class LinkMaker {
     }
     
     public static void popLinks(UriInfo urif,ShortArticleDetail articleDetail){
+        if(urif==null|| articleDetail==null)
+            return;
         articleDetail.setLink(urif.getBaseUri()+"article/"
                   +articleDetail.getArticleId());
     }
     
     public static void popLinks(UriInfo urif,ShortUserDetail userDetail){
+        if(urif==null|| userDetail==null)
+            return;
         userDetail.setLink(urif.getBaseUri()+"user/"
                   +userDetail.getUserName());
     }
