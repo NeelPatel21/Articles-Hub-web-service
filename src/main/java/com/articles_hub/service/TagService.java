@@ -26,9 +26,9 @@ package com.articles_hub.service;
 import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Tag;
-import com.articles_hub.model.ShortArticleDetail;
-import com.articles_hub.model.TagDetail;
-import com.articles_hub.model.Util;
+import com.articles_hub.api.model.ShortArticleDetail;
+import com.articles_hub.api.model.TagDetail;
+import com.articles_hub.api.model.Util;
 import java.util.List;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
@@ -157,6 +157,52 @@ public class TagService {
                 t.commit();
         }
         return null;
+    }
+
+    public boolean removeTag(String tagName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            session.setFlushMode(FlushModeType.AUTO);
+            Query q= session.getNamedQuery("Tag.byName");
+            q.setParameter("name", tagName);
+            List<Tag> list = q.list();
+            if(list.size()<1){
+                LogService.getLogger().warn("TagService, removeTagDetail :- ",
+                          "tag not found, tagName :- "+tagName);
+                return false;
+            }else if(list.size()>1){
+                LogService.getLogger().warn("TagService, removeTagDetail :- ",
+                          "multiple tag found, tagName :- "+tagName);
+            }
+            list.forEach(tag->{
+                try{
+                    Query q1= session.createNamedQuery("Article.byTag");
+                    q1.setParameterList("tags",new String[]{tag.getTagName()});
+                    List<Article> list1 = q1.list();
+                    list1.forEach(article->{
+                        article.getTags().remove(tag);
+                    });
+//                    LogService.getLogger().info("TagService, getAllArticles :- ",
+//                              "number of articles :- "+list.size());
+//                    return list.stream()
+//                              .map(Util::makeShortArticleDetail)
+//                              .toArray(ShortArticleDetail[]::new);
+                    session.delete(tag);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            });
+            LogService.getLogger().info("TagService, removeTagDetail :- ",
+                      "tag removed successfully, tagName :- "+tagName);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
     }
     
 }

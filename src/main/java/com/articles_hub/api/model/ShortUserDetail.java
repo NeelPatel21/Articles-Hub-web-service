@@ -21,22 +21,62 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.providers;
+package com.articles_hub.api.model;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.Target;
-import javax.ws.rs.NameBinding;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Neel Patel
  */
-@NameBinding
-@Retention(RUNTIME)
-@Target({TYPE, METHOD})
-public @interface Secured {
+@XmlRootElement(name = "user")
+public class ShortUserDetail {
+    private String userName;
+    private String firstName;
+    private String lastName;
+//    private String emailId;
+    private String link;
+    
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    
+
+//    public String getEmailId() {
+//        return emailId;
+//    }
+//
+//    public void setEmailId(String emailId) {
+//        this.emailId = emailId;
+//    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
     
 }

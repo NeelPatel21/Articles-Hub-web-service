@@ -24,12 +24,12 @@
 package com.articles_hub.application;
 
 //import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.articles_hub.providers.AuthenticationFilter;
-import com.articles_hub.resource.ArticleResource;
-import com.articles_hub.resource.AuthenticationResource;
-import com.articles_hub.resource.CommentResource;
-import com.articles_hub.resource.TagResource;
-import com.articles_hub.resource.UserResource;
+import com.articles_hub.api.providers.AuthenticationFilter;
+import com.articles_hub.api.resource.ArticleResource;
+import com.articles_hub.api.resource.AuthenticationResource;
+import com.articles_hub.api.resource.CommentResource;
+import com.articles_hub.api.resource.TagResource;
+import com.articles_hub.api.resource.UserResource;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -44,8 +44,10 @@ public class RestApplication extends Application {
     private Set<Class<?>> resource=new HashSet<>();
     private Map<String,Object> pro=new HashMap<>();
     public RestApplication() {
+        if(!(System.getProperty("hibernate.connection.url")!=null&&!System.getProperty("hibernate.connection.url").trim().equals("")))
+        	System.setProperty("hibernate.connection.url", System.getenv("hibernate.connection.url"));
         
-        System.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/Articles_Hub");     
+//        System.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/Articles_Hub");     
     }
 
 //    @Override

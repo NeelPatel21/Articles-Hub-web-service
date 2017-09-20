@@ -21,25 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model.xml_adapter;
+package com.articles_hub.api.model;
 
-import java.time.LocalDate;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Neel Patel
  */
-public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDate> {
+@XmlRootElement
+public class Link {
+    private String name;
+    private String url;
+
+    public Link(){}
     
-    @Override
-    public LocalDate unmarshal(String v) throws Exception {
-        return LocalDate.parse(v);
+    public Link(String name,String url){
+        this.name=name;
+        this.url=url;
+    }
+    
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public String marshal(LocalDate v) throws Exception {
-        return v.toString();
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
     
 }

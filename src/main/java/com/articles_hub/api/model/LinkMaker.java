@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model;
 
 import javax.ws.rs.core.UriInfo;
 

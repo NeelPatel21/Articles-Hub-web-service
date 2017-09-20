@@ -21,15 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.resource;
+package com.articles_hub.api.resource;
 
 
-import com.articles_hub.model.CommentDetail;
-import com.articles_hub.model.LinkMaker;
-import com.articles_hub.model.ShortArticleDetail;
-import com.articles_hub.model.TagDetail;
-import com.articles_hub.model.UserDetail;
-import com.articles_hub.providers.Secured;
+import com.articles_hub.api.model.CommentDetail;
+import com.articles_hub.api.model.LinkMaker;
+import com.articles_hub.api.model.ShortArticleDetail;
+import com.articles_hub.api.model.TagDetail;
+import com.articles_hub.api.model.UserDetail;
+import com.articles_hub.api.providers.Secured;
 import com.articles_hub.service.UserService;
 import java.net.URI;
 import javax.ws.rs.Consumes;

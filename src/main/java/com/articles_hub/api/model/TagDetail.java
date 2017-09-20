@@ -21,40 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Neel Patel
  */
-@XmlRootElement
-public class Link {
-    private String name;
-    private String url;
+@XmlRootElement(name = "tag")
+public class TagDetail {
+    private String tagName;
+    private List<Link> links=new ArrayList<>();
 
-    public Link(){}
-    
-    public Link(String name,String url){
-        this.name=name;
-        this.url=url;
-    }
-    
-    public String getName() {
-        return name;
+    public String getTagName() {
+        return tagName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getUrl() {
-        return url;
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public List<Link> getLinks() {
+        return links;
     }
+    
     
 }

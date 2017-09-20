@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model;
 
-import com.articles_hub.model.xml_adapter.LocalDateXmlAdapter;
-import com.articles_hub.model.xml_adapter.LocalTimeXmlAdapter;
+import com.articles_hub.api.model.xml_adapter.LocalDateXmlAdapter;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -36,24 +35,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Neel Patel
  */
-@XmlRootElement(name = "comment")
-public class CommentDetail {
-    private long commentId;
+@XmlRootElement(name = "article")
+public class ArticleDetail {
     private long articleId;
-    private String userName;
-    private String content;
+    private String title;
+    private String author;
     private LocalDate date;
-    private LocalTime time;
-    private List<Link> links=new ArrayList<>();
-
-    
-    public long getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
-    }
+    private List<String> content;
+    private Set<String> tag;
+    private List<Link> links = new ArrayList<>();
 
     public long getArticleId() {
         return articleId;
@@ -63,24 +53,12 @@ public class CommentDetail {
         this.articleId = articleId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public List<Link> getLinks() {
-        return links;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @XmlJavaTypeAdapter(value = LocalDateXmlAdapter.class)
@@ -92,14 +70,32 @@ public class CommentDetail {
         this.date = date;
     }
 
-    @XmlJavaTypeAdapter(value = LocalTimeXmlAdapter.class)
-    public LocalTime getTime() {
-        return time;
+    public List<String> getContent() {
+        return content;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setContent(List<String> content) {
+        this.content = content;
     }
-    
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public Set<String> getTag() {
+        return tag;
+    }
+
+    public void setTag(Set<String> tag) {
+        this.tag = tag;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
     
 }

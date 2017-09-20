@@ -21,32 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model.xml_adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDate;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  *
  * @author Neel Patel
  */
-@XmlRootElement(name = "tag")
-public class TagDetail {
-    private String tagName;
-    private List<Link> links=new ArrayList<>();
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
+public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDate> {
     
+    @Override
+    public LocalDate unmarshal(String v) throws Exception {
+        return LocalDate.parse(v);
+    }
+
+    @Override
+    public String marshal(LocalDate v) throws Exception {
+        return v.toString();
+    }
     
 }

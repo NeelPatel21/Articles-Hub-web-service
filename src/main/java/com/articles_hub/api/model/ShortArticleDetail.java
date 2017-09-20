@@ -21,76 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.articles_hub.api.model.xml_adapter.LocalDateXmlAdapter;
+import java.time.LocalDate;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
  * @author Neel Patel
  */
-@XmlRootElement(name = "user")
-public class UserDetail {
-    private String userName;
-    private String firstName;
-    private String lastName;
-    private String info;
-    private String emailId;
-    private String pass;
-    private List<Link> links=new ArrayList<>();
-
-    public String getUserName() {
-        return userName;
+@XmlRootElement(name = "article")
+public class ShortArticleDetail {
+    private long articleId;
+    private String title;
+    private String author;
+    private LocalDate date;
+    private String link;
+    
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getLastName() {
-        return lastName;
+    @XmlJavaTypeAdapter(value = LocalDateXmlAdapter.class)
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public String getInfo() {
-        return info;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getLink() {
+        return link;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setLink(String link) {
+        this.link = link;
     }
     
 }

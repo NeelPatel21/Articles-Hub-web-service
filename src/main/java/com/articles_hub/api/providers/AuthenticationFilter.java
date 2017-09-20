@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.providers;
+package com.articles_hub.api.providers;
 
 import com.articles_hub.service.AuthenticationService;
 import java.io.IOException;

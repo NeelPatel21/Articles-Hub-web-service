@@ -21,25 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model.xml_adapter;
+package com.articles_hub.api.providers;
 
-import java.time.LocalTime;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import java.lang.annotation.Target;
+import javax.ws.rs.NameBinding;
 
 /**
  *
  * @author Neel Patel
  */
-public class LocalTimeXmlAdapter extends XmlAdapter<String, LocalTime> {
-    
-    @Override
-    public LocalTime unmarshal(String v) throws Exception {
-        return LocalTime.parse(v);
-    }
-
-    @Override
-    public String marshal(LocalTime v) throws Exception {
-        return v.toString();
-    }
+@NameBinding
+@Retention(RUNTIME)
+@Target({TYPE, METHOD})
+public @interface Secured {
     
 }

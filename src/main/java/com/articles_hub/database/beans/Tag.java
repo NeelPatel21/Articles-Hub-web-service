@@ -23,6 +23,7 @@
  */
 package com.articles_hub.database.beans;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -78,6 +79,22 @@ public class Tag {
     public void setTagName(String tagName) {
         this.tagName = tagName;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Tag){
+            Tag o=(Tag)obj;
+            return o.tagName.equals(this.tagName);
+        }
+        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.tagName);
+        return hash;
+    }
+
     
 }

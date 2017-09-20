@@ -21,62 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.model;
+package com.articles_hub.api.model.xml_adapter;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalTime;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  *
  * @author Neel Patel
  */
-@XmlRootElement(name = "user")
-public class ShortUserDetail {
-    private String userName;
-    private String firstName;
-    private String lastName;
-//    private String emailId;
-    private String link;
+public class LocalTimeXmlAdapter extends XmlAdapter<String, LocalTime> {
     
-    public String getUserName() {
-        return userName;
+    @Override
+    public LocalTime unmarshal(String v) throws Exception {
+        return LocalTime.parse(v);
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    
-
-//    public String getEmailId() {
-//        return emailId;
-//    }
-//
-//    public void setEmailId(String emailId) {
-//        this.emailId = emailId;
-//    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
+    @Override
+    public String marshal(LocalTime v) throws Exception {
+        return v.toString();
     }
     
 }

@@ -21,66 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.articles_hub.resource;
+package com.articles_hub.api.resource;
 
-
-import com.articles_hub.model.UserDetail;
-import com.articles_hub.service.AuthenticationService;
+import com.articles_hub.api.model.LinkMaker;
+import com.articles_hub.api.model.ShortArticleDetail;
+import com.articles_hub.api.providers.Secured;
+import com.articles_hub.service.HomeService;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
 /**
  *
  * @author Neel Patel
  */
-@Path("/authentication")
-//@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-public class AuthenticationResource {
+@Path("/home")
+@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+public class HomeResource {
+    private HomeService service;
     
-    private AuthenticationService service;
-    
-    public AuthenticationResource(){
+    public HomeResource(){
         try{
-            service=AuthenticationService.getAuthenticationService();
+            service=HomeService.getHomeService();
 //            System.out.println(" dccewcahcajhcabcjabcajcbac "+service);
         }catch(Exception ex){
             ex.printStackTrace();
         }
 //        System.out.println("user service request");
     }
-//    @GET
-//    public String getUserDetail(){
-//        return "service :- ";
-//    }
     
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/{userName}")
-    public String login(@PathParam("userName") String userName, UserDetail user){
-        if(!user.getUserName().equals(userName))
-            return null;
-//        System.out.println("check 1");
-        String s= service.userLogin(user.getUserName(), user.getPass());
-//        System.out.println("check 2 "+s);
-        return s;
+    @Context
+    private UriInfo urif;
+    
+    @GET
+    @Path("")
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getDefaultList(){
+        ShortArticleDetail ar[]=service.getArticles();
+        LinkMaker.popLinks(urif,ar);
+        return ar;
     }
     
-    @DELETE
+    @GET
     @Path("/{userName}")
-    public Response logout(@HeaderParam("token") String token, @PathParam("userName") String userName){
-        if(!service.getUserName(token).equals(userName))
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        if(service.userLogout(token))
-            return Response.status(Response.Status.OK).build();
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+    @Secured
+//    @Produces(MediaType.APPLICATION_XML)
+    public ShortArticleDetail[] getPersonalList(@PathParam("userName") String userName,
+              @Context SecurityContext secure){
+        if(!secure.getUserPrincipal().getName().equals(userName))
+            return null;
+        ShortArticleDetail ar[]=service.getArticles(userName);
+        LinkMaker.popLinks(urif, ar);
+        return ar;
     }
     
 }
