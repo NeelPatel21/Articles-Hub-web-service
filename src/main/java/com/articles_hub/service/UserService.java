@@ -140,6 +140,8 @@ public class UserService {
                 return false;
             }
             UserProfile userProfile=list.get(0);
+            userProfile.setFirstName(user.getFirstName());
+            userProfile.setLastName(user.getLastName());
             userProfile.setPass(user.getPass());
             userProfile.setInfo(user.getInfo());
             userProfile.setEmailId(user.getEmailId());
