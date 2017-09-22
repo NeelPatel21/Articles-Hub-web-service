@@ -23,12 +23,15 @@
  */
 package com.articles_hub.api.model;
 
+import com.articles_hub.database.beans.AdminProfile;
 import com.articles_hub.database.beans.Article;
 import com.articles_hub.database.beans.Comment;
+import com.articles_hub.database.beans.Person;
 import com.articles_hub.database.beans.Tag;
 import com.articles_hub.database.beans.UserProfile;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -38,16 +41,73 @@ import java.util.stream.Collectors;
 public class Util {
     private Util(){}
     
+    public static Person makePerson(PersonDetail personDetail,
+              Supplier<? extends Person> sup){
+        try{
+            if(personDetail==null)
+                return null;
+            Person perosn = sup==null?new Person():sup.get();
+            perosn.setUserName(personDetail.getUserName());
+            perosn.setFirstName(personDetail.getFirstName());
+            perosn.setLastName(personDetail.getLastName());
+            perosn.setEmailId(personDetail.getEmailId());
+            perosn.setPass(personDetail.getPass());
+            return perosn;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static PersonDetail makePersonDetail(Person person,
+              Supplier<? extends PersonDetail> sup){
+        try{
+            if(person==null)
+                return null;
+            PersonDetail personDetail = sup==null?new PersonDetail():sup.get();
+            personDetail.setUserName(person.getUserName());
+            personDetail.setFirstName(person.getFirstName());
+            personDetail.setLastName(person.getLastName());
+            personDetail.setEmailId(person.getEmailId());
+            return personDetail;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static AdminDetail makeAdminDetail(AdminProfile admin){
+        try{
+            if(admin==null)
+                return null;
+            AdminDetail adminDetail=(AdminDetail)makePersonDetail(admin, AdminDetail::new);
+            adminDetail.setInfo(admin.getInfo());
+            return adminDetail;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static AdminProfile makeAdminProfile(AdminDetail admin){
+        try{
+            if(admin==null)
+                return null;
+            AdminProfile adminProfile=(AdminProfile)makePerson(admin, AdminProfile::new);
+            adminProfile.setInfo(admin.getInfo());
+            return adminProfile;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
     public static UserDetail makeUserDetail(UserProfile user){
         try{
             if(user==null)
                 return null;
-            UserDetail userDetail=new UserDetail();
-            userDetail.setUserName(user.getUserName());
-            userDetail.setFirstName(user.getFirstName());
-            userDetail.setLastName(user.getLastName());
+            UserDetail userDetail=(UserDetail)makePersonDetail(user, UserDetail::new);
             userDetail.setInfo(user.getInfo());
-            userDetail.setEmailId(user.getEmailId());
             return userDetail;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -75,13 +135,8 @@ public class Util {
         try{
             if(user==null)
                 return null;
-            UserProfile userProfile=new UserProfile();
-            userProfile.setUserName(user.getUserName());
-            userProfile.setFirstName(user.getFirstName());
-            userProfile.setLastName(user.getLastName());
+            UserProfile userProfile=(UserProfile)makePerson(user, UserProfile::new);
             userProfile.setInfo(user.getInfo());
-            userProfile.setEmailId(user.getEmailId());
-            userProfile.setPass(user.getPass());
             return userProfile;
         }catch(Exception ex){
             ex.printStackTrace();

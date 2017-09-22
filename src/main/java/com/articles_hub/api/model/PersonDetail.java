@@ -31,21 +31,52 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Neel Patel
  */
-@XmlRootElement(name = "user")
-public class UserDetail extends PersonDetail{
-    private String info;
-    private List<Link> links=new ArrayList<>();
-
-    public String getInfo() {
-        return info;
+@XmlRootElement(name = "person")
+public class PersonDetail {
+    private String userName;
+    private String firstName;
+    private String lastName;
+    private String emailId;
+    private String pass;
+    
+    public String getUserName() {
+        return userName;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public List<Link> getLinks() {
-        return links;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
     
 }

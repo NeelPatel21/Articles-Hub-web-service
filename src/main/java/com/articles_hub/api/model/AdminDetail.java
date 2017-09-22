@@ -32,9 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Neel Patel
  */
 @XmlRootElement(name = "user")
-public class UserDetail extends PersonDetail{
+public class AdminDetail extends PersonDetail{
     private String info;
-    private List<Link> links=new ArrayList<>();
 
     public String getInfo() {
         return info;
@@ -44,8 +43,4 @@ public class UserDetail extends PersonDetail{
         this.info = info;
     }
 
-    public List<Link> getLinks() {
-        return links;
-    }
-    
 }
