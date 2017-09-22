@@ -49,7 +49,9 @@ Contributor(s):
     <!--<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>-->
     <!--<property name="hibernate.jdbc.use_streams_for_binary">true</property>-->
     <!--<property name="hibernate.show_sql">true</property>-->
+    <mapping class="com.articles_hub.database.beans.Person" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.UserProfile" package="com.articles_hub.database.beans"/>
+    <mapping class="com.articles_hub.database.beans.AdminProfile" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Article" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.Comment" package="com.articles_hub.database.beans"/>
     <mapping class="com.articles_hub.database.beans.UserToken" package="com.articles_hub.database.beans"/>

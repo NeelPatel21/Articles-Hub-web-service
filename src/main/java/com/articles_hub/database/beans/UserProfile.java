@@ -30,15 +30,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -53,28 +50,9 @@ import org.hibernate.annotations.NamedQuery;
 })
 @Table(name = "user_profiles")
 //@XmlRootElement
-public class UserProfile {
+public class UserProfile extends Person{
     
 //schema
-    @Id
-    @GenericGenerator (name = "userId_gen", strategy = "sequence")
-    @GeneratedValue(generator = "userId_gen")
-    private long userId;
-    
-    @Column(name = "user_name", length = 50, nullable = false, unique = true)
-    private String userName;
-    
-    @Column(name = "first_name", length = 50, nullable = false)
-    private String firstName;
-    
-    @Column(name = "last_name", length = 50, nullable = false)
-    private String lastName;
-    
-    @Column(name = "passwd", length = 50, nullable = false)
-    private String pass;
-    
-    @Column(name = "user_email", length = 100, nullable = false, unique = true)
-    private String emailId;
     
     @Column(name = "user_info", length = 5000)
     private String info;
@@ -102,36 +80,12 @@ public class UserProfile {
      * @param id userId
      */
     public UserProfile(long id) {
-        this.userId=id;
+        super(id);
     }
 
     public UserProfile() {
     }
     
-    public long getUserId() {
-        return userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
     public String getInfo() {
         return info;
     }
@@ -155,30 +109,8 @@ public class UserProfile {
         return favoriteTag;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public void setEmailId(String emailId) {
-        if(emailId == null || emailId.trim().equals(""))
-            return;
-        this.emailId = emailId;
     }
     
     /**
@@ -237,29 +169,7 @@ public class UserProfile {
 
     @Override
     public String toString() {
-        return userId+", "+userName;
+        return getUserId()+", "+getUserName();
     }
-
-    /**
-     * this method returns true only if 'obj' is instance of UserProfile and
-       it have same 'userId'.
-     * @param obj object
-     * @return true if object is equal, false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof UserProfile))
-            return false;
-        UserProfile up=(UserProfile)obj;
-        return this.userId==up.userId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + (int) (this.userId ^ (this.userId >>> 32));
-        return hash;
-    }
-    
     
 }

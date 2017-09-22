@@ -23,13 +23,9 @@
  */
 package com.articles_hub.database.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -39,33 +35,45 @@ import org.hibernate.annotations.NamedQuery;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "UserTokens.byName",
-          query = "select distinct t from UserToken t inner join t.user u where u.userName = :name")
+    @NamedQuery(name = "AdminProfile.byName",
+          query = "from AdminProfile where userName = :name")
 })
-@Table(name = "user_tokens")
-public class UserToken {
+@Table(name = "admin_profiles")
+//@XmlRootElement
+public class AdminProfile extends Person{
     
-    @Id
-    @GenericGenerator (name = "token_gen", strategy = "uuid")
-    @GeneratedValue(generator = "token_gen")
-    private String token;
+//schema
     
-    @OneToOne(targetEntity = Person.class, optional = false)
-    @JoinColumn(name = "user_id", nullable = false,unique = true)
-    private Person user;
+    @Column(name = "admin_info", length = 5000)
+    private String info;
     
-    public UserToken(){}
     
-    public UserToken(Person user){
-        this.user=user;
+//methods & constructors
+
+    /**
+     * initialized object with specified id.
+     * @deprecated object initialized with this constructor might not be
+       able to used with database as the userId is auto-generated field.
+     * @param id userId
+     */
+    public AdminProfile(long id) {
+        super(id);
     }
 
-    public String getToken() {
-        return token;
+    public AdminProfile() {
     }
-
-    public Person getUser() {
-        return user;
+    
+    public String getInfo() {
+        return info;
+    }
+ 
+    public void setInfo(String info) {
+        this.info = info;
+    }
+    
+    @Override
+    public String toString() {
+        return getUserId()+", "+getUserName();
     }
     
 }
