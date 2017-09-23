@@ -23,20 +23,27 @@
  */
 package com.articles_hub.admin;
 
+import com.articles_hub.api.model.AdminDetail;
+import com.articles_hub.service.AdminService;
+import com.articles_hub.service.AuthenticationService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Neel Patel
  */
 public class Authentication extends HttpServlet {
-    private static final String LOGIN_SUCCESS_URL="/login-success.html";
-    private static final String LOGIN_FAIL_URL="/login-fail.html";
-
+    private static final String LOGIN_SUCCESS_URL = "/login-success.html";
+    private static final String LOGIN_FAIL_URL = "/login-fail.html";
+    private static final AdminService adminService = AdminService.getAdminService();
+    private static final AuthenticationService authService = 
+              AuthenticationService.getAuthenticationService();   
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -50,8 +57,9 @@ public class Authentication extends HttpServlet {
               throws ServletException, IOException {
         String userName = request.getParameter("userName");
         String passwd = request.getParameter("passwd");
-        if(authenticate(userName, passwd)){
+        if(authenticate(userName, passwd, request.getSession())){
             //TODO 
+            setAdminDetail(userName, request.getSession());
             response.sendRedirect(LOGIN_SUCCESS_URL);
         }else{
             //TODO 
@@ -59,9 +67,19 @@ public class Authentication extends HttpServlet {
         }
     }
     
-    private boolean authenticate(String userName,String passwd){
+    private boolean authenticate(String userName,String passwd, HttpSession session){
         // TODO implement authentication.
-        return userName.equals(passwd);
+        String token=authService.userLogin(userName, passwd);
+        if(token==null||token.trim().equals(""))
+            return false;
+        session.setAttribute("token", token);
+        return true;
     }
     
+    private void setAdminDetail(String userName, HttpSession session){
+        AdminDetail admin=adminService.getAdminDetail(userName);
+        if(admin==null)
+            return;
+        session.setAttribute("user", admin);
+    }
 }
