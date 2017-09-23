@@ -25,17 +25,10 @@ package com.articles_hub.service;
 
 import com.articles_hub.api.model.AdminDetail;
 import com.articles_hub.database.DataBase;
-import com.articles_hub.database.beans.Article;
-import com.articles_hub.database.beans.Tag;
-import com.articles_hub.database.beans.UserProfile;
-import com.articles_hub.api.model.CommentDetail;
-import com.articles_hub.api.model.ShortArticleDetail;
-import com.articles_hub.api.model.TagDetail;
-import com.articles_hub.api.model.UserDetail;
 import com.articles_hub.api.model.Util;
 import com.articles_hub.database.beans.AdminProfile;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
@@ -48,6 +41,8 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class AdminService {
+
+    private static final Logger LOG = Logger.getLogger(AdminService.class.getName());
     
     private static AdminService obj;
     
@@ -75,14 +70,14 @@ public class AdminService {
             q.setParameter("name", userName);
             List<AdminProfile> list = q.list();
             if(list.size()==1){
-                LogService.getLogger().info("AdminService, getAdminDetail :- ",
-                          "userName :- "+userName);
+                LOG.info("AdminService, getAdminDetail :- "+
+                          " userName :- "+userName);
                 return Util.makeAdminDetail(list.get(0));
             }else if(list.size()>1){
-                LogService.getLogger().warn("AdminService, getAdminDetail :- ",
+                LOG.warning("AdminService, getAdminDetail :- "+
                           "multiple AdminProfile found, userName :- "+userName);
             }else{
-                LogService.getLogger().warn("AdminService, getAdminDetail :- ",
+                LOG.warning("AdminService, getAdminDetail :- "+
                           "AdminProfile not found, userName :- "+userName);
             }
         }catch(Exception ex){
@@ -99,7 +94,7 @@ public class AdminService {
         Transaction t=session.beginTransaction();
         try{
             if(admin==null){
-                LogService.getLogger().warn("AdminService, addAdmin :- ",
+                LOG.warning("AdminService, addAdmin :- "+
                           "null reference admin");
                 return false;
             }
@@ -108,7 +103,7 @@ public class AdminService {
             session.save(Util.makeAdminProfile(admin));
             session.flush();
             t.commit();
-            LogService.getLogger().info("AdminService, addAdmin :- ",
+            LOG.info("AdminService, addAdmin :- "+
                       "userName :- "+admin.getUserName());
             return true;
         }catch(Exception ex){
@@ -127,7 +122,7 @@ public class AdminService {
         Transaction t=session.beginTransaction();
         try{
             if(admin==null){
-                LogService.getLogger().warn("AdminService, updateAdmin :- ",
+                LOG.warning("AdminService, updateAdmin :- "+
                           "null reference admin");
                 return false;
             }
@@ -136,7 +131,7 @@ public class AdminService {
             q.setParameter("name", admin.getUserName());
             List<AdminProfile> list = q.list();
             if(list.size()!=1){
-                LogService.getLogger().warn("AdminService, updateAdmin :- ",
+                LOG.warning("AdminService, updateAdmin :- "+
                             "multiple AdminProfile found, userName :- "
                             +admin.getUserName());
                 return false;
@@ -149,7 +144,7 @@ public class AdminService {
             adminProfile.setEmailId(admin.getEmailId());
             session.flush();
             t.commit();
-            LogService.getLogger().info("AdminService, updateAdmin :- ",
+            LOG.info("AdminService, updateAdmin :- "+
                         "AdminProfile updated, userName :- "
                         +admin.getUserName());
             return true;

@@ -30,6 +30,7 @@ import com.articles_hub.api.model.ShortArticleDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.api.model.Util;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
 //import javax.persistence.Query;
@@ -43,6 +44,8 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class TagService {
+
+    private static final Logger LOG = Logger.getLogger(TagService.class.getName());
     
     private static TagService obj=new TagService();
     
@@ -65,14 +68,14 @@ public class TagService {
             q.setParameter("name", tagName);
             List<Tag> list = q.list();
             if(list.size()==1){
-                LogService.getLogger().info("TagService, getTagDetail :- ",
+                LOG.info("TagService, getTagDetail :- "+
                           "tagName :- "+tagName);
                 return Util.makeTagDetail(list.get(0));
             }else if(list.size()<1){
-                LogService.getLogger().warn("TagService, getTagDetail :- ",
+                LOG.warning("TagService, getTagDetail :- "+
                           "tag not found, tagName :- "+tagName);
             }else{
-                LogService.getLogger().warn("TagService, getTagDetail :- ",
+                LOG.warning("TagService, getTagDetail :- "+
                           "multiple tag found, tagName :- "+tagName);
             }
         }catch(Exception ex){
@@ -89,7 +92,7 @@ public class TagService {
         Transaction t=session.beginTransaction();
         try{
             if(tagDetail==null){
-                LogService.getLogger().warn("TagService, addTag :- ",
+                LOG.warning("TagService, addTag :- "+
                           "null reference tagDetail");
                 return false;
             }
@@ -97,7 +100,7 @@ public class TagService {
             session.save(Util.makeTag(tagDetail));
             session.flush();
             t.commit();
-            LogService.getLogger().info("TagService, addTag :- ",
+            LOG.info("TagService, addTag :- "+
                       "tag added, tagName :- "+tagDetail.getTagName());
             return true;
         }catch(Exception ex){
@@ -118,7 +121,7 @@ public class TagService {
             q.setParameterList("tags",tags);
             List<Article> list = q.list();
 //            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
-            LogService.getLogger().info("TagService, getAllArticles :- ",
+            LOG.info("TagService, getAllArticles :- "+
                       "number of articles :- "+list.size());
             return list.stream()
 //                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
@@ -144,7 +147,7 @@ public class TagService {
             q.setMaxResults(size);
             List<Article> list = q.list();
 //            System.out.println("hvjvbjbjkbknkjnknknknk   "+list.size());
-            LogService.getLogger().info("TagService, getAllArticles :- ",
+            LOG.info("TagService, getAllArticles :- "+
                       "number of articles :- "+list.size());
             return list.stream()
 //                      .peek(x->System.out.println("njsdnjcskscccawdawadad "+x))
@@ -168,11 +171,11 @@ public class TagService {
             q.setParameter("name", tagName);
             List<Tag> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("TagService, removeTagDetail :- ",
+                LOG.warning("TagService, removeTagDetail :- "+
                           "tag not found, tagName :- "+tagName);
                 return false;
             }else if(list.size()>1){
-                LogService.getLogger().warn("TagService, removeTagDetail :- ",
+                LOG.warning("TagService, removeTagDetail :- "+
                           "multiple tag found, tagName :- "+tagName);
             }
             list.forEach(tag->{
@@ -183,7 +186,7 @@ public class TagService {
                     list1.forEach(article->{
                         article.getTags().remove(tag);
                     });
-//                    LogService.getLogger().info("TagService, getAllArticles :- ",
+//                    LOG.info("TagService, getAllArticles :- ",
 //                              "number of articles :- "+list.size());
 //                    return list.stream()
 //                              .map(Util::makeShortArticleDetail)
@@ -193,7 +196,7 @@ public class TagService {
                     ex.printStackTrace();
                 }
             });
-            LogService.getLogger().info("TagService, removeTagDetail :- ",
+            LOG.info("TagService, removeTagDetail :- "+
                       "tag removed successfully, tagName :- "+tagName);
             return true;
         }catch(Exception ex){

@@ -27,6 +27,7 @@ import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.database.beans.UserToken;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
@@ -39,6 +40,8 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class AuthenticationService {
+
+    private static final Logger LOG = Logger.getLogger(AuthenticationService.class.getName());
     
     private static AuthenticationService obj;
     
@@ -67,24 +70,24 @@ public class AuthenticationService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("AuthenticationService, userLogin :- ",
+                LOG.warning("AuthenticationService, userLogin :- "+
                             "user not found, userName :- "+userName);
                 return null;
             }else if(list.size()>1){
-                LogService.getLogger().warn("AuthenticationService, userLogin :- ",
+                LOG.warning("AuthenticationService, userLogin :- "+
                             "multiple user found, userName :- "+userName);
                 return null;
             }
 //            System.out.println("check 4 "+userName+" "+pass);
             UserProfile user=list.get(0);
             if(!user.getPass().equals(pass)){
-                LogService.getLogger().info("AuthenticationService, userLogin :- ",
+                LOG.info("AuthenticationService, userLogin :- "+
                             "Login fail, userName :- "+userName);
                 return null;
             }
             String token = getToken(userName);
             if(token!=null && !token.trim().equals("")){
-                LogService.getLogger().info("AuthenticationService, userLogin :- ",
+                LOG.info("AuthenticationService, userLogin :- "+
                             "Login successfull, userName :- "+userName);
                 return token;
             }
@@ -94,7 +97,7 @@ public class AuthenticationService {
             session.save(tokenOb);
             session.flush();
             t.commit();
-            LogService.getLogger().info("AuthenticationService, userLogin :- ",
+            LOG.info("AuthenticationService, userLogin :- "+
                         "Login successfull, userName :- "+userName);
         }catch(Exception ex){
             ex.printStackTrace();
@@ -113,12 +116,12 @@ public class AuthenticationService {
             session.setFlushMode(FlushModeType.AUTO);
             UserToken tokenObj=session.get(UserToken.class, token);
             if(tokenObj==null){
-                LogService.getLogger().warn("AuthenticationService, userLogout :- ",
+                LOG.warning("AuthenticationService, userLogout :- "+
                             "invalid request, token :- "+token);
                 return false;
             }
             session.delete(tokenObj);
-            LogService.getLogger().info("AuthenticationService, userLogout :- ",
+            LOG.info("AuthenticationService, userLogout :- "+
                         "Logout successfull, token :- "+token);
             return true;
         }catch(Exception ex){
@@ -138,7 +141,7 @@ public class AuthenticationService {
             q.setParameter("name", userName);
             List<UserToken> list = q.list();
             if(list.size()!=1){
-                LogService.getLogger().warn("AuthenticationService, getToken :- ",
+                LOG.warning("AuthenticationService, getToken :- "+
                             "multiple user found, userName :- "+userName);
                 return null;
             }
@@ -160,7 +163,7 @@ public class AuthenticationService {
             session.setFlushMode(FlushModeType.AUTO);
             UserToken tokenObj=session.get(UserToken.class, token);
             if(tokenObj==null){
-                LogService.getLogger().warn("AuthenticationService, getUserName :- ",
+                LOG.warning("AuthenticationService, getUserName :- "+
                             "user not found, token :- "+token);
                 return null;
             }

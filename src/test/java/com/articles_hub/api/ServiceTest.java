@@ -5,7 +5,6 @@ import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.application.RestApplication;
 import com.articles_hub.service.AdminService;
 import com.articles_hub.service.TagService;
-import static javassist.bytecode.InnerClassesAttribute.tag;
 import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.test.JerseyTest;
@@ -43,7 +42,7 @@ public class ServiceTest extends JerseyTest {
         admin.setInfo("test_admin_info");
         AdminService.getAdminService().addAdmin(admin);
         assert AdminService.getAdminService().getAdminDetail("test_admin")
-                  .getFirstName().equals("test_admin_first");
+                    .getFirstName().equals("test_admin_first");
     }
     
 }

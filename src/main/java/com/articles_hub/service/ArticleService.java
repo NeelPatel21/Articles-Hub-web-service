@@ -32,6 +32,7 @@ import com.articles_hub.api.model.CommentDetail;
 import com.articles_hub.api.model.ShortUserDetail;
 import com.articles_hub.api.model.Util;
 import java.util.List;
+import java.util.logging.Logger;
 //import javax.persistence.Query;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
@@ -46,6 +47,8 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class ArticleService {
+
+    private static final Logger LOG = Logger.getLogger(ArticleService.class.getName());
     
     private static ArticleService obj=new ArticleService();
     
@@ -66,11 +69,11 @@ public class ArticleService {
         try{
             Article article=(Article) session.get(Article.class, articleId);
             if(article==null){
-                LogService.getLogger().warn("ArticleService, getArticleDetail :- ",
+                LOG.warning("ArticleService, getArticleDetail :- "+
                       "article not found, articleId :- "+articleId);
                 return null;
             }
-            LogService.getLogger().info("ArticleService, getArticleDetail :- ",
+            LOG.info("ArticleService, getArticleDetail :- "+
                       "articleId :- "+article.getArticleId());
             return Util.makeArticleDetail(article);
         }catch(Exception ex){
@@ -87,7 +90,7 @@ public class ArticleService {
         Transaction t=session.beginTransaction();
         try{
             if(articleDetail==null){
-                LogService.getLogger().warn("ArticleService, addArticle :- ",
+                LOG.warning("ArticleService, addArticle :- "+
                           "Null reference articleDetail");
                 return -1;
             }
@@ -98,7 +101,7 @@ public class ArticleService {
             List<UserProfile> list = q.list();
 //            System.out.println("check 5 - "+articleDetail.getAuthor());
             if(list.size()!=1){
-                LogService.getLogger().warn("ArticleService, addArticle :- ",
+                LOG.warning("ArticleService, addArticle :- "+
                             "Invalid UserProfile, number of UserProfile found :- "
                             +list.size());
                 return -1;
@@ -108,7 +111,7 @@ public class ArticleService {
             list.get(0).addArticle(article);
             session.flush();
             t.commit();
-            LogService.getLogger().info("ArticleService, addArticle :- ",
+            LOG.info("ArticleService, addArticle :- "+
                       "Article Created, articleId :- "+article.getArticleId());
             return article.getArticleId();
         }catch(Exception ex){
@@ -127,7 +130,7 @@ public class ArticleService {
         Transaction t=session.beginTransaction();
         try{
             if(articleDetail==null){
-                LogService.getLogger().warn("ArticleService, updateArticle :- ",
+                LOG.warning("ArticleService, updateArticle :- "+
                           "Null reference articleDetail");
                 return false;
             }
@@ -135,7 +138,7 @@ public class ArticleService {
             session.setFlushMode(FlushModeType.AUTO);
             Article article=session.get(Article.class, articleDetail.getArticleId());
             if(article==null){
-                LogService.getLogger().warn("ArticleService, updateArticle :- ",
+                LOG.warning("ArticleService, updateArticle :- "+
                             "article not found, articleId :- "
                             +articleDetail.getArticleId());
                 return false;
@@ -146,7 +149,7 @@ public class ArticleService {
             addTags(article, articleDetail);
             session.flush();
             t.commit();
-            LogService.getLogger().info("ArticleService, updateArticle :- ",
+            LOG.info("ArticleService, updateArticle :- "+
                       "article updated, aricleId :- "+article.getArticleId());
             return true;
         }catch(Exception ex){
@@ -166,11 +169,11 @@ public class ArticleService {
         try{
             Article article=(Article) session.get(Article.class, articleId);
             if(article==null){
-                LogService.getLogger().warn("ArticleService, getAllComments :- ",
+                LOG.warning("ArticleService, getAllComments :- "+
                             "article not found, articleId :- "+articleId);
                 return null;
             }
-            LogService.getLogger().info("ArticleService, getAllComments :- ",
+            LOG.info("ArticleService, getAllComments :- "+
                         "articleId :- "+article.getArticleId()
                         +", number of comments :- "+article.getComments().size());
             return article.getComments().stream()
@@ -191,11 +194,11 @@ public class ArticleService {
         try{
             Article article=(Article) session.get(Article.class, articleId);
             if(article==null){
-                LogService.getLogger().warn("ArticleService, getAllLikes :- ",
+                LOG.warning("ArticleService, getAllLikes :- "+
                             "article not found, articleId :- "+articleId);
                 return null;
             }
-            LogService.getLogger().info("ArticleService, getAllLikes :- ",
+            LOG.info("ArticleService, getAllLikes :- "+
                         "articleId :- "+article.getArticleId()
                         +", number of Likes :- "+article.getLikes().size());
             return article.getLikes().stream()
@@ -217,12 +220,12 @@ public class ArticleService {
             session.setFlushMode(FlushModeType.AUTO);
             Article article=(Article) session.get(Article.class, articleId);
             if(article==null){
-                LogService.getLogger().warn("ArticleService, removeArticleDetail :- ",
+                LOG.warning("ArticleService, removeArticleDetail :- "+
                             "article not found, articleId :- "+articleId);
                 return false;
             }
             session.delete(article);
-            LogService.getLogger().info("ArticleService, removeArticleDetail :- ",
+            LOG.info("ArticleService, removeArticleDetail :- "+
                         "article removed, articleId :- "+article.getArticleId());
             return true;
         }catch(Exception ex){

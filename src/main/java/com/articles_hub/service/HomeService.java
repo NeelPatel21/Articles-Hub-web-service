@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -45,6 +46,9 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class HomeService {
+
+    private static final Logger LOG = Logger.getLogger(HomeService.class.getName());
+    
     private static HomeService obj;
     private List<Long> articleIds=Collections.emptyList();
     private final int FATCH_SIZE=100;
@@ -79,7 +83,7 @@ public class HomeService {
                       articleIds = this.articleIds);
             articleIds = new ArrayList<>(articleIds);
             Collections.shuffle(articleIds);
-            LogService.getLogger().info("HomeService, getArticles :- ",
+            LOG.info("HomeService, getArticles :- "+
                       "number of articleIds :- "+articleIds.size());
             return articleIds.parallelStream()
                       .unordered()
@@ -101,7 +105,7 @@ public class HomeService {
                             .map(x->x.getTagName()).toArray(String[]::new));
             articleIds = new ArrayList<>(articleIds);
 //            Collections.shuffle(articleIds);
-            LogService.getLogger().info("HomeService, getArticles :- ",
+            LOG.info("HomeService, getArticles :- "+
                         "userName :- "+userName+", number of articleIds :- "
                         +articleIds.size());
             return articleIds.parallelStream()
@@ -125,11 +129,11 @@ public class HomeService {
                       .map(x->x.getTagName()).toArray(String[]::new));
             if(articleIds!=null&&articleIds.size()>0){
                 this.articleIds=Collections.unmodifiableList(articleIds);
-                LogService.getLogger().info("HomeService, refresh :- ",
+                LOG.info("HomeService, refresh :- "+
                         "default list updated, number of articleIds :- "
                         +articleIds.size());
             }else{
-                LogService.getLogger().warn("HomeService, refresh :- ",
+                LOG.warning("HomeService, refresh :- "+
                         "default list not updated, list of articleIds :- "
                         +articleIds);
             }
@@ -152,12 +156,12 @@ public class HomeService {
                         .parallel()
                         .map(x->x.getArticleId()).collect(Collectors.toList());
             if(articleIds!=null){
-                LogService.getLogger().info("HomeService, getArticleIds :- ",
+                LOG.info("HomeService, getArticleIds :- "+
                         "number of articleIds :- "+articleIds.size());
                 Collections.shuffle(articleIds);
                 return articleIds;
             }else{
-                LogService.getLogger().warn("HomeService, getArticleIds :- ",
+                LOG.warning("HomeService, getArticleIds :- "+
                         "list not updated, List of articleId :- "+articleIds);
             }
         }catch(Exception ex){
@@ -176,11 +180,11 @@ public class HomeService {
         try{
             Article article=(Article) session.get(Article.class, articleId);
             if(article==null){
-                LogService.getLogger().warn("HomeService, getShortArticleDetail :- ",
+                LOG.warning("HomeService, getShortArticleDetail :- "+
                       "article not found, articleId :- "+articleId);
                 return null;
             }
-//            LogService.getLogger().info("HomeService, getShortArticleDetail :- ",
+//            LOG.info("HomeService, getShortArticleDetail :- ",
 //                      "articleId :- "+article.getArticleId());
             return Util.makeShortArticleDetail(article);
         }catch(Exception ex){

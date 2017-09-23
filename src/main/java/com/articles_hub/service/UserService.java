@@ -34,6 +34,7 @@ import com.articles_hub.api.model.UserDetail;
 import com.articles_hub.api.model.Util;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
@@ -46,6 +47,8 @@ import org.hibernate.Transaction;
  * @author Neel Patel
  */
 public class UserService {
+
+    private static final Logger LOG = Logger.getLogger(UserService.class.getName());
     
     private static UserService obj;
     
@@ -73,14 +76,14 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()==1){
-                LogService.getLogger().info("UserService, getUserDetail :- ",
+                LOG.info("UserService, getUserDetail :- "+
                           "userName :- "+userName);
                 return Util.makeUserDetail(list.get(0));
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, getUserDetail :- ",
+                LOG.warning("UserService, getUserDetail :- "+
                           "multiple UserProfile found, userName :- "+userName);
             }else{
-                LogService.getLogger().warn("UserService, getUserDetail :- ",
+                LOG.warning("UserService, getUserDetail :- "+
                           "UserProfile not found, userName :- "+userName);
             }
         }catch(Exception ex){
@@ -97,7 +100,7 @@ public class UserService {
         Transaction t=session.beginTransaction();
         try{
             if(user==null){
-                LogService.getLogger().warn("UserService, addUser :- ",
+                LOG.warning("UserService, addUser :- "+
                           "null reference user");
                 return false;
             }
@@ -106,7 +109,7 @@ public class UserService {
             session.save(Util.makeUserProfile(user));
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, addUser :- ",
+            LOG.info("UserService, addUser :- "+
                       "userName :- "+user.getUserName());
             return true;
         }catch(Exception ex){
@@ -125,7 +128,7 @@ public class UserService {
         Transaction t=session.beginTransaction();
         try{
             if(user==null){
-                LogService.getLogger().warn("UserService, updateUser :- ",
+                LOG.warning("UserService, updateUser :- "+
                           "null reference user");
                 return false;
             }
@@ -134,7 +137,7 @@ public class UserService {
             q.setParameter("name", user.getUserName());
             List<UserProfile> list = q.list();
             if(list.size()!=1){
-                LogService.getLogger().warn("UserService, updateUser :- ",
+                LOG.warning("UserService, updateUser :- "+
                             "multiple UserProfile found, userName :- "
                             +user.getUserName());
                 return false;
@@ -147,7 +150,7 @@ public class UserService {
             userProfile.setEmailId(user.getEmailId());
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, updateUser :- ",
+            LOG.info("UserService, updateUser :- "+
                         "UserProfile updated, userName :- "
                         +user.getUserName());
             return true;
@@ -170,16 +173,16 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, getAllComments :- ",
+                LOG.warning("UserService, getAllComments :- "+
                           "UserProfile not found, userName :- "+userName);
                 return null;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, getAllComments :- ",
+                LOG.warning("UserService, getAllComments :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return null;
             }
             UserProfile user = list.get(0);
-            LogService.getLogger().info("UserService, getAllComments :- ",
+            LOG.info("UserService, getAllComments :- "+
                         "userName :- "+userName+", number of comments :- "+
                         user.getComments().size());
             return user.getComments().stream()
@@ -202,16 +205,16 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, getAllArticles :- ",
+                LOG.warning("UserService, getAllArticles :- "+
                           "UserProfile not found, userName :- "+userName);
                 return null;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, getAllArticles :- ",
+                LOG.warning("UserService, getAllArticles :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return null;
             }
             UserProfile user = list.get(0);
-            LogService.getLogger().info("UserService, getAllArticles :- ",
+            LOG.info("UserService, getAllArticles :- "+
                         "userName :- "+userName+", number of articles :- "+
                         user.getArticles().size());
             return user.getArticles().stream()
@@ -234,16 +237,16 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, getAllLikes :- ",
+                LOG.warning("UserService, getAllLikes :- "+
                           "UserProfile not found, userName :- "+userName);
                 return null;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, getAllLikes :- ",
+                LOG.warning("UserService, getAllLikes :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return null;
             }
             UserProfile user = list.get(0);
-            LogService.getLogger().info("UserService, getAllLikes :- ",
+            LOG.info("UserService, getAllLikes :- "+
                         "userName :- "+userName+", number of Likes :- "+
                         user.getLikes().size());
             return user.getLikes().stream()
@@ -266,11 +269,11 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, addLike :- ",
+                LOG.warning("UserService, addLike :- "+
                           "UserProfile not found, userName :- "+userName);
                 return false;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, addLike :- ",
+                LOG.warning("UserService, addLike :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return false;
             }
@@ -279,7 +282,7 @@ public class UserService {
             article.addLike(user);
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, addLike :- ",
+            LOG.info("UserService, addLike :- "+
                         "like added, userName :- "+userName
                         +", articleId :- "+articleId);
             return true;
@@ -300,11 +303,11 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, removeLike :- ",
+                LOG.warning("UserService, removeLike :- "+
                           "UserProfile not found, userName :- "+userName);
                 return false;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, removeLike :- ",
+                LOG.warning("UserService, removeLike :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return false;
             }
@@ -313,7 +316,7 @@ public class UserService {
             article.removeLike(user);
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, removeLike :- ",
+            LOG.info("UserService, removeLike :- "+
                         "like removed, userName :- "+userName+", articleId :- "+articleId);
             return true;
         }catch(Exception ex){
@@ -333,11 +336,11 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, setFavoriteTags :- ",
+                LOG.warning("UserService, setFavoriteTags :- "+
                           "UserProfile not found, userName :- "+userName);
                 return false;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, setFavoriteTags :- ",
+                LOG.warning("UserService, setFavoriteTags :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return false;
             }
@@ -356,7 +359,7 @@ public class UserService {
                     if(list.size()==1)
                         user.getFavoriteTag().add(list2.get(0)); // add new tag
                 }catch(Exception ex){
-                    System.err.println("test 1");
+//                    System.err.println("test 1");
                     ex.printStackTrace();
 //                }finally{
 //                    if(t2!=null&&t2.isActive()&&!t2.getRollbackOnly())
@@ -365,7 +368,7 @@ public class UserService {
             });
             session.flush();
             t.commit();
-            LogService.getLogger().info("UserService, setFavoriteTags :- ",
+            LOG.info("UserService, setFavoriteTags :- "+
                         "favorite tags updated, userName :- "+userName);
             return true;
         }catch(Exception ex){
@@ -385,16 +388,16 @@ public class UserService {
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
             if(list.size()<1){
-                LogService.getLogger().warn("UserService, getFavoriteTags :- ",
+                LOG.warning("UserService, getFavoriteTags :- "+
                           "UserProfile not found, userName :- "+userName);
                 return null;
             }else if(list.size()>1){
-                LogService.getLogger().warn("UserService, getFavoriteTags :- ",
+                LOG.warning("UserService, getFavoriteTags :- "+
                           "multiple UserProfile found, userName :- "+userName);
                 return null;
             }
             UserProfile user = list.get(0);
-            LogService.getLogger().info("UserService, setFavoriteTags :- ",
+            LOG.info("UserService, setFavoriteTags :- "+
                         "userName :- "+userName+", number of favorite tags :- "
                         +user.getFavoriteTag().size());
             return user.getFavoriteTag().stream()
