@@ -40,6 +40,9 @@ import javax.servlet.http.HttpSession;
 public class Authentication extends HttpServlet {
     private static final String LOGIN_SUCCESS_URL = "/login-success.html";
     private static final String LOGIN_FAIL_URL = "/login-fail.html";
+    private static final String LOGIN_URL = "/login.jsp";
+    private static final String TOKEN = "token";
+    private static final String USER_OBJ = "user";
     private static final AdminService adminService = AdminService.getAdminService();
     private static final AuthenticationService authService = 
               AuthenticationService.getAuthenticationService();   
@@ -66,13 +69,23 @@ public class Authentication extends HttpServlet {
             response.sendRedirect(LOGIN_FAIL_URL);
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String token = (String) session.getAttribute(TOKEN);
+        authService.userLogout(token);
+        session.removeAttribute(TOKEN);
+        session.removeAttribute(USER_OBJ);
+        resp.sendRedirect(LOGIN_URL);
+    }
     
     private boolean authenticate(String userName,String passwd, HttpSession session){
         // TODO implement authentication.
         String token=authService.userLogin(userName, passwd);
         if(token==null||token.trim().equals(""))
             return false;
-        session.setAttribute("token", token);
+        session.setAttribute(TOKEN, token);
         return true;
     }
     
@@ -80,6 +93,6 @@ public class Authentication extends HttpServlet {
         AdminDetail admin=adminService.getAdminDetail(userName);
         if(admin==null)
             return;
-        session.setAttribute("user", admin);
+        session.setAttribute(USER_OBJ, admin);
     }
 }
