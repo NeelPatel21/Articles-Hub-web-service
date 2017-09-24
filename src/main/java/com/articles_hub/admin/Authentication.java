@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
  * @author Neel Patel
  */
 public class Authentication extends HttpServlet {
-    private static final String LOGIN_SUCCESS_URL = "/login-success.html";
+    private static final String LOGIN_SUCCESS_URL = "/HeaderTemp.jsp";
     private static final String LOGIN_FAIL_URL = "/login-fail.html";
     private static final String LOGIN_URL = "/login.jsp";
     private static final String TOKEN = "token";

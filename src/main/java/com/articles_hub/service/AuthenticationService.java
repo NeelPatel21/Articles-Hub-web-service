@@ -24,6 +24,7 @@
 package com.articles_hub.service;
 
 import com.articles_hub.database.DataBase;
+import com.articles_hub.database.beans.Person;
 import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.database.beans.UserToken;
 import java.util.List;
@@ -66,9 +67,9 @@ public class AuthenticationService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            Query q= session.getNamedQuery("UserProfile.byName");
+            Query q= session.getNamedQuery("Person.byName");
             q.setParameter("name", userName);
-            List<UserProfile> list = q.list();
+            List<Person> list = q.list();
             if(list.size()<1){
                 LOG.warning("AuthenticationService, userLogin :- "+
                             "user not found, userName :- "+userName);
@@ -79,7 +80,7 @@ public class AuthenticationService {
                 return null;
             }
 //            System.out.println("check 4 "+userName+" "+pass);
-            UserProfile user=list.get(0);
+            Person user=list.get(0);
             if(!user.getPass().equals(pass)){
                 LOG.info("AuthenticationService, userLogin :- "+
                             "Login fail, userName :- "+userName);
