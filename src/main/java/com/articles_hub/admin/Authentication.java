@@ -27,11 +27,13 @@ import com.articles_hub.api.model.AdminDetail;
 import com.articles_hub.service.AdminService;
 import com.articles_hub.service.AuthenticationService;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUtils;
 
 /**
  *
@@ -39,13 +41,31 @@ import javax.servlet.http.HttpSession;
  */
 public class Authentication extends HttpServlet {
     private static final String LOGIN_SUCCESS_URL = "/HeaderTemp.jsp";
-    private static final String LOGIN_FAIL_URL = "/login-fail.html";
+    private static final String LOGIN_FAIL_URL = "/login.jsp";
     private static final String LOGIN_URL = "/login.jsp";
+    private static final String QUERY_VAR = "method";
+    private static final String QUERY_LOGIN = "login";
+    private static final String QUERY_LOGOUT = "logout";
     private static final String TOKEN = "token";
+    private static final String MESSAGE = "message";
     private static final String USER_OBJ = "user";
     private static final AdminService adminService = AdminService.getAdminService();
     private static final AuthenticationService authService = 
               AuthenticationService.getAuthenticationService();   
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+              throws ServletException, IOException {
+        Map<String,String[]> parm=HttpUtils.parseQueryString(req.getQueryString());
+        String meth=parm.get(QUERY_VAR).length>0?parm.get(QUERY_VAR)[0]:"";
+        if(meth.equalsIgnoreCase(QUERY_LOGOUT)){
+            doDelete(req, resp);
+        }else if(meth.equalsIgnoreCase(QUERY_LOGIN)){
+            doPost(req, resp);
+        }
+    }
+    
+    
     
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -65,7 +85,8 @@ public class Authentication extends HttpServlet {
             setAdminDetail(userName, request.getSession());
             response.sendRedirect(LOGIN_SUCCESS_URL);
         }else{
-            //TODO 
+            //TODO
+            request.getSession().setAttribute(MESSAGE, "incorrect Username or password");
             response.sendRedirect(LOGIN_FAIL_URL);
         }
     }
@@ -77,6 +98,7 @@ public class Authentication extends HttpServlet {
         authService.userLogout(token);
         session.removeAttribute(TOKEN);
         session.removeAttribute(USER_OBJ);
+        session.setAttribute(MESSAGE, "logout successful");
         resp.sendRedirect(LOGIN_URL);
     }
     

@@ -12,38 +12,49 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
         <style>
-            nav.headerbox {
-                background-color: black;
+            ul.titlebar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+                font-size: 20px;
+            }
+
+            ul.titlebar li{
+                float: right;
+                border-left:1px solid #bbb;
+                display: block;
                 color: white;
-                /*margin: 20px 0 20px 0;*/
-                
-/*                align-self: center;
-                align-content: center;*/
-                /*background-attachment: fixed;*/
-                position: fixed;
-                width: inherit;
-                height: fit-content;
-                font-size: 25px;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
             }
-            table.headerbox{
-                border: 10px solid black;
-                padding: 5px;
-                width: 100%;
+            
+            ul.titlebar li:first-child {
+                float: left;
+                border-left: none;
+                /*border-right:1px solid #bbb;*/
             }
-            td.headerbox_left{
-                border: 10px solid black;
-                padding: 5px;
-                text-align: left;
+
+            ul.titlebar li:last-child {
+                /*border-right: none;*/
             }
-            td.headerbox_right{
-                border: 10px solid black;
-                padding: 5px;
-                text-align: right;
-            }
-            #logout{
-                background-color: black;
+
+            ul.titlebar a{
+                display: block;
                 color: white;
-                font-size: 25px;
+                text-align: center;
+                /*padding: 14px 16px;*/
+                text-decoration: none;
+            }
+            
+/*            ul.titlebar a:hover:not(.active) {
+                background-color: #111;
+            }*/
+
+            .active {
+                background-color: #4CAF50;
             }
         </style>
         <%
@@ -51,19 +62,16 @@
         %>
     </head>
     <body>
-        <nav class="headerbox">
-            <form action="/Authentication" method="delete">
-                <table class="headerbox">
-                    <tr>
-                        <td class="headerbox_left">
-                            Articles Hub
-                        </td>
-                        <td class="headerbox_right">
-                            hi, <%=admin.getUserName()%><button type="submit" value="logout"/>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </nav>
+        <ul class="titlebar">
+            <%
+                if(admin==null){
+                    response.sendRedirect("login.jsp");
+                    return;
+                }
+            %>
+            <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
+            <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
+            
+        </ul>
     </body>
 </html>

@@ -10,6 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
+        <%
+            String message=(String)session.getAttribute("message");
+            if(message!=null)
+                out.print("<script>"+
+                        "alert('"+message+"');"+
+                        "</script>");
+        %>
         <style>
             div.loginbox {
                 background-color: black;
