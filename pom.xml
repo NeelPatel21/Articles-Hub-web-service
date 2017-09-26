@@ -106,6 +106,12 @@
             <version>5.2.11.Final</version>
             <scope>provided</scope>	
         </dependency>
+        
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
     </dependencies>
 
     <build>
