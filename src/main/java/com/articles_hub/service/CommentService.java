@@ -199,4 +199,29 @@ public class CommentService {
         return false;
     }
     
+    public Comment[] getAllComment(int start,int size){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Comment.allComment");
+            q.setFirstResult(start);
+            q.setMaxResults(size);
+            List<Comment> list = q.list();
+            if(list.size()>=1){
+                LOG.info("CommentService, getAllComment :- "+
+                          "start :- "+start+", size :- "+size);
+                return list.toArray(new Comment[0]);
+            }else{
+                LOG.warning("CommentService, getAllComment :- "+
+                          "no record found, start :- "+start+", size:-"+size);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return new Comment[0];
+    }
+    
 }

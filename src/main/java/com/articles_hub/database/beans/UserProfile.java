@@ -46,7 +46,10 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "UserProfile.byName",
-          query = "from UserProfile where userName = :name")
+          query = "from UserProfile where userName = :name"),
+    @NamedQuery(name = "UserProfile.count",
+          query = "select count(user) from UserProfile user"),
+    @NamedQuery(name = "UserProfile.allUser", query = "from UserProfile")
 })
 @Table(name = "user_profiles")
 //@XmlRootElement

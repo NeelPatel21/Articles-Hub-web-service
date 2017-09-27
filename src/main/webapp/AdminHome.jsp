@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>HeaderTemp</title>
+        <title>Home</title>
         <style>
             ul.titlebar {
                 list-style-type: none;
@@ -30,7 +30,7 @@
                 padding: 14px 16px;
                 text-decoration: none;
             }
-            
+
             ul.titlebar li:first-child {
                 float: left;
                 border-left: none;
@@ -48,10 +48,10 @@
                 /*padding: 14px 16px;*/
                 text-decoration: none;
             }
-            
-/*            ul.titlebar a:hover:not(.active) {
-                background-color: #111;
-            }*/
+
+            /*            ul.titlebar a:hover:not(.active) {
+                            background-color: #111;
+                        }*/
 
             .active {
                 background-color: #4CAF50;
@@ -71,7 +71,8 @@
             %>
             <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
-            
+
         </ul>
+        
     </body>
 </html>

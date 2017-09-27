@@ -412,4 +412,29 @@ public class UserService {
         return null;
     }
     
+    public UserProfile[] getAllUserProfiles(int start,int size){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.allUser");
+            q.setFirstResult(start);
+            q.setMaxResults(size);
+            List<UserProfile> list = q.list();
+            if(list.size()>=1){
+                LOG.info("UserService, getAllUserProfiles :- "+
+                          "start :- "+start+", size :- "+size);
+                return list.toArray(new UserProfile[0]);
+            }else{
+                LOG.warning("UserService, getAllUserProfiles :- "+
+                          "no record found, start :- "+start+", size:-"+size);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return new UserProfile[0];
+    }
+    
 }

@@ -25,7 +25,6 @@ package com.articles_hub.service;
 
 import com.articles_hub.database.DataBase;
 import com.articles_hub.database.beans.Person;
-import com.articles_hub.database.beans.UserProfile;
 import com.articles_hub.database.beans.UserToken;
 import java.util.List;
 import java.util.logging.Logger;

@@ -31,6 +31,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 //import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 /**
@@ -38,8 +39,11 @@ import org.hibernate.annotations.NamedQuery;
  * @author Neel Patel
  */
 @Entity
-@NamedQuery(name = "Tag.byName",
-          query = "from Tag where tagName = :name")
+@NamedQueries({
+    @NamedQuery(name = "Tag.byName",
+              query = "from Tag where tagName = :name"),
+    @NamedQuery(name = "Tag.allTag", query = "from Tag")
+})
 @Table(name = "tags")
 //@XmlRootElement
 public class Tag {

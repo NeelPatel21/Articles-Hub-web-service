@@ -208,4 +208,29 @@ public class TagService {
         return false;
     }
     
+    public Tag[] getAllTag(int start,int size){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.allTag");
+            q.setFirstResult(start);
+            q.setMaxResults(size);
+            List<Tag> list = q.list();
+            if(list.size()>=1){
+                LOG.info("TagService, getAllTag :- "+
+                          "start :- "+start+", size :- "+size);
+                return list.toArray(new Tag[0]);
+            }else{
+                LOG.warning("TagService, getAllTag :- "+
+                          "no record found, start :- "+start+", size:-"+size);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return new Tag[0];
+    }
+    
 }

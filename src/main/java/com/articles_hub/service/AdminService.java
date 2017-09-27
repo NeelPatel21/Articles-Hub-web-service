@@ -24,9 +24,11 @@
 package com.articles_hub.service;
 
 import com.articles_hub.api.model.AdminDetail;
+import com.articles_hub.api.model.ArticleDetail;
 import com.articles_hub.database.DataBase;
 import com.articles_hub.api.model.Util;
 import com.articles_hub.database.beans.AdminProfile;
+import com.articles_hub.database.beans.Article;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
@@ -157,6 +159,31 @@ public class AdminService {
 //                session.flush();
         }
         return false;
+    }
+    
+    public AdminProfile[] getAllAdminProfile(int start,int size){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("AdminProfile.allAdmin");
+            q.setFirstResult(start);
+            q.setMaxResults(size);
+            List<AdminProfile> list = q.list();
+            if(list.size()>=1){
+                LOG.info("AdminService, getAllAdminProfile :- "+
+                          "start :- "+start+", size :- "+size);
+                return list.toArray(new AdminProfile[0]);
+            }else{
+                LOG.warning("AdminService, getAllAdminProfile :- "+
+                          "no record found, start :- "+start+", size:-"+size);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return new AdminProfile[0];
     }
     
 }

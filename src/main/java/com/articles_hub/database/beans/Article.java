@@ -44,6 +44,7 @@ import javax.persistence.Table;
 //import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 /**
@@ -51,12 +52,14 @@ import org.hibernate.annotations.NamedQuery;
  * @author Neel Patel
  */
 @Entity
-@NamedQuery(name = "Article.byTag",
+@NamedQueries({
+    @NamedQuery(name = "Article.byTag",
           query = "select distinct a from Article a inner join "
-                    +"a.tags t where t.tagName in (:tags) order by a.articleId desc")
-//    @NamedQuery(name = "Article.byTag",
-//          query = "select distinct a from Article a join a.tags t where t.tagName in (:tags)")
-//})
+                    +"a.tags t where t.tagName in (:tags) order by a.articleId desc"),
+    @NamedQuery(name = "Article.count",
+          query = "select count(a) from Article a"),
+    @NamedQuery(name = "Article.allArticle", query = "from Article")
+})
 //@XmlRootElement
 @Table(name = "articles")
 public class Article {
