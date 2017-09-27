@@ -12,6 +12,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HeaderTemp</title>
         <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+            }
+
             ul.titlebar {
                 list-style-type: none;
                 margin: 0;

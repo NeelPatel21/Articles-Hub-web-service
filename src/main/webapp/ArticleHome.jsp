@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
+        <title>HeaderTemp</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -64,6 +64,71 @@
             .active {
                 background-color: #4CAF50;
             }
+            
+            /*body*/
+            .row{
+                height: 100%;
+            }
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+                height: 100%;
+                
+            }
+            
+            .menu {
+/*                float: left;
+                width: 200px;
+                height: 100%;*/
+                /*padding: 15px;*/
+                height: 100%;
+                width: 20%;
+                position: fixed;
+                z-index: 1;
+                /*top: 0;*/
+                left: 0;
+                background-color: #0040ff;
+                color:white;
+                overflow-x: hidden;
+            }
+            
+            .frame-window {
+                float: left;
+                width: 80%;
+                /*padding: 15px;*/
+                position: fixed;
+                margin-left: 20%;
+                height: 100%;
+                
+                z-index: 1;
+                overflow-x: hidden;
+                overflow-y: hidden;
+                /*padding-left: 20px;*/
+                
+            }
+            
+            ul.menubar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                /*width: 200px;*/
+                background-color: #0040ff;
+            }
+
+            ul.menubar li a {
+                display: block;
+                color: white;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+
+            /* Change the link color on hover */
+            ul.menubar li a:hover {
+                background-color: #0033cc;
+                color: white;
+            }
+
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
@@ -84,8 +149,20 @@
             <li><a href="ArticleHome.jsp">Article</a></li>
             <li><a href="ArticleHome">User</a></li>
             <li><a href="AdminHome.jsp">Home</a></li>
-            
         </ul>
-        
+           
+        <!--<div class="row">-->
+            <div class="menu">
+                <ul class="menubar">
+                    <li><a href="ArticleDisplay.jsp" target="window">Show all Articles</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div class="frame-window">
+                <iframe height="100%" width="100%" style="border:none" name="window"></iframe>
+            </div>
+        <!--</div>-->
     </body>
 </html>
