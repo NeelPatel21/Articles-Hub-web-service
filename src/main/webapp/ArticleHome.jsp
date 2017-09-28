@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <title>HeaderTemp</title>
         <style>
             * {
@@ -37,6 +38,7 @@
                 text-align: center;
                 padding: 14px 16px;
                 text-decoration: none;
+                /*min-width: 140px;*/
             }
 
             ul.titlebar li:first-child {
@@ -44,8 +46,16 @@
                 border-left: none;
                 /*border-right:1px solid #bbb;*/
             }
+            
+            ul.titlebar li:first-child:hover {
+                float: left;
+                border-left: none;
+                background-color: #222;
+                /*border-right:1px solid #bbb;*/
+            }
 
-            ul.titlebar li:last-child {
+            ul.titlebar li:hover {
+                background-color: #444;
                 /*border-right: none;*/
             }
 
@@ -134,7 +144,7 @@
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
         %>
     </head>
-    <body>
+    <body class="w3-light-grey">
         <ul class="titlebar">
             <%
                 if(admin==null){

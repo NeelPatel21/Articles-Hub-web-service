@@ -9,6 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <title>Login</title>
         <%
             String message=(String)session.getAttribute("message");
@@ -33,7 +34,7 @@
                 top: 50%;
                 left: 50%;
                 margin: -200px 0 0 -250px;
-                font-size: 25px;
+                /*font-size: 25px;*/
             }
             table, th, td {
                 border: 10px solid black;
@@ -41,10 +42,10 @@
             }
         </style>
     </head>
-    <body>
+    <body class="w3-light-grey">
         <center>
             <div class="loginbox">
-                <form action="/Authentication" method="post">
+                <form action="./Authentication" method="post">
                     <table >
                         <tr>
                             <td>user name </td>

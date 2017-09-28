@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <title>Home</title>
         <style>
             * {
@@ -69,7 +70,7 @@
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
         %>
     </head>
-    <body>
+    <body class="w3-light-grey">
         <ul class="titlebar">
             <%
                 if(admin==null){
