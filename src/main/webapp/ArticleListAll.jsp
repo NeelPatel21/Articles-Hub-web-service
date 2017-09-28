@@ -17,6 +17,10 @@
         <title>all Articles</title>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
+            if(admin==null){
+                response.sendRedirect("login.jsp");
+                return;
+            }
             int SIZE=10;
         %>
         
@@ -36,14 +40,14 @@
     <center>
         <%
             if(tabPage>1)
-                out.write("<a class=\"w3-button w3-black\" target=\"_self\" href=\"ArticleDisplay.jsp?page="
+                out.write("<a class=\"w3-button w3-black\" target=\"_self\" href=\"./ArticleListAll.jsp?page="
                           +(tabPage-1)+"\">Previous</a>");
         %>    
         <div class="w3-bar">
-            <a href="<%="ArticleDisplay.jsp?page="+0%>" class="w3-button w3-black">First</a>
-            <a href="<%=tabPage==0?"":"ArticleDisplay.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
+            <a href="<%="./ArticleListAll.jsp?page="+0%>" class="w3-button w3-black">First</a>
+            <a href="<%=tabPage==0?"":"./ArticleListAll.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
             <a href="#" class="w3-button"><%=(tabPage+1)%></a>
-            <a href="<%=articles.length!=SIZE?"":"ArticleDisplay.jsp?page="+(tabPage+1)%>" class="w3-button <%=articles.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
+            <a href="<%=articles.length!=SIZE?"":"./ArticleListAll.jsp?page="+(tabPage+1)%>" class="w3-button <%=articles.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
             <a href="#" class="w3-button">Last</a>
         </div>
             

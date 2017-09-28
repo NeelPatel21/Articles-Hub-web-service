@@ -69,6 +69,10 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
+            if(admin==null){
+                response.sendRedirect("login.jsp");
+                return;
+            }
         %>
     </head>
     <body class="w3-light-grey">

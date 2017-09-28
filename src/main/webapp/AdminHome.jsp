@@ -68,16 +68,15 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
+            if(admin==null){
+                response.sendRedirect("login.jsp");
+                return;
+            }
         %>
     </head>
     <body class="w3-light-grey">
         <ul class="titlebar">
-            <%
-                if(admin==null){
-                    response.sendRedirect("login.jsp");
-                    return;
-                }
-            %>
+            
             <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
             <li><a href="ArticleHome">Tag</a></li>

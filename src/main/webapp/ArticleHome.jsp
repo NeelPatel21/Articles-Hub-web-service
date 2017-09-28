@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>HeaderTemp</title>
+        <title>Article</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -142,16 +142,14 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
+            if(admin==null){
+                response.sendRedirect("login.jsp");
+                return;
+            }
         %>
     </head>
     <body class="w3-light-grey">
         <ul class="titlebar">
-            <%
-                if(admin==null){
-                    response.sendRedirect("login.jsp");
-                    return;
-                }
-            %>
             <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
             <li><a href="ArticleHome">Tag</a></li>
@@ -164,8 +162,8 @@
         <!--<div class="row">-->
             <div class="menu">
                 <ul class="menubar">
-                    <li><a href="ArticleDisplay.jsp" target="window">Show all Articles</a></li>
-                    <li><a href="#news">News</a></li>
+                    <li><a href="./ArticleListAll.jsp" target="window">Show all Articles</a></li>
+                    <li><a href="./ArticleViewFrame.jsp" target="window">View Article</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
