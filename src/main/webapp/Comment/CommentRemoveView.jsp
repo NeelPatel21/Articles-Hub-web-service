@@ -4,6 +4,7 @@
     Author     : Neel Patel
 --%>
 
+<%@page import="com.articles_hub.service.CommentService"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.articles_hub.service.ArticleService"%>
 <%@page import="com.articles_hub.database.beans.Article"%>
@@ -14,45 +15,41 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>All Articles</title>
+        <title>All Comments</title>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
                 response.sendRedirect("../login.jsp");
                 return;
             }
-            long articleId=0;
+            long commentId=0;
         %>
     
     </head>
     <body class="w3-light-grey">
         <%
-            ArticleService articleService= ArticleService.getArticleService();
+            CommentService commentService= CommentService.getCommentService();
             String query=request.getQueryString();
-            ArticleDetail article;
+            CommentDetail comment;
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
-                String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
-                articleId=Integer.parseInt(idParam);
-                article = articleService.getArticleDetail(articleId);
+                String idParam=parm.get("commentid").length>0?parm.get("commentid")[0]:"";
+                commentId=Integer.parseInt(idParam);
+                comment = commentService.getCommentDetail(commentId);
             }catch(Exception e){
                 return;
             }
-            if(article==null)
+            if(comment==null)
                 return;
-            String tags="";
-            int index=0;
-            int ntags=article.getTag().size();
-            for(String tag:article.getTag()){
-                index++;
-                tags+=tag+(index==ntags?"":", ");
-            }
+            
         %>
     <div class="w3-container">
-        <h5>Title:- <i><%=article.getTitle()%></i></h5>
-        <h5>ID:- <i><%=article.getArticleId()%></i></h5>
-        <h5>Author:- <i><%=article.getAuthor()%></i></h5>
-        <h5>Date:- <i><%=article.getDate()%></i></h5>
+        <h5>Comment id:- <i><%=comment.getCommentId()%></i></h5>
+        <h5>Article id:- <i><%=comment.getArticleId()%></i></h5>
+        <h5>Username :- <i><%=comment.getUserName()%></i></h5>
+        <h5>Date :- <i><%=comment.getDate()%></i></h5>
+        <h5>Time :- <i><%=comment.getTime()%></i></h5>
+        <h5>Content :- <i><%=comment.getContent()%></i></h5>
         <button class="w3-button w3-red"id="b_remove">Permanently Remove</button>
         <hr>
     </div>
@@ -61,14 +58,14 @@
             document.getElementById("b_remove").addEventListener('click',
                 function (){
                     var xhttp = new XMLHttpRequest();
-                    xhttp.open('get','../ArticleRemove?articleid=<%=article.getArticleId()%>',true);
+                    xhttp.open('get','../CommentRemove?commentid=<%=comment.getCommentId()%>',true);
                     xhttp.send();
                     xhttp.onreadystatechange = function() {
                         if (this.readyState === 4){
                             if(this.status === 200){
-                                alert("article removed successfully");
+                                alert("comment removed successfully");
                             }else{
-                                alert("error in article remove");
+                                alert("error in comment remove");
                             }
                         }
                     };

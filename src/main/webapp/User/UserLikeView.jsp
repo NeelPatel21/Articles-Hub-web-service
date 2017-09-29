@@ -4,6 +4,7 @@
     Author     : Neel Patel
 --%>
 
+<%@page import="com.articles_hub.service.UserService"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.articles_hub.service.ArticleService"%>
 <%@page import="com.articles_hub.database.beans.Article"%>
@@ -27,41 +28,40 @@
     </head>
     <body class="w3-light-grey">
         <%
-            ArticleService articleService= ArticleService.getArticleService();
+            UserService userService= UserService.getUserService();
             String query=request.getQueryString();
-            ArticleDetail article;
+            ShortArticleDetail articles[];
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
-                String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
-                articleId=Integer.parseInt(idParam);
-                article = articleService.getArticleDetail(articleId);
+                String userName=parm.get("username").length>0?parm.get("username")[0]:"";
+                articles = userService.getAllLikes(userName);
             }catch(Exception e){
                 return;
             }
-            if(article==null)
+            if(articles==null)
                 return;
-            String tags="";
-            int index=0;
-            int ntags=article.getTag().size();
-            for(String tag:article.getTag()){
-                index++;
-                tags+=tag+(index==ntags?"":", ");
-            }
         %>
     <div class="w3-container">
-        <h2><%=article.getTitle()%></h2>
-        <h5 class="w3-right-align"><i>by <%=article.getAuthor()%></i></h5>
-        <h5>ID :- <i><%=article.getArticleId()%></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Publish date :- <i><%=article.getDate()%></i></h5>
-        <h5>Tags :- <i><%=tags%></i></h5>
-        <br>
-        <%
-            for(String s:article.getContent()){        
-        %>
-        <P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=s%></P>
-        <% 
-            }
-        %>
+        <table class="w3-table-all">
+            <tr class="w3-dark-grey">
+                <th>Article Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publish Date</th>
+            </tr>
+            <%
+                for(ShortArticleDetail article:articles){
+            %>
+            <tr>
+                <td><%=article.getArticleId()%></td>
+                <td><%=article.getTitle()%></td>
+                <td><%=article.getAuthor()%></td>
+                <td><%=article.getDate()%></td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
         <hr>
     </div>
     </body>

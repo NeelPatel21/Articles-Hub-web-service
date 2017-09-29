@@ -29,40 +29,35 @@
         <%
             ArticleService articleService= ArticleService.getArticleService();
             String query=request.getQueryString();
-            ArticleDetail article;
+            ShortUserDetail users[];
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
                 String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
                 articleId=Integer.parseInt(idParam);
-                article = articleService.getArticleDetail(articleId);
+                users = articleService.getAllLikes(articleId);
             }catch(Exception e){
                 return;
             }
-            if(article==null)
+            if(users==null)
                 return;
-            String tags="";
-            int index=0;
-            int ntags=article.getTag().size();
-            for(String tag:article.getTag()){
-                index++;
-                tags+=tag+(index==ntags?"":", ");
-            }
         %>
-    <div class="w3-container">
-        <h2><%=article.getTitle()%></h2>
-        <h5 class="w3-right-align"><i>by <%=article.getAuthor()%></i></h5>
-        <h5>ID :- <i><%=article.getArticleId()%></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Publish date :- <i><%=article.getDate()%></i></h5>
-        <h5>Tags :- <i><%=tags%></i></h5>
-        <br>
-        <%
-            for(String s:article.getContent()){        
-        %>
-        <P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=s%></P>
-        <% 
-            }
-        %>
-        <hr>
-    </div>
+        <table class="w3-table-all">
+            <tr class="w3-dark-grey">
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+            </tr>
+            <%
+                for(ShortUserDetail user:users){
+            %>
+            <tr>
+                <td><%=user.getUserName()%></td>
+                <td><%=user.getFirstName()%></td>
+                <td><%=user.getLastName()%></td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
     </body>
 </html>

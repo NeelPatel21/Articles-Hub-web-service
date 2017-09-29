@@ -148,24 +148,25 @@
     </head>
     <body class="w3-light-grey">
         <ul class="titlebar">
-            <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
+            <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
             <li><a href="../Tag/TagHome.jsp">Tag</a></li>
             <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
             <li><a href="../Article/ArticleHome.jsp">Article</a></li>
-            <li><a href="../User/UserHome.jsp">User</a></li>
+            <li class="w3-green"><a href="../User/UserHome.jsp">User</a></li>
             <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
            
         <div class="row">
             <div class="menu">
                 <ul class="menubar">
-                    <li><a href="./UserListAll.jsp" target="window">Show all Articles</a></li>
+                    <li><a href="./UserListAll.jsp" target="window">Show all Users</a></li>
                     <li><a href="./UserViewFrame.jsp" target="window">View User</a></li>
-                    <li><a href="./UserRemoveFrame.jsp" target="window">Remove Article</a></li>
+                    <li><a href="./UserLikeFrame.jsp" target="window">View Liked Articles</a></li>
+                    <li><a href="./UserRemoveFrame.jsp" target="window">Remove User</a></li>
                 </ul>
             </div>
-                <iframe class="frame-window" style="border:none" name="window"></iframe>
+                <iframe class="frame-window" src="./UserListAll.jsp" style="border:none" name="window"></iframe>
         </div>
     </body>
 </html>

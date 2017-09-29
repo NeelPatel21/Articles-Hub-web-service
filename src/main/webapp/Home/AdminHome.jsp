@@ -76,13 +76,13 @@
     </head>
     <body class="w3-light-grey">
         <ul class="titlebar">
-            <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
+            <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
             <li><a href="../Tag/TagHome.jsp">Tag</a></li>
             <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
             <li><a href="../Article/ArticleHome.jsp">Article</a></li>
             <li><a href="../User/UserHome.jsp">User</a></li>
-            <li><a href="../Home/AdminHome.jsp">Home</a></li>
+            <li class="w3-green"><a href="../Home/AdminHome.jsp" class="w3-green">Home</a></li>
         </ul>
         
     </body>

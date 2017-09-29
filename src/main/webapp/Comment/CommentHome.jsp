@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>Article</title>
+        <title>Comment</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -151,8 +151,8 @@
             <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
             <li><a href="../Tag/TagHome.jsp">Tag</a></li>
-            <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
-            <li class="w3-green"><a href="../Article/ArticleHome.jsp">Article</a></li>
+            <li class="w3-green"><a href="../Comment/CommentHome.jsp">Comment</a></li>
+            <li><a href="../Article/ArticleHome.jsp">Article</a></li>
             <li><a href="../User/UserHome.jsp">User</a></li>
             <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
@@ -160,13 +160,14 @@
         <div class="row">
             <div class="menu">
                 <ul class="menubar">
-                    <li><a href="./ArticleListAll.jsp" target="window">Show all Articles</a></li>
-                    <li><a href="./ArticleViewFrame.jsp" target="window">View Article</a></li>
-                    <li><a href="./ArticleLikeFrame.jsp" target="window">View Likes</a></li>
-                    <li><a href="./ArticleRemoveFrame.jsp" target="window">Remove Article</a></li>
+                    <li><a href="./CommentListAll.jsp" target="window">Show all Comment</a></li>
+                    <li><a href="./CommentViewFrame.jsp" target="window">View Comment</a></li>
+                    <li><a href="./CommentUserFrame.jsp" target="window">View Comment by User</a></li>
+                    <li><a href="./CommentArticleFrame.jsp" target="window">View Comment by Article</a></li>
+                    <li><a href="./CommentRemoveFrame.jsp" target="window">Remove Comment</a></li>
                 </ul>
             </div>
-                <iframe class="frame-window" src="./ArticleListAll.jsp" style="border:none" name="window"></iframe>
+                <iframe class="frame-window" src="./CommentListAll.jsp" style="border:none" name="window"></iframe>
         </div>
     </body>
 </html>
