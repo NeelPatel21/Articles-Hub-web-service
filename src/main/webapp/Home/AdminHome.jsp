@@ -32,7 +32,7 @@
 
             ul.titlebar li{
                 float: right;
-                border-left:1px solid #bbb;
+                /*border-left:1px solid #bbb;*/
                 display: block;
                 color: white;
                 text-align: center;
@@ -69,22 +69,20 @@
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../login.jsp");
                 return;
             }
         %>
     </head>
     <body class="w3-light-grey">
         <ul class="titlebar">
-            
             <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
-            <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
-            <li><a href="ArticleHome">Tag</a></li>
-            <li><a href="ArticleHome">Comment</a></li>
-            <li><a href="ArticleHome.jsp">Article</a></li>
-            <li><a href="ArticleHome">User</a></li>
-            <li><a href="AdminHome.jsp">Home</a></li>
-            
+            <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
+            <li><a href="../Tag/TagHome.jsp">Tag</a></li>
+            <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
+            <li><a href="../Article/ArticleHome.jsp">Article</a></li>
+            <li><a href="../User/UserHome.jsp">User</a></li>
+            <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
         
     </body>

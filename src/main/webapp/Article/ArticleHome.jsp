@@ -32,7 +32,7 @@
 
             ul.titlebar li{
                 float: right;
-                border-left:1px solid #bbb;
+                /*border-left:1px solid #bbb;*/
                 display: block;
                 color: white;
                 text-align: center;
@@ -98,7 +98,7 @@
                 z-index: 1;
                 /*top: 0;*/
                 left: 0;
-                background-color: #0040ff;
+                background-color: #001aaf;
                 color:white;
                 overflow-x: hidden;
             }
@@ -109,11 +109,9 @@
                 /*padding: 15px;*/
                 position: fixed;
                 margin-left: 20%;
-                height: 100%;
+                height: calc(100% - 53px);
                 
                 z-index: 1;
-                overflow-x: hidden;
-                overflow-y: hidden;
                 /*padding-left: 20px;*/
                 
             }
@@ -123,7 +121,7 @@
                 margin: 0;
                 padding: 0;
                 /*width: 200px;*/
-                background-color: #0040ff;
+                background-color: #001aaf;
             }
 
             ul.menubar li a {
@@ -135,7 +133,7 @@
 
             /* Change the link color on hover */
             ul.menubar li a:hover {
-                background-color: #0033cc;
+                background-color: #0040ff;
                 color: white;
             }
 
@@ -143,7 +141,7 @@
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../login.jsp");
                 return;
             }
         %>
@@ -151,26 +149,23 @@
     <body class="w3-light-grey">
         <ul class="titlebar">
             <li style="color: #5ffc4b">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
-            <li><a style="color: #f7ee56" href="Authentication?method=logout">Logout</a></li>
-            <li><a href="ArticleHome">Tag</a></li>
-            <li><a href="ArticleHome">Comment</a></li>
-            <li><a href="ArticleHome.jsp">Article</a></li>
-            <li><a href="ArticleHome">User</a></li>
-            <li><a href="AdminHome.jsp">Home</a></li>
+            <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
+            <li><a href="../Tag/TagHome.jsp">Tag</a></li>
+            <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
+            <li><a href="../Article/ArticleHome.jsp">Article</a></li>
+            <li><a href="../User/UserHome.jsp">User</a></li>
+            <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
            
-        <!--<div class="row">-->
+        <div class="row">
             <div class="menu">
                 <ul class="menubar">
                     <li><a href="./ArticleListAll.jsp" target="window">Show all Articles</a></li>
                     <li><a href="./ArticleViewFrame.jsp" target="window">View Article</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#about">About</a></li>
+                    <li><a href="./ArticleRemoveFrame.jsp" target="window">Remove Article</a></li>
                 </ul>
             </div>
-            <div class="frame-window">
-                <iframe height="100%" width="100%" style="border:none" name="window"></iframe>
-            </div>
-        <!--</div>-->
+                <iframe class="frame-window" style="border:none" name="window"></iframe>
+        </div>
     </body>
 </html>

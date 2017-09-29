@@ -25,6 +25,10 @@
         <servlet-name>Authentication</servlet-name>
         <servlet-class>com.articles_hub.admin.Authentication</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ArticleRemove</servlet-name>
+        <servlet-class>com.articles_hub.admin.ArticleRemove</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -58,5 +62,9 @@
     <servlet-mapping>
         <servlet-name>Authentication</servlet-name>
         <url-pattern>/Authentication</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArticleRemove</servlet-name>
+        <url-pattern>/ArticleRemove</url-pattern>
     </servlet-mapping>
 </web-app>

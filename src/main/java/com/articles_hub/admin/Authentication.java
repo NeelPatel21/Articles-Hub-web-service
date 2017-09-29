@@ -40,7 +40,7 @@ import javax.servlet.http.HttpUtils;
  * @author Neel Patel
  */
 public class Authentication extends HttpServlet {
-    private static final String LOGIN_SUCCESS_URL = "./AdminHome.jsp";
+    private static final String LOGIN_SUCCESS_URL = "./Home/AdminHome.jsp";
     private static final String LOGIN_FAIL_URL = "./login.jsp";
     private static final String LOGIN_URL = "./login.jsp";
     private static final String QUERY_VAR = "method";

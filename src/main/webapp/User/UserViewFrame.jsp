@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>Article</title>
+        <title>User</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -40,7 +40,7 @@
                 /*padding: 15px;*/
                 position: fixed;
                 margin-top: 20px;
-                height: 80%;
+                height: calc(100% - 50px);
                 /*padding-left: 20px;*/
             }
             /* Change the link color on hover */
@@ -48,33 +48,24 @@
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../login.jsp");
                 return;
             }
         %>
     </head>
     <body class="w3-light-grey">  
         <div class="menu">
-            Id:- <input type="number" id="articleid">
+            Username:- <input type="text" id="username">
             <button id="b_show">show</button>
         </div><br>
-        <div class="frame-window">
-            <iframe height="100%" width="100%" style="border:none" id="f_window" name="frame"></iframe>
-        </div>
+        <iframe class="frame-window" style="border:none" id="f_window" name="frame"></iframe>
         <script type="text/javascript">
             window.onload = (function(){
-//                alert("clicked");
-//                alert(document.getElementById("b_show"));
-//                alert(document.getElementById("articleid"));
-//                alert(document.getElementById("f_window"));
-//                var w=document.getElementById('f_window');
-//                w.src='./ArticleView.jsp?articleid='+36;
                 document.getElementById("b_show").addEventListener('click',
                     function (){
-//                        alert("clicked new");
-                        var id=document.getElementById('articleid').value;
+                        var uname=document.getElementById('username').value;
                         var w=document.getElementById('f_window');
-                        w.src='./ArticleView.jsp?articleid='+id;
+                        w.src='./UserView.jsp?username='+uname;
                     }
                 );
             });

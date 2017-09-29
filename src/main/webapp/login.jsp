@@ -17,6 +17,7 @@
                 out.print("<script>"+
                         "alert('"+message+"');"+
                         "</script>");
+            session.removeAttribute("message");
         %>
         <style>
             div.loginbox {

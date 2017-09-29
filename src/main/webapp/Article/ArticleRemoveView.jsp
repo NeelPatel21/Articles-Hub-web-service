@@ -18,12 +18,12 @@
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../login.jsp");
                 return;
             }
             long articleId=0;
         %>
-        
+    
     </head>
     <body class="w3-light-grey">
         <%
@@ -35,10 +35,11 @@
                 String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
                 articleId=Integer.parseInt(idParam);
                 article = articleService.getArticleDetail(articleId);
-                System.out.println("request:- "+articleId);
             }catch(Exception e){
                 return;
             }
+            if(article==null)
+                return;
             String tags="";
             int index=0;
             int ntags=article.getTag().size();
@@ -53,16 +54,28 @@
         <h5>ID :- <i><%=article.getArticleId()%></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Publish date :- <i><%=article.getDate()%></i></h5>
         <h5>Tags :- <i><%=tags%></i></h5>
-        <br>
-        <%
-            for(String s:article.getContent()){        
-        %>
-        <P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=s%></P>
-        <% 
-            }
-        %>
-        <br>
-      <hr>
+        <button class="w3-button w3-red"id="b_remove">Permanently Remove</button>
+        <hr>
     </div>
+    <script>
+        window.onload = (function(){
+            document.getElementById("b_remove").addEventListener('click',
+                function (){
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open('get','../ArticleRemove?articleid=<%=article.getArticleId()%>',true);
+                    xhttp.send();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState === 4){
+                            if(this.status === 200){
+                                alert("article removed successfully");
+                            }else{
+                                alert("error in article remove");
+                            }
+                        }
+                    };
+                }
+            );
+        });
+    </script>
     </body>
 </html>

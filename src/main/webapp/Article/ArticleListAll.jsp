@@ -18,7 +18,7 @@
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
             if(admin==null){
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../login.jsp");
                 return;
             }
             int SIZE=10;
@@ -70,12 +70,8 @@
             <%
                 }
             %>
-        </table>    
-        <pre>
-            
-
-
-        </pre>    
+        </table>
+        
     </center>
     </body>
 </html>
