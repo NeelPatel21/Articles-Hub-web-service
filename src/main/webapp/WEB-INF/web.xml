@@ -33,6 +33,18 @@
         <servlet-name>CommentRemove</servlet-name>
         <servlet-class>com.articles_hub.admin.CommentRemove</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserRemove</servlet-name>
+        <servlet-class>com.articles_hub.admin.UserRemove</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TagRemove</servlet-name>
+        <servlet-class>com.articles_hub.admin.TagRemove</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TagUpdate</servlet-name>
+        <servlet-class>com.articles_hub.admin.TagUpdate</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -74,5 +86,17 @@
     <servlet-mapping>
         <servlet-name>CommentRemove</servlet-name>
         <url-pattern>/CommentRemove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserRemove</servlet-name>
+        <url-pattern>/UserRemove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TagRemove</servlet-name>
+        <url-pattern>/TagRemove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TagUpdate</servlet-name>
+        <url-pattern>/TagUpdate</url-pattern>
     </servlet-mapping>
 </web-app>

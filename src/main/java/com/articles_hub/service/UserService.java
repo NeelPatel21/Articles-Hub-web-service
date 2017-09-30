@@ -458,8 +458,9 @@ public class UserService {
                 return false;
             }
             AuthenticationService authService=AuthenticationService.getAuthenticationService();
-            list.forEach(user->authService
-                      .userLogout(authService.getToken(user.getUserName())));
+            list.stream().map(user->authService.getToken(user.getUserName()))
+                      .filter(token->token!=null)
+                      .forEach(token->authService.userLogout(token));
             list.forEach(user->session.delete(user));
             LOG.info("UserService, removeUser :- "+
                       "user removed successfully, userName :- "+userName);

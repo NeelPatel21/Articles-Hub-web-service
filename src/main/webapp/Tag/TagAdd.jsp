@@ -28,24 +28,10 @@
         
     </head>
     <body class="w3-light-grey">
-        <%
-            TagService tagService= TagService.getTagService();
-            String query=request.getQueryString();
-            Tag tag;
-            try{
-                Map<String,String[]> parm=HttpUtils.parseQueryString(query);
-                String tagName=parm.get("tagname").length>0?parm.get("tagname")[0]:"";
-                tag = tagService.getTag(tagName);
-            }catch(Exception e){
-                return;
-            }
-            if(tag==null)
-                return;
-        %>
+        
     <div class="w3-container">
-        <h5>Tag Id:- <i><%=tag.getTagId()%></i></h5>
-        <h5>Tag Name:- <i><%=tag.getTagName()%></i></h5>
-        <h5>Status:- <i><%=tag.getTagStatus()%></i> 
+        <h5>Tag Name:- <input class="w3-input" type="text" id="tagname"></h5>
+        <h5>Status:- <i id="status">enable</i> 
             <div class="w3-dropdown-hover">
                 <button class="w3-button">select</button>
                 <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -57,9 +43,9 @@
                         }
                     %>
                 </div>
-            </div>    
+            </div>
         </h5>
-        
+        <button class="w3-button"id="b_add">Add Tag</button>
         <hr>
     </div>
     <script>
@@ -67,23 +53,32 @@
             for(TagStatus status:TagStatus.values()){
         %>       
             function <%=status.name()%>(){
-                var xhttp = new XMLHttpRequest();
-                xhttp.open('get','../TagUpdate?tagname=<%=tag.getTagName()%>&status=<%=status.name()%>&mode=update',true);
-                xhttp.send();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState === 4){
-                        if(this.status === 200){
-                            alert("tag status updated successfully");
-                        }else{
-                            alert("error in tag status update");
-                        }
-                        location.reload(true);
-                    }
-                };
-            };
+                document.getElementById('status').innerHTML='<%=status.name()%>';
+            }
         <%
             }
         %>
+        window.onload = (function(){
+            document.getElementById("b_add").addEventListener('click',
+                function (){
+                    var xhttp = new XMLHttpRequest();
+                    var name=document.getElementById('tagname').value;
+                    var status=document.getElementById('status').innerHTML;
+                    xhttp.open('get','../TagUpdate?mode=add&tagname='+name+'&status='+status,true);
+                    xhttp.send();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState === 4){
+                            if(this.status === 200){
+                                alert("tag status added successfully");
+                            }else{
+                                alert("error in tag add");
+                            }
+                            location.reload(true);
+                        }
+                    };
+                }
+            );
+        });
     </script>
     </body>
 </html>

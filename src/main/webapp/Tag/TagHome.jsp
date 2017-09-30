@@ -150,9 +150,9 @@
         <ul class="titlebar">
             <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
-            <li><a href="../Tag/TagHome.jsp">Tag</a></li>
+            <li class="w3-green"><a href="../Tag/TagHome.jsp">Tag</a></li>
             <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
-            <li class="w3-green"><a href="../Article/ArticleHome.jsp">Article</a></li>
+            <li><a href="../Article/ArticleHome.jsp">Article</a></li>
             <li><a href="../User/UserHome.jsp">User</a></li>
             <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
@@ -161,6 +161,7 @@
             <div class="menu">
                 <ul class="menubar">
                     <li><a href="./TagListAll.jsp" target="window">Show all Tags</a></li>
+                    <li><a href="./TagAdd.jsp" target="window">Add Tag</a></li>
                     <li><a href="./TagViewFrame.jsp" target="window">View Tag</a></li>
                     <li><a href="./TagArticleFrame.jsp" target="window">View Articles by Tag</a></li>
                     <li><a href="./TagRemoveFrame.jsp" target="window">Remove Tag</a></li>

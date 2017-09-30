@@ -103,9 +103,7 @@ public class TagResource {
         if(service.addTag(tag,TagStatus.requested)){
             TagDetail newTag=service.getTagDetail(tag.getTagName());
             LinkMaker.popLinks(urif, newTag);
-            return Response.created(URI.create(newTag.getLinks().stream()
-                      .filter(x->x.getName().equalsIgnoreCase("self"))
-                      .findAny().get().getUrl())).build();
+            return Response.status(Response.Status.CREATED).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }

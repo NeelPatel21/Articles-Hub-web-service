@@ -267,7 +267,7 @@ public class TagService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
-            Query q= session.getNamedQuery("Tag.byName");
+            Query q= session.getNamedQuery("Tag.byName_all");
             q.setParameter("name", tagName);
             List<Tag> list = q.list();
             if(list.size()==1){

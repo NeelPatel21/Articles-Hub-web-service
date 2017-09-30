@@ -24,6 +24,7 @@
 package com.articles_hub.admin;
 
 import com.articles_hub.api.model.AdminDetail;
+import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.database.beans.TagStatus;
 import com.articles_hub.service.AdminService;
 import com.articles_hub.service.TagService;
@@ -46,26 +47,54 @@ public class TagUpdate extends HttpServlet {
     private static final String LOGIN_URL = "./login.jsp";
     private static final String QUERY_ID = "tagname";
     private static final String QUERY_NAME = "status";
+    private static final String QUERY_MODE = "mode";
     private static final String USER_OBJ = "user";
     private static final AdminService adminService = AdminService.getAdminService();
     private static final TagService tagService = 
-              TagService.getTagService();   
+              TagService.getTagService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doDelete(req, resp);
+        try{
+            Map<String,String[]> parm=HttpUtils.parseQueryString(req.getQueryString());
+            String mode=parm.get(QUERY_MODE).length>0?parm.get(QUERY_MODE)[0]:"";
+            if(mode!=null&&mode.equals("update"))
+                doPut(req, resp);
+            else
+                doPost(req, resp);
+        }catch(Exception e){
+            resp.setStatus(HttpStatus.BAD_REQUEST_400);
+        }
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             HttpSession session = req.getSession();
             if(!isLoggedIn(session))
                 resp.sendRedirect(LOGIN_URL);
             Map<String,String[]> parm=HttpUtils.parseQueryString(req.getQueryString());
             String tagName=parm.get(QUERY_ID).length>0?parm.get(QUERY_ID)[0]:"";
-            String status=parm.get(QUERY_NAME).length>0?parm.get(QUERY_ID)[0]:"";
+            String status=parm.get(QUERY_NAME).length>0?parm.get(QUERY_NAME)[0]:"";
             if(updateTag(tagName, status))
+                resp.setStatus(HttpStatus.OK_200);
+            else
+                resp.setStatus(HttpStatus.BAD_REQUEST_400);
+        }catch(Exception e){
+            resp.setStatus(HttpStatus.BAD_REQUEST_400);
+        }
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try{
+            HttpSession session = req.getSession();
+            if(!isLoggedIn(session))
+                resp.sendRedirect(LOGIN_URL);
+            Map<String,String[]> parm=HttpUtils.parseQueryString(req.getQueryString());
+            String tagName=parm.get(QUERY_ID).length>0?parm.get(QUERY_ID)[0]:"";
+            String status=parm.get(QUERY_NAME).length>0?parm.get(QUERY_NAME)[0]:"";
+            if(createTag(tagName, status))
                 resp.setStatus(HttpStatus.OK_200);
             else
                 resp.setStatus(HttpStatus.BAD_REQUEST_400);
@@ -85,6 +114,15 @@ public class TagUpdate extends HttpServlet {
     private boolean updateTag(String tagName, String status){
         try{
             return tagService.updateTagStatus(tagName, TagStatus.valueOf(status));
+        }catch(Exception e){}
+        return false;
+    }
+    
+    private boolean createTag(String tagName, String status){
+        try{
+            TagDetail tag = new TagDetail();
+            tag.setTagName(tagName);
+            return tagService.addTag(tag, TagStatus.valueOf(status));
         }catch(Exception e){}
         return false;
     }
