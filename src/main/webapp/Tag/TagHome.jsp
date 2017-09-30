@@ -160,13 +160,13 @@
         <div class="row">
             <div class="menu">
                 <ul class="menubar">
-                    <li><a href="./ArticleListAll.jsp" target="window">Show all Articles</a></li>
-                    <li><a href="./ArticleViewFrame.jsp" target="window">View Article</a></li>
-                    <li><a href="./ArticleLikeFrame.jsp" target="window">View Likes</a></li>
-                    <li><a href="./ArticleRemoveFrame.jsp" target="window">Remove Article</a></li>
+                    <li><a href="./TagListAll.jsp" target="window">Show all Tags</a></li>
+                    <li><a href="./TagViewFrame.jsp" target="window">View Tag</a></li>
+                    <li><a href="./TagArticleFrame.jsp" target="window">View Articles by Tag</a></li>
+                    <li><a href="./TagRemoveFrame.jsp" target="window">Remove Tag</a></li>
                 </ul>
             </div>
-                <iframe class="frame-window" src="./ArticleListAll.jsp" style="border:none" name="window"></iframe>
+                <iframe class="frame-window" src="./TagListAll.jsp" style="border:none" name="window"></iframe>
         </div>
     </body>
 </html>

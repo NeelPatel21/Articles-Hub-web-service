@@ -26,6 +26,7 @@ package com.articles_hub.admin;
 import com.articles_hub.api.model.AdminDetail;
 import com.articles_hub.service.AdminService;
 import com.articles_hub.service.ArticleService;
+import com.articles_hub.service.CommentService;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -40,15 +41,13 @@ import org.eclipse.jetty.http.HttpStatus;
  *
  * @author Neel Patel
  */
-public class ArticleRemove extends HttpServlet {
-    private static final String LOGIN_FAIL_URL = "./login.jsp";
+public class CommentRemove extends HttpServlet {
     private static final String LOGIN_URL = "./login.jsp";
-    private static final String QUERY_VAR = "method";
-    private static final String QUERY_ID = "articleid";
+    private static final String QUERY_ID = "commentid";
     private static final String USER_OBJ = "user";
     private static final AdminService adminService = AdminService.getAdminService();
-    private static final ArticleService articleService = 
-              ArticleService.getArticleService();   
+    private static final CommentService commentService = 
+              CommentService.getCommentService();   
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -81,6 +80,6 @@ public class ArticleRemove extends HttpServlet {
     }
     
     private boolean removeArticle(long id){
-        return articleService.removeArticleDetail(id);
+        return commentService.removeCommentDetail(id);
     }
 }

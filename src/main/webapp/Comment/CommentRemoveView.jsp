@@ -34,7 +34,7 @@
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
                 String idParam=parm.get("commentid").length>0?parm.get("commentid")[0]:"";
-                commentId=Integer.parseInt(idParam);
+                commentId=Long.parseLong(idParam);
                 comment = commentService.getCommentDetail(commentId);
             }catch(Exception e){
                 return;

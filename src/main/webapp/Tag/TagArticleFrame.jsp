@@ -55,17 +55,17 @@
     </head>
     <body class="w3-light-grey">  
         <div class="menu">
-            Id:- <input type="number" id="articleid">
+            Tag Name:- <input type="text" id="tagname">
             <button id="b_show">show</button>
         </div><br>
-        <iframe class="frame-window" style="border:none" id="f_window2" name="frame"></iframe>
+        <iframe class="frame-window" style="border:none" id="f_window" name="frame"></iframe>
         <script type="text/javascript">
             window.onload = (function(){
                 document.getElementById("b_show").addEventListener('click',
                     function (){
-                        var id=document.getElementById('articleid').value;
-                        var w=document.getElementById('f_window2');
-                        w.src='./ArticleRemoveView.jsp?articleid='+id;
+                        var tagname=document.getElementById('tagname').value;
+                        var w=document.getElementById('f_window');
+                        w.src='./TagArticleView.jsp?tagname='+tagname;
                     }
                 );
             });

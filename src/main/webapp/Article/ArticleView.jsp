@@ -33,7 +33,7 @@
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
                 String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
-                articleId=Integer.parseInt(idParam);
+                articleId=Long.parseLong(idParam);
                 article = articleService.getArticleDetail(articleId);
             }catch(Exception e){
                 return;

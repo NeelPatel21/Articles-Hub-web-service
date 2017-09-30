@@ -29,6 +29,10 @@
         <servlet-name>ArticleRemove</servlet-name>
         <servlet-class>com.articles_hub.admin.ArticleRemove</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CommentRemove</servlet-name>
+        <servlet-class>com.articles_hub.admin.CommentRemove</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -66,5 +70,9 @@
     <servlet-mapping>
         <servlet-name>ArticleRemove</servlet-name>
         <url-pattern>/ArticleRemove</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentRemove</servlet-name>
+        <url-pattern>/CommentRemove</url-pattern>
     </servlet-mapping>
 </web-app>

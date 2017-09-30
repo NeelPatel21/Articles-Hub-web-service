@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>Article</title>
+        <title>Tag</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -55,17 +55,17 @@
     </head>
     <body class="w3-light-grey">  
         <div class="menu">
-            Id:- <input type="number" id="articleid">
+            Id:- <input type="text" id="tagname">
             <button id="b_show">show</button>
         </div><br>
-        <iframe class="frame-window" style="border:none" id="f_window" name="frame"></iframe>
+        <iframe class="frame-window" style="border:none" id="f_window2" name="frame"></iframe>
         <script type="text/javascript">
             window.onload = (function(){
                 document.getElementById("b_show").addEventListener('click',
                     function (){
-                        var id=document.getElementById('articleid').value;
-                        var w=document.getElementById('f_window');
-                        w.src='./ArticleLikeView.jsp?articleid='+id;
+                        var id=document.getElementById('tagname').value;
+                        var w=document.getElementById('f_window2');
+                        w.src='./TagRemoveView.jsp?tagname='+id;
                     }
                 );
             });
