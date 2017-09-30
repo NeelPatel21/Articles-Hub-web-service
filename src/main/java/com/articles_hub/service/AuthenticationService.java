@@ -133,7 +133,7 @@ public class AuthenticationService {
         return false;
     }
     
-    private String getToken(String userName){
+    String getToken(String userName){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{

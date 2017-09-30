@@ -32,6 +32,7 @@ import com.articles_hub.api.model.ShortArticleDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.api.model.UserDetail;
 import com.articles_hub.api.model.Util;
+import com.articles_hub.database.beans.Comment;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -435,6 +436,41 @@ public class UserService {
                 t.commit();
         }
         return new UserProfile[0];
+    }
+    
+    public boolean removeUser(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            session.setFlushMode(FlushModeType.AUTO);
+            Query q= session.getNamedQuery("UserProfile.byName");
+            q.setParameter("name", userName);
+            List<UserProfile> list = q.list();
+            if(list.size()==1){
+                LOG.info("UserService, removeUser :- "+
+                          "userName :- "+userName);
+            }else if(list.size()>1){
+                LOG.warning("UserService, removeUser :- "+
+                          "multiple UserProfile found, userName :- "+userName);
+            }else{
+                LOG.warning("UserService, removeUser :- "+
+                          "UserProfile not found, userName :- "+userName);
+                return false;
+            }
+            AuthenticationService authService=AuthenticationService.getAuthenticationService();
+            list.forEach(user->authService
+                      .userLogout(authService.getToken(user.getUserName())));
+            list.forEach(user->session.delete(user));
+            LOG.info("UserService, removeUser :- "+
+                      "user removed successfully, userName :- "+userName);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
     }
     
 }

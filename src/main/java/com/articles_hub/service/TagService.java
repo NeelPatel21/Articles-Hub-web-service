@@ -29,6 +29,7 @@ import com.articles_hub.database.beans.Tag;
 import com.articles_hub.api.model.ShortArticleDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.api.model.Util;
+import com.articles_hub.database.beans.TagStatus;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
@@ -87,7 +88,7 @@ public class TagService {
         return null;
     }
     
-    public boolean addTag(TagDetail tagDetail){
+    public boolean addTag(TagDetail tagDetail, TagStatus status){
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
@@ -97,7 +98,9 @@ public class TagService {
                 return false;
             }
             session.setFlushMode(FlushModeType.AUTO);
-            session.save(Util.makeTag(tagDetail));
+            Tag tag=Util.makeTag(tagDetail);
+            tag.setTagStatus(status);
+            session.save(tag);
             session.flush();
             t.commit();
             LOG.info("TagService, addTag :- "+
@@ -231,6 +234,89 @@ public class TagService {
                 t.commit();
         }
         return new Tag[0];
+    }
+    
+    public Tag[] getAllTag(int start,int size, TagStatus status){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.byStatus");
+            q.setParameter("status", status.name());
+            q.setFirstResult(start);
+            q.setMaxResults(size);
+            List<Tag> list = q.list();
+            if(list.size()>=1){
+                LOG.info("TagService, getAllTag :- "+
+                          "start :- "+start+", size :- "+size+", status :- "+status);
+                return list.toArray(new Tag[0]);
+            }else{
+                LOG.warning("TagService, getAllTag :- "+
+                          "no record found, start :- "+start+", size:-"+size
+                          +", status :- "+status);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return new Tag[0];
+    }
+    
+    public boolean updateTagStatus(String tagName,TagStatus status){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.byName");
+            q.setParameter("name", tagName);
+            List<Tag> list = q.list();
+            if(list.size()==1){
+                LOG.info("TagService, updateTagStatus :- "+
+                          "tagName :- "+tagName);
+                list.get(0).setTagStatus(status);
+            }else if(list.size()<1){
+                LOG.warning("TagService, updateTagStatus :- "+
+                          "tag not found, tagName :- "+tagName);
+                return false;
+            }else{
+                LOG.warning("TagService, updateTagStatus :- "+
+                          "multiple tag found, tagName :- "+tagName);
+                return false;
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return true;
+    }
+    
+    public Tag getTag(String tagName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.byName_all");
+            q.setParameter("name", tagName);
+            List<Tag> list = q.list();
+            if(list.size()==1){
+                LOG.info("TagService, getTag :- "+
+                          "tagName :- "+tagName);
+                return list.get(0);
+            }else if(list.size()<1){
+                LOG.warning("TagService, getTagDetail :- "+
+                          "tag not found, tagName :- "+tagName);
+            }else{
+                LOG.warning("TagService, getTagDetail :- "+
+                          "multiple tag found, tagName :- "+tagName);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return null;
     }
     
 }

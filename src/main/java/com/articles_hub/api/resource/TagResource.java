@@ -28,6 +28,7 @@ import com.articles_hub.api.model.LinkMaker;
 import com.articles_hub.api.model.ShortArticleDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.api.providers.Secured;
+import com.articles_hub.database.beans.TagStatus;
 import com.articles_hub.service.TagService;
 import java.net.URI;
 import javax.ws.rs.Consumes;
@@ -98,8 +99,8 @@ public class TagResource {
 //secure    
     @POST
     @Secured
-    public Response createTagDetail(TagDetail tag){
-        if(service.addTag(tag)){
+    public Response requestTagDetail(TagDetail tag){
+        if(service.addTag(tag,TagStatus.requested)){
             TagDetail newTag=service.getTagDetail(tag.getTagName());
             LinkMaker.popLinks(urif, newTag);
             return Response.created(URI.create(newTag.getLinks().stream()

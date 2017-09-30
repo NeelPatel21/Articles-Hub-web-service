@@ -4,6 +4,7 @@
     Author     : Neel Patel
 --%>
 
+<%@page import="com.articles_hub.service.UserService"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.articles_hub.service.ArticleService"%>
 <%@page import="com.articles_hub.database.beans.Article"%>
@@ -27,33 +28,25 @@
     </head>
     <body class="w3-light-grey">
         <%
-            ArticleService articleService= ArticleService.getArticleService();
+            UserService userService= UserService.getUserService();
             String query=request.getQueryString();
-            ArticleDetail article;
+            UserDetail user;
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
-                String idParam=parm.get("articleid").length>0?parm.get("articleid")[0]:"";
-                articleId=Integer.parseInt(idParam);
-                article = articleService.getArticleDetail(articleId);
+                String userName=parm.get("username").length>0?parm.get("username")[0]:"";
+                user = userService.getUserDetail(userName);
             }catch(Exception e){
                 return;
             }
-            if(article==null)
+            if(user==null)
                 return;
-            String tags="";
-            int index=0;
-            int ntags=article.getTag().size();
-            for(String tag:article.getTag()){
-                index++;
-                tags+=tag+(index==ntags?"":", ");
-            }
+            
         %>
     <div class="w3-container">
-        <h2><%=article.getTitle()%></h2>
-        <h5 class="w3-right-align"><i>by, <%=article.getAuthor()%></i></h5>
-        <h5>ID :- <i><%=article.getArticleId()%></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        Publish date :- <i><%=article.getDate()%></i></h5>
-        <h5>Tags :- <i><%=tags%></i></h5>
+        <h5>User name:- <i><%=user.getUserName()%></i></h5>
+        <h5>First name:- <i><%=user.getFirstName()%></i></h5>
+        <h5>Last name:- <i><%=user.getLastName()%></i></h5>
+        <h5>Email id:- <i><%=user.getEmailId()%></i></h5>
         <button class="w3-button w3-red"id="b_remove">Permanently Remove</button>
         <hr>
     </div>
@@ -62,14 +55,14 @@
             document.getElementById("b_remove").addEventListener('click',
                 function (){
                     var xhttp = new XMLHttpRequest();
-                    xhttp.open('get','../ArticleRemove?articleid=<%=article.getArticleId()%>',true);
+                    xhttp.open('get','../UserRemove?username=<%=user.getUserName()%>',true);
                     xhttp.send();
                     xhttp.onreadystatechange = function() {
                         if (this.readyState === 4){
                             if(this.status === 200){
-                                alert("article removed successfully");
+                                alert("user removed successfully");
                             }else{
-                                alert("error in article remove");
+                                alert("error in user remove");
                             }
                         }
                     };

@@ -41,21 +41,30 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Tag.byName",
+              query = "from Tag where tagName = :name and tagStatus = 'enable'"),
+    @NamedQuery(name = "Tag.byName_all",
               query = "from Tag where tagName = :name"),
+    @NamedQuery(name = "Tag.byName_byStatus",
+              query = "from Tag where tagName = :name and tagStatus = :status"),
+    @NamedQuery(name = "Tag.byStatus", query = "from Tag where tagStatus = :status"),
     @NamedQuery(name = "Tag.allTag", query = "from Tag")
 })
 @Table(name = "tags")
 //@XmlRootElement
 public class Tag {
 
+//static
 //schema
     @Id
     @GenericGenerator(name = "tagId_gen", strategy = "sequence")
     @GeneratedValue(generator = "tagId_gen") 
     private long tagId;
     
-    @Column(name = "tag_name",unique = true, length = 50)
+    @Column(name = "tag_name",unique = true, length = 50, nullable = false)
     private String tagName;
+    
+    @Column(name = "tag_status", length = 10, nullable = false)
+    private String tagStatus;
     
 //constructors & methods    
 
@@ -82,6 +91,14 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public TagStatus getTagStatus() {
+        return TagStatus.valueOf(tagStatus);
+    }
+
+    public void setTagStatus(TagStatus tagStatus) {
+        this.tagStatus = tagStatus.name();
     }
 
     @Override

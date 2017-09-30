@@ -4,6 +4,7 @@
     Author     : Neel Patel
 --%>
 
+<%@page import="com.articles_hub.database.beans.Tag"%>
 <%@page import="com.articles_hub.service.TagService"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.articles_hub.service.ArticleService"%>
@@ -29,11 +30,11 @@
         <%
             TagService tagService= TagService.getTagService();
             String query=request.getQueryString();
-            TagDetail tag;
+            Tag tag;
             try{
                 Map<String,String[]> parm=HttpUtils.parseQueryString(query);
                 String tagName=parm.get("tagname").length>0?parm.get("tagname")[0]:"";
-                tag = tagService.getTagDetail(tagName);
+                tag = tagService.getTag(tagName);
             }catch(Exception e){
                 return;
             }
@@ -41,7 +42,9 @@
                 return;
         %>
     <div class="w3-container">
+        <h5>Tag Id:- <i><%=tag.getTagId()%></i></h5>
         <h5>Tag Name:- <i><%=tag.getTagName()%></i></h5>
+        <h5>Status:- <i><%=tag.getTagStatus()%></i></h5>
         <hr>
     </div>
     </body>

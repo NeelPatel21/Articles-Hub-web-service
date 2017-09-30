@@ -52,6 +52,7 @@
             <tr class="w3-dark-grey">
                 <th>Tag Id</th>
                 <th>Tag name</th>
+                <th>Status</th>
             </tr>
             <%
                 for(Tag tag:tags){
@@ -59,6 +60,7 @@
             <tr>
                 <td><%=tag.getTagId()%></td>
                 <td><%=tag.getTagName()%></td>
+                <td><%=tag.getTagStatus()%></td>
             </tr>
             <%
                 }

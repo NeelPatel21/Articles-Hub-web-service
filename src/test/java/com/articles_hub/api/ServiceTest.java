@@ -3,6 +3,7 @@ package com.articles_hub.api;
 import com.articles_hub.api.model.AdminDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.application.RestApplication;
+import com.articles_hub.database.beans.TagStatus;
 import com.articles_hub.service.AdminService;
 import com.articles_hub.service.TagService;
 import javax.ws.rs.core.Application;
@@ -27,7 +28,7 @@ public class ServiceTest extends JerseyTest {
     public void testRemoveTag() {
         TagDetail tag=new TagDetail();
         tag.setTagName("test_tag");
-        assert TagService.getTagService().addTag(tag);
+        assert TagService.getTagService().addTag(tag,TagStatus.enable);
         assert TagService.getTagService().removeTag("test_tag");
     }
     
