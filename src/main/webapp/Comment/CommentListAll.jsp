@@ -45,7 +45,7 @@
             <a href="<%=tabPage==0?"":"./CommentListAll.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
             <a href="#" class="w3-button"><%=(tabPage+1)%></a>
             <a href="<%=comments.length!=SIZE?"":"./CommentListAll.jsp?page="+(tabPage+1)%>" class="w3-button <%=comments.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
-            <a href="#" class="w3-button">Last</a>
+            <a href="<%="./CommentListAll.jsp?page="+(commentService.getAllCount()/SIZE)%>" class="w3-button w3-black">Last</a>
         </div>
             
         <table class="w3-table-all">

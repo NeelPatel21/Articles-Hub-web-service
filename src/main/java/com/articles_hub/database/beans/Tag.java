@@ -51,7 +51,12 @@ import org.hibernate.annotations.NamedQuery;
     @NamedQuery(name = "Tag.byName_byStatus",
               query = "from Tag where tagName = :name and tagStatus = :status"),
     @NamedQuery(name = "Tag.byStatus", query = "from Tag where tagStatus = :status"),
-    @NamedQuery(name = "Tag.allTag", query = "from Tag")
+    @NamedQuery(name = "Tag.allTag", query = "from Tag"),
+    @NamedQuery(name = "Tag.count",
+              query = "select count(tag) from Tag tag where tagStatus = 'enable'"),
+    @NamedQuery(name = "Tag.request_count",
+              query = "select count(tag) from Tag tag where tagStatus = 'requested'")
+
 })
 @Table(name = "tags")
 //@XmlRootElement

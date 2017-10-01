@@ -50,7 +50,6 @@ public class Util {
             perosn.setUserName(personDetail.getUserName());
             perosn.setFirstName(personDetail.getFirstName());
             perosn.setLastName(personDetail.getLastName());
-            perosn.setEmailId(personDetail.getEmailId());
             perosn.setPass(personDetail.getPass());
             return perosn;
         }catch(Exception ex){
@@ -68,7 +67,6 @@ public class Util {
             personDetail.setUserName(person.getUserName());
             personDetail.setFirstName(person.getFirstName());
             personDetail.setLastName(person.getLastName());
-            personDetail.setEmailId(person.getEmailId());
             return personDetail;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -136,6 +134,7 @@ public class Util {
             if(user==null)
                 return null;
             UserProfile userProfile=(UserProfile)makePerson(user, UserProfile::new);
+            userProfile.setEmailId(user.getEmailId());
             userProfile.setInfo(user.getInfo());
             return userProfile;
         }catch(Exception ex){

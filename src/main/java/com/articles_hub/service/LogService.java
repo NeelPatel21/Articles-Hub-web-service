@@ -23,16 +23,137 @@
  */
 package com.articles_hub.service;
 
-import org.eclipse.jetty.util.log.JavaUtilLog;
-import org.eclipse.jetty.util.log.Logger;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import static java.lang.System.out;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.logging.*;
+
 
 /**
  *
  * @author Neel Patel
  */
 public class LogService {
-    private static Logger logger = new JavaUtilLog("System Log");
-    public static Logger getLogger(){
-        return logger;
+
+    private static final Logger LOG = Logger.getLogger("com.articles_hub");
+    private static final int LOG_MAX_SIZE = 50;
+    private static LogService service = new LogService();
+    private final MyHandler handler;
+    
+    public static LogService getLogService(){
+        return service;
+    }
+    
+    private LogService(){
+        handler = new MyHandler();
+        LOG.addHandler(handler);
+        // get the global logger to configure it
+        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+        // suppress the logging output to the console
+        Logger rootLogger = Logger.getLogger("");
+        
+    }
+    
+    public Logs getListner(){
+        System.out.println("listner");
+        Logs out = new Logs();
+        handler.addOut(out);
+        return out;
+    }
+    
+    private class MyHandler extends Handler{
+
+        private final Logger LOG = Logger.getLogger(MyHandler.class.getName());
+
+//        private final List<String> cache = new ArrayList<>();
+        private final Set<Logs> outs=new HashSet<>();
+        
+        @Override
+        public void publish(LogRecord record) {
+            System.out.println("publish "+record.getMessage());
+            Set<Logs> closedOuts=new HashSet<>();
+            synchronized(outs){
+                outs.parallelStream().peek(out->{
+                    try{
+                        System.out.println("flush out");
+                        out.addLogs(record.getMessage());
+                    }catch(Exception e){
+                        out.close();
+                        closedOuts.add(out);
+                    }
+                }).count();
+                outs.removeAll(closedOuts);
+            }
+        }
+
+        @Override
+        public void flush() {
+//            List<String> copy;
+//            synchronized(cache){
+//                copy=new ArrayList<>(cache);
+//                cache.clear();
+//            }
+//            Set<Logs> closedOuts=new HashSet<>();
+//            synchronized(outs){
+//                outs.parallelStream().peek(out->{
+//                    try{
+//                        System.out.println("flush out");
+//                        copy.forEach(out::addLogs);
+//                    }catch(Exception e){
+//                        out.close();
+//                        closedOuts.add(out);
+//                    }
+//                }).count();
+//                LOG.info("LogService, number of closed streams :- "+closedOuts.size());
+//                outs.removeAll(closedOuts);
+//            }
+        }
+
+        @Override
+        public void close() throws SecurityException {
+            synchronized(outs){
+                outs.forEach(x->x.close());
+                outs.clear();
+            }
+        }
+        
+        public void addOut(Logs out){
+            synchronized(outs){
+                outs.add(out);
+            }
+        }
+    }
+    
+    public class Logs{
+        private List<String> logs=new ArrayList<>();
+        private boolean isClosed=false;
+        Logs(){}
+        public synchronized void addLogs(String log){
+            logs.add(log);
+            if(logs.size()>LOG_MAX_SIZE)
+                close();
+        }
+        
+        public synchronized List<String> readAll(){
+            List<String> temp = new ArrayList<>(logs);
+            logs.clear();
+            return temp;
+        }
+        
+        public void close(){
+            isClosed=true;
+        }
+        public boolean isClose(){
+            return isClosed;
+        }
     }
 }

@@ -141,9 +141,9 @@ public class AdminService {
             AdminProfile adminProfile=list.get(0);
             adminProfile.setFirstName(admin.getFirstName());
             adminProfile.setLastName(admin.getLastName());
-            adminProfile.setPass(admin.getPass());
+            if(admin.getPass()!=null&&!admin.getPass().equals(""))
+                adminProfile.setPass(admin.getPass());
             adminProfile.setInfo(admin.getInfo());
-            adminProfile.setEmailId(admin.getEmailId());
             session.flush();
             t.commit();
             LOG.info("AdminService, updateAdmin :- "+
@@ -186,4 +186,21 @@ public class AdminService {
         return new AdminProfile[0];
     }
     
+    public long getAllCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("AdminProfile.count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("AdminService, getAllCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
 }

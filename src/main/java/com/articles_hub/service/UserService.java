@@ -495,4 +495,21 @@ public class UserService {
         return false;
     }
     
+    public long getAllCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("UserProfile.count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("UserService, getAllCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
 }

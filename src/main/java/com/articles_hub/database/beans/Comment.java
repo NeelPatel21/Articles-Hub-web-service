@@ -34,6 +34,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 /**
@@ -42,7 +43,11 @@ import org.hibernate.annotations.NamedQuery;
  */
 @Entity
 @Table(name = "comments")
-@NamedQuery(name = "Comment.allComment", query = "from Comment")
+@NamedQueries({
+    @NamedQuery(name = "Comment.allComment", query = "from Comment"),
+    @NamedQuery(name = "Comment.count",
+          query = "select count(comment) from Comment comment")
+})
 //@XmlRootElement
 public class Comment {
 

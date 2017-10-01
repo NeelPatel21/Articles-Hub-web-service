@@ -314,4 +314,39 @@ public class TagService {
         return null;
     }
     
+    public long getAllCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("TagService, getAllCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
+    
+    public long getRequestCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Tag.request_count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("TagService, getRequestCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
 }

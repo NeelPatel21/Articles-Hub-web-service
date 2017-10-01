@@ -45,6 +45,14 @@
         <servlet-name>TagUpdate</servlet-name>
         <servlet-class>com.articles_hub.admin.TagUpdate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminUpdate</servlet-name>
+        <servlet-class>com.articles_hub.admin.AdminUpdate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogUpdate</servlet-name>
+        <servlet-class>com.articles_hub.admin.LogUpdate</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -98,5 +106,13 @@
     <servlet-mapping>
         <servlet-name>TagUpdate</servlet-name>
         <url-pattern>/TagUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminUpdate</servlet-name>
+        <url-pattern>/AdminUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogUpdate</servlet-name>
+        <url-pattern>/LogUpdate</url-pattern>
     </servlet-mapping>
 </web-app>

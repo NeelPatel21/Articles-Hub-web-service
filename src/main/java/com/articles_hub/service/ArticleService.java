@@ -282,4 +282,21 @@ public class ArticleService {
         return new Article[0];
     }
     
+    public long getAllCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Article.count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("ArticleService, getAllCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
 }

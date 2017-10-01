@@ -68,9 +68,6 @@ public class Person {
     @Column(name = "passwd", length = 50, nullable = false)
     private String pass;
     
-    @Column(name = "user_email", length = 100, nullable = false, unique = true)
-    private String emailId;
-    
 //methods & constructors
 
     /**
@@ -106,10 +103,6 @@ public class Person {
         return pass;
     }
 
-    public String getEmailId() {
-        return emailId;
-    }
-
     public void setUserId(long userId) {
         this.userId = userId;
     }
@@ -128,10 +121,6 @@ public class Person {
 
     public void setPass(String pass) {
         this.pass = pass;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
     }
     
     /**

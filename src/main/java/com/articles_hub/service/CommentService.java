@@ -224,4 +224,21 @@ public class CommentService {
         return new Comment[0];
     }
     
+    public long getAllCount(){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            Query q= session.getNamedQuery("Comment.count");
+            long count = (Long)q.uniqueResult();
+            LOG.info("CommentService, getAllCount :- "+
+                      "count :- "+count);
+            return count;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return 0;
+    }
 }

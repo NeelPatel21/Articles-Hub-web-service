@@ -56,6 +56,8 @@ import org.hibernate.annotations.NamedQuery;
 public class UserProfile extends Person{
     
 //schema
+    @Column(name = "user_email", length = 100, nullable = false, unique = true)
+    private String emailId;
     
     @Column(name = "user_info", length = 5000)
     private String info;
@@ -88,6 +90,10 @@ public class UserProfile extends Person{
 
     public UserProfile() {
     }
+
+    public String getEmailId() {
+        return emailId;
+    }
     
     public String getInfo() {
         return info;
@@ -110,6 +116,10 @@ public class UserProfile extends Person{
 
     public Set<Tag> getFavoriteTag() {
         return favoriteTag;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
     public void setInfo(String info) {

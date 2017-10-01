@@ -45,7 +45,7 @@
             <a href="<%=tabPage==0?"":"./TagListAll.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
             <a href="#" class="w3-button"><%=(tabPage+1)%></a>
             <a href="<%=tags.length!=SIZE?"":"./TagListAll.jsp?page="+(tabPage+1)%>" class="w3-button <%=tags.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
-            <a href="#" class="w3-button">Last</a>
+            <a href="<%="./TagListAll.jsp?page="+(tagService.getAllCount()/SIZE)%>" class="w3-button w3-black">Last</a>
         </div>
             
         <table class="w3-table-all">
