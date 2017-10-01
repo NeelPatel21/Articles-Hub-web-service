@@ -23,11 +23,15 @@
  */
 package com.articles_hub.database.beans;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 //import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -65,7 +69,12 @@ public class Tag {
     
     @Column(name = "tag_status", length = 10, nullable = false)
     private String tagStatus;
+
+    @ManyToMany(mappedBy = "favoriteTag", fetch = FetchType.LAZY)
+    private Set<UserProfile> favTag=new HashSet<UserProfile>();
     
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    private Set<Article> articleTags=new HashSet<Article>();
 //constructors & methods    
 
     /**
@@ -99,6 +108,11 @@ public class Tag {
 
     public void setTagStatus(TagStatus tagStatus) {
         this.tagStatus = tagStatus.name();
+    }
+    
+    public void removeAll(){
+        this.favTag.parallelStream().forEach(x->x.getFavoriteTag().remove(this));
+        this.articleTags.parallelStream().forEach(x->x.getTags().remove(this));
     }
 
     @Override

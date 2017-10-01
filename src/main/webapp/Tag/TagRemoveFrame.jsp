@@ -55,7 +55,7 @@
     </head>
     <body class="w3-light-grey">  
         <div class="menu">
-            Id:- <input type="text" id="tagname">
+            Tag name:- <input type="text" id="tagname">
             <button id="b_show">show</button>
         </div><br>
         <iframe class="frame-window" style="border:none" id="f_window2" name="frame"></iframe>

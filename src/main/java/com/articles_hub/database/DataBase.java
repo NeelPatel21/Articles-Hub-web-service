@@ -23,6 +23,7 @@
  */
 package com.articles_hub.database;
 
+import javax.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

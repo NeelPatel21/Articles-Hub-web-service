@@ -183,12 +183,7 @@ public class TagService {
             }
             list.forEach(tag->{
                 try{
-                    Query q1= session.createNamedQuery("Article.byTag");
-                    q1.setParameterList("tags",new String[]{tag.getTagName()});
-                    List<Article> list1 = q1.list();
-                    list1.forEach(article->{
-                        article.getTags().remove(tag);
-                    });
+                    tag.removeAll();
 //                    LOG.info("TagService, getAllArticles :- ",
 //                              "number of articles :- "+list.size());
 //                    return list.stream()

@@ -458,9 +458,30 @@ public class UserService {
                 return false;
             }
             AuthenticationService authService=AuthenticationService.getAuthenticationService();
+            
+            //remove authentication records of user.
             list.stream().map(user->authService.getToken(user.getUserName()))
                       .filter(token->token!=null)
                       .forEach(token->authService.userLogout(token));
+            //remove article, comments, likes done by user.
+            list.stream().peek(user->{
+                //remove articles
+                user.getArticles().forEach(article->ArticleService
+                    .getArticleService()
+                    .removeArticleDetail(article.getArticleId()));
+                //remove comments
+                user.getComments().forEach(comment->CommentService
+                    .getCommentService()
+                    .removeCommentDetail(comment.getCommentId()));
+                //remove likes
+                user.getLikes().forEach(like->
+                    removeLike(user.getUserName(), like.getArticleId()));
+                //remove favorite tags
+                setFavoriteTags(user.getUserName(), new TagDetail[0]);
+                System.out.println("before refresh :- "+user.getFavoriteTag());
+//                session.refresh(user);
+                System.out.println("after refresh :- "+user.getFavoriteTag());
+            }).count();
             list.forEach(user->session.delete(user));
             LOG.info("UserService, removeUser :- "+
                       "user removed successfully, userName :- "+userName);

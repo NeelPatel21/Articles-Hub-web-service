@@ -69,7 +69,7 @@ public class UserProfile extends Person{
     @ManyToMany(mappedBy = "likes", cascade = CascadeType.ALL)
     private Set<Article> likes = new HashSet<>(); // likes by this user.
     
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH} )
     @JoinTable(name = "user_favorite_tags", joinColumns = @JoinColumn(name = "userId"),
               inverseJoinColumns = @JoinColumn(name = "tagId"))
     private Set<Tag> favoriteTag = new HashSet<>(); // favorite tags of this user.
