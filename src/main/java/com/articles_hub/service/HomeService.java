@@ -53,7 +53,7 @@ public class HomeService {
     private List<Long> articleIds=Collections.emptyList();
     private final int FATCH_SIZE=100;
     private final int LIST_SIZE=20;
-    private final int REFRESH_DELAY_SECONDS=300;
+    private final int REFRESH_DELAY_SECONDS=150;
     
     public static HomeService getHomeService(){
         if(obj==null)
