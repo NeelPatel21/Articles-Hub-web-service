@@ -59,10 +59,10 @@ public class Person {
     @Column(name = "user_name", length = 50, nullable = false, unique = true)
     private String userName;
     
-    @Column(name = "first_name", length = 50, nullable = false)
+    @Column(name = "first_name", length = 50)
     private String firstName;
     
-    @Column(name = "last_name", length = 50, nullable = false)
+    @Column(name = "last_name", length = 50)
     private String lastName;
     
     @Column(name = "passwd", length = 50, nullable = false)

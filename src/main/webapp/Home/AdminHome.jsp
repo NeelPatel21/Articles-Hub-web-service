@@ -106,6 +106,14 @@
                 response.sendRedirect("../login.jsp");
                 return;
             }
+            // Set standard HTTP/1.1 no-cache headers.
+            response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+
+            // Set standard HTTP/1.0 no-cache header.
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setHeader("Cache-Control","no-store"); //HTTP 1.1
         %>
     </head>
     <body class="w3-light-grey">
@@ -176,10 +184,10 @@
                     <header class="w3-container w3-indigo">
                         <h3>System Logs</h3>
                     </header>
-                    <div class="w3-container w3-black" id="logwin" style="height:250px; overflow-y:auto">
+                    <div class="w3-container w3-black w3-text-lime" id="logwin" style="height:250px; overflow-y:auto">
                         <pre id="log"></pre>
                     </div>
-                    <label><input type="checkbox" id="scroll">Auto Scroll</label>
+                    <label><input type="checkbox" id="scroll" checked="true">Auto Scroll</label>
                 </div>
             </div>
         </div>
@@ -190,8 +198,7 @@
                 xhttp.send();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState === 4){
-                        document.getElementById("log").innerHTML =
-                            document.getElementById("log").innerHTML + this.responseText;
+                        document.getElementById("log").innerHTML = this.responseText;
                         if(document.getElementById("scroll").checked===true){
                             var element = document.getElementById("logwin");
                             element.scrollTop = element.scrollHeight;

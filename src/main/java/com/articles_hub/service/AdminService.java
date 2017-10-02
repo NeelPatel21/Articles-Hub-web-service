@@ -24,11 +24,9 @@
 package com.articles_hub.service;
 
 import com.articles_hub.api.model.AdminDetail;
-import com.articles_hub.api.model.ArticleDetail;
 import com.articles_hub.database.DataBase;
 import com.articles_hub.api.model.Util;
 import com.articles_hub.database.beans.AdminProfile;
-import com.articles_hub.database.beans.Article;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
@@ -61,6 +59,16 @@ public class AdminService {
     
     private AdminService(){
         db=DataBase.getDataBase();
+        AdminDetail superUser=getAdminDetail("superuser");
+        if(superUser==null){
+            superUser = new AdminDetail();
+            superUser.setUserName("superuser");
+            superUser.setPass("administrator");
+            if(!addAdmin(superUser)){
+                System.err.println("unable to add superuser");
+                System.exit(1);
+            }
+        }
 //        System.err.println("user service initialized");
     }
     

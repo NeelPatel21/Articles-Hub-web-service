@@ -62,7 +62,7 @@ public class AdminUpdate extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         try{
-            System.out.println(req.getParameterMap());
+//            System.out.println(req.getParameterMap());
             String userName=req.getParameter(QUERY_ID);
             if(!isLoggedIn(session,userName)){
                 resp.sendRedirect(LOGIN_URL);
@@ -72,12 +72,21 @@ public class AdminUpdate extends HttpServlet {
                 message="personal details updated successfully";
             }else{
                 message="error in updating personal details";
-                resp.setStatus(HttpStatus.BAD_REQUEST_400);
+//                resp.setStatus(HttpStatus.BAD_REQUEST_400);
             }
         }catch(Exception e){
         }
         session.setAttribute(PARAM_MESSAGE,message);
-//        resp.sendRedirect(HOME_URL);
+//        System.out.println("test2");
+        resp.sendRedirect(HOME_URL);
+        // Set standard HTTP/1.1 no-cache headers.
+        resp.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
+
+        // Set standard HTTP/1.0 no-cache header.
+        resp.setHeader("Pragma", "no-cache");
+        resp.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        resp.setHeader("Cache-Control","no-store"); //HTTP 1.1
     }
     
     private boolean isLoggedIn(HttpSession session, String userName){
@@ -113,8 +122,8 @@ public class AdminUpdate extends HttpServlet {
             adminDetail.setFirstName(first);
             adminDetail.setLastName(last);
             adminDetail.setInfo(info);
-            System.out.println("name :- "+userName+", first :- "+first+", last :- "+last+", info :- "+info);
-            System.out.println(req.getParameterMap());
+//            System.out.println("name :- "+userName+", first :- "+first+", last :- "+last+", info :- "+info);
+//            System.out.println(req.getParameterMap());
             return adminService.updateAdmin(adminDetail);
         }catch(Exception e){}
         return false;

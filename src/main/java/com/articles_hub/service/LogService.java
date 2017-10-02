@@ -23,18 +23,16 @@
  */
 package com.articles_hub.service;
 
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintStream;
-import static java.lang.System.out;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.*;
+import java.util.concurrent.*;
 
 
 /**
@@ -45,6 +43,7 @@ public class LogService {
 
     private static final Logger LOG = Logger.getLogger("com.articles_hub");
     private static final int LOG_MAX_SIZE = 50;
+    private static final int FLUSH_DELAY = 500;
     private static LogService service = new LogService();
     private final MyHandler handler;
     
@@ -73,49 +72,45 @@ public class LogService {
     private class MyHandler extends Handler{
 
         private final Logger LOG = Logger.getLogger(MyHandler.class.getName());
-
-//        private final List<String> cache = new ArrayList<>();
+        private ScheduledExecutorService exeService = DefaultExecutorService.getExecutorService();
+        private final List<String> cache = new ArrayList<>();
         private final Set<Logs> outs=new HashSet<>();
+        
+        public MyHandler(){
+            ScheduledExecutorService service=DefaultExecutorService.getExecutorService();
+            service.scheduleWithFixedDelay(this::flush, FLUSH_DELAY,
+                      FLUSH_DELAY, TimeUnit.MILLISECONDS);
+        }
         
         @Override
         public void publish(LogRecord record) {
-            System.out.println("publish "+record.getMessage());
-            Set<Logs> closedOuts=new HashSet<>();
-            synchronized(outs){
-                outs.parallelStream().peek(out->{
-                    try{
-                        System.out.println("flush out");
-                        out.addLogs(record.getMessage());
-                    }catch(Exception e){
-                        out.close();
-                        closedOuts.add(out);
-                    }
-                }).count();
-                outs.removeAll(closedOuts);
+            synchronized(cache){
+                cache.add(record.getLevel().getName()+"["+LocalDateTime.now(ZoneId.of("Asia/Kolkata"))+"]: "+record.getMessage());
             }
         }
 
         @Override
         public void flush() {
-//            List<String> copy;
-//            synchronized(cache){
-//                copy=new ArrayList<>(cache);
-//                cache.clear();
-//            }
-//            Set<Logs> closedOuts=new HashSet<>();
-//            synchronized(outs){
-//                outs.parallelStream().peek(out->{
-//                    try{
+            List<String> copy;
+            synchronized(cache){
+                copy=new ArrayList<>(cache);
+                cache.clear();
+            }
+            Set<Logs> closedOuts=new HashSet<>();
+            synchronized(outs){
+                outs.parallelStream().peek(out->{
+                    try{
 //                        System.out.println("flush out");
-//                        copy.forEach(out::addLogs);
-//                    }catch(Exception e){
-//                        out.close();
-//                        closedOuts.add(out);
-//                    }
-//                }).count();
-//                LOG.info("LogService, number of closed streams :- "+closedOuts.size());
-//                outs.removeAll(closedOuts);
-//            }
+                        copy.forEach(out::addLogs);
+                    }catch(Exception e){
+                        out.close();
+                    }
+                }).filter(x->x.isClosed()).peek(x->closedOuts.add(x)).count();
+                if(closedOuts.isEmpty())
+                    return;
+                LOG.info("LogService, number of closed streams :- "+closedOuts.size());
+                outs.removeAll(closedOuts);
+            }
         }
 
         @Override
@@ -152,7 +147,7 @@ public class LogService {
         public void close(){
             isClosed=true;
         }
-        public boolean isClose(){
+        public boolean isClosed(){
             return isClosed;
         }
     }

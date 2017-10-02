@@ -56,7 +56,7 @@ public class LogUpdate extends HttpServlet {
                 return;
             }
             Logs sc = (Logs)session.getAttribute(LOG_OBJ);
-            if(sc==null||sc.isClose()){
+            if(sc==null||sc.isClosed()){
                 sc=logService.getListner();
                 session.setAttribute(LOG_OBJ, sc);
             }

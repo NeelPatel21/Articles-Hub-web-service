@@ -54,7 +54,6 @@ public class HomeService {
     private final int FATCH_SIZE=100;
     private final int LIST_SIZE=20;
     private final int REFRESH_DELAY_SECONDS=300;
-    private final ScheduledExecutorService executor;
     
     public static HomeService getHomeService(){
         if(obj==null)
@@ -71,7 +70,7 @@ public class HomeService {
         db=DataBase.getDataBase();
 //        System.err.println("user service initialized");
         refresh();
-        executor = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executor = DefaultExecutorService.getExecutorService();
         executor.scheduleWithFixedDelay(this::refresh,
                 REFRESH_DELAY_SECONDS, REFRESH_DELAY_SECONDS, TimeUnit.SECONDS);
     }
@@ -194,12 +193,6 @@ public class HomeService {
                 t.commit();
         }
         return null;
-    }
-    
-    @Override
-    public void finalize()throws Throwable{
-        executor.shutdownNow();
-        super.finalize();
     }
     
 }
