@@ -106,6 +106,7 @@ public class Util {
                 return null;
             UserDetail userDetail=(UserDetail)makePersonDetail(user, UserDetail::new);
             userDetail.setInfo(user.getInfo());
+            userDetail.setEmailId(user.getEmailId());
             return userDetail;
         }catch(Exception ex){
             ex.printStackTrace();

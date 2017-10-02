@@ -87,10 +87,11 @@ public class CommentResource {
     @Path("/{commentId}")
     public Response updateCommentDetail(@PathParam("commentId") long commentId,
               CommentDetail commentDetail, @Context SecurityContext secure){
-        if(commentDetail.getCommentId() == commentId)
+        if(commentDetail.getCommentId() != commentId){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 //                  && service.getCommentDetail(commentId).getUserName()
 //                            .equals(commentDetail.getUserName()))
-            return Response.status(Response.Status.BAD_REQUEST).build();
         if(!secure.getUserPrincipal().getName()
                   .equals(service.getCommentDetail(commentId).getUserName()))
             return Response.status(Response.Status.UNAUTHORIZED).build();
