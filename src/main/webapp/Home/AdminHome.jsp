@@ -106,6 +106,12 @@
                 response.sendRedirect("../login.jsp");
                 return;
             }
+            String message=(String)session.getAttribute("message");
+            if(message!=null)
+                out.print("<script>"+
+                        "alert('"+message+"');"+
+                        "</script>");
+            session.removeAttribute("message");
             // Set standard HTTP/1.1 no-cache headers.
             response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
 
