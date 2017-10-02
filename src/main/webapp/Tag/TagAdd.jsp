@@ -30,7 +30,7 @@
     <body class="w3-light-grey">
         
     <div class="w3-container">
-        <h5>Tag Name:- <input class="w3-input" type="text" id="tagname"></h5>
+        <h5>Tag Name:- <input class="w3-input w3-light-grey" type="text" id="tagname"></h5>
         <h5>Status:- <i id="status">enable</i> 
             <div class="w3-dropdown-hover">
                 <button class="w3-button">select</button>

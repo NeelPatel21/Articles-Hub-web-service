@@ -47,7 +47,7 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
-            if(admin==null){
+            if(admin==null||!admin.getUserName().equals("superuser")){
                 response.sendRedirect("../login.jsp");
                 return;
             }
@@ -65,7 +65,11 @@
                     function (){
                         var id=document.getElementById('username').value;
                         var w=document.getElementById('f_window2');
-                        w.src='./UserRemoveView.jsp?username='+id;
+                        if(id == "superuser"){
+                            alert("superuser can not be removed");
+                            return false;
+                        }
+                        w.src='./AdminRemoveView.jsp?username='+id;
                     }
                 );
             });

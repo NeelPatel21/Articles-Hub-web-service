@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <title>User</title>
+        <title>Admin</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -140,7 +140,7 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
-            if(admin==null){
+            if(admin==null||!admin.getUserName().equals("superuser")){
                 response.sendRedirect("../login.jsp");
                 return;
             }
@@ -150,23 +150,24 @@
         <ul class="titlebar">
             <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
+            <li class="w3-indigo"><a href="../Admin/Home.jsp">Admin</a></li>
             <li><a href="../Tag/TagHome.jsp">Tag</a></li>
             <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
             <li><a href="../Article/ArticleHome.jsp">Article</a></li>
-            <li class="w3-green"><a href="../User/UserHome.jsp">User</a></li>
+            <li><a href="../User/UserHome.jsp">User</a></li>
             <li><a href="../Home/AdminHome.jsp">Home</a></li>
         </ul>
            
         <div class="row">
             <div class="menu">
                 <ul class="menubar">
-                    <li><a href="./UserListAll.jsp" target="window">Show all Users</a></li>
-                    <li><a href="./UserViewFrame.jsp" target="window">View User</a></li>
-                    <li><a href="./UserLikeFrame.jsp" target="window">View Liked Articles</a></li>
-                    <li><a href="./UserRemoveFrame.jsp" target="window">Remove User</a></li>
+                    <li><a href="./AdminListAll.jsp" target="window">Show all Admins</a></li>
+                    <li><a href="./AdminViewFrame.jsp" target="window">View Admin</a></li>
+                    <li><a href="./AdminAddFrame.jsp" target="window">Add Admin</a></li>
+                    <li><a href="./AdminRemoveFrame.jsp" target="window">Remove Admin</a></li>
                 </ul>
             </div>
-                <iframe class="frame-window" src="./UserListAll.jsp" style="border:none" name="window"></iframe>
+                <iframe class="frame-window" src="./AdminListAll.jsp" style="border:none" name="window"></iframe>
         </div>
     </body>
 </html>

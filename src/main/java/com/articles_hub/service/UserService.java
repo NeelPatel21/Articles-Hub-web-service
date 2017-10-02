@@ -32,7 +32,6 @@ import com.articles_hub.api.model.ShortArticleDetail;
 import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.api.model.UserDetail;
 import com.articles_hub.api.model.Util;
-import com.articles_hub.database.beans.Comment;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;

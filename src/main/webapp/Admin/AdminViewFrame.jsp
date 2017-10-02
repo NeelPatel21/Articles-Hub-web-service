@@ -47,7 +47,7 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
-            if(admin==null){
+            if(admin==null||!admin.getUserName().equals("superuser")){
                 response.sendRedirect("../login.jsp");
                 return;
             }
@@ -65,7 +65,7 @@
                     function (){
                         var uname=document.getElementById('username').value;
                         var w=document.getElementById('f_window');
-                        w.src='./UserView.jsp?username='+uname;
+                        w.src='./AdminView.jsp?username='+uname;
                     }
                 );
             });

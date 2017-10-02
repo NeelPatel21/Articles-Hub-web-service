@@ -80,7 +80,7 @@ public class AuthenticationService {
             }
 //            System.out.println("check 4 "+userName+" "+pass);
             Person user=list.get(0);
-            if(!user.getPass().equals(pass)){
+            if(!pass.equals(user.getPass())){
                 LOG.info("AuthenticationService, userLogin :- "+
                             "Login fail, userName :- "+userName);
                 return null;

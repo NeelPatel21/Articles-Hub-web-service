@@ -24,9 +24,11 @@
 package com.articles_hub.service;
 
 import com.articles_hub.api.model.AdminDetail;
+import com.articles_hub.api.model.TagDetail;
 import com.articles_hub.database.DataBase;
 import com.articles_hub.api.model.Util;
 import com.articles_hub.database.beans.AdminProfile;
+import com.articles_hub.database.beans.UserProfile;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.FlushModeType;
@@ -210,5 +212,45 @@ public class AdminService {
                 t.commit();
         }
         return 0;
+    }
+    
+    public boolean removeAdmin(String userName){
+        Session session=db.getSession();
+        Transaction t=session.beginTransaction();
+        try{
+            if(userName.equals("supername"))
+                return false;
+            session.setFlushMode(FlushModeType.AUTO);
+            Query q= session.getNamedQuery("AdminProfile.byName");
+            q.setParameter("name", userName);
+            List<AdminProfile> list = q.list();
+            if(list.size()==1){
+                LOG.info("AdminService, removeAdmin :- "+
+                          "userName :- "+userName);
+            }else if(list.size()>1){
+                LOG.warning("AdminService, removeAdmin :- "+
+                          "multiple AdminProfile found, userName :- "+userName);
+            }else{
+                LOG.warning("AdminService, removeAdmin :- "+
+                          "AdminProfile not found, userName :- "+userName);
+                return false;
+            }
+            AuthenticationService authService=AuthenticationService.getAuthenticationService();
+            
+            //remove authentication records of user.
+            list.stream().map(user->authService.getToken(user.getUserName()))
+                      .filter(token->token!=null)
+                      .forEach(token->authService.userLogout(token));
+            list.forEach(user->session.delete(user));
+            LOG.info("AdminService, removeAdmin :- "+
+                      "admin removed successfully, userName :- "+userName);
+            return true;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            if(t!=null&&t.isActive()&&!t.getRollbackOnly())
+                t.commit();
+        }
+        return false;
     }
 }

@@ -4,6 +4,8 @@
     Author     : Neel Patel
 --%>
 
+<%@page import="com.articles_hub.service.AdminService"%>
+<%@page import="com.articles_hub.database.beans.AdminProfile"%>
 <%@page import="com.articles_hub.database.beans.UserProfile"%>
 <%@page import="com.articles_hub.service.UserService"%>
 <%@page import="java.util.Map"%>
@@ -19,7 +21,7 @@
         <title>all Users</title>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
-            if(admin==null){
+            if(admin==null||!admin.getUserName().equals("superuser")){
                 response.sendRedirect("../login.jsp");
                 return;
             }
@@ -29,7 +31,7 @@
     </head>
     <body class="w3-light-grey">
         <%
-            UserService userService= UserService.getUserService();
+            AdminService adminService= AdminService.getAdminService();
             int tabPage=0;
             String query=request.getQueryString();
             try{
@@ -37,34 +39,32 @@
                 String pageParam=parm.get("page").length>0?parm.get("page")[0]:"";
                 tabPage=Integer.parseInt(pageParam);
             }catch(Exception e){}
-            UserProfile users[]=userService.getAllUserProfiles(tabPage*SIZE, SIZE);
+            AdminProfile admins[]=adminService.getAllAdminProfile(tabPage*SIZE, SIZE);
         %>
     <center>
         <div class="w3-bar">
-            <a href="<%="./UserListAll.jsp?page="+0%>" class="w3-button w3-black">First</a>
-            <a href="<%=tabPage==0?"":"./UserListAll.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
+            <a href="<%="./AdminListAll.jsp?page="+0%>" class="w3-button w3-black">First</a>
+            <a href="<%=tabPage==0?"":"./AdminListAll.jsp?page="+(tabPage-1)%>" class="w3-button <%=tabPage>0?"":"w3-disabled"%>">&laquo;</a>
             <a href="#" class="w3-button"><%=(tabPage+1)%></a>
-            <a href="<%=users.length!=SIZE?"":"./UserListAll.jsp?page="+(tabPage+1)%>" class="w3-button <%=users.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
-            <a href="<%="./UserListAll.jsp?page="+(userService.getAllCount()/SIZE)%>" class="w3-button w3-black">Last</a>
+            <a href="<%=admins.length!=SIZE?"":"./AdminListAll.jsp?page="+(tabPage+1)%>" class="w3-button <%=admins.length==SIZE?"":"w3-disabled"%>">&raquo;</a>
+            <a href="<%="./AdminListAll.jsp?page="+(adminService.getAllCount()/SIZE)%>" class="w3-button w3-black">Last</a>
         </div>
             
         <table class="w3-table-all">
             <tr class="w3-dark-grey">
-                <th>User Id</th>
+                <th>Admin Id</th>
                 <th>Username</th>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Email Id</th>
             </tr>
             <%
-                for(UserProfile user:users){
+                for(AdminProfile user:admins){
             %>
             <tr>
                 <td><%=user.getUserId()%></td>
                 <td><%=user.getUserName()%></td>
                 <td><%=user.getFirstName()%></td>
                 <td><%=user.getLastName()%></td>
-                <td><%=user.getEmailId()%></td>
             </tr>
             <%
                 }

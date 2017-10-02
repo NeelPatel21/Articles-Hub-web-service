@@ -150,6 +150,10 @@
         <ul class="titlebar">
             <li style="color: #3eff3e">Hi, <%=admin.getFirstName()%> <%=admin.getLastName()%></li>
             <li><a style="color: #f7ee56" href="../Authentication?method=logout">Logout</a></li>
+            <%
+                if(admin.getUserName().equals("superuser"))
+                    out.println("<li class=\"w3-indigo\"><a href=\"../Admin/Home.jsp\">Admin</a></li>");
+            %>
             <li><a href="../Tag/TagHome.jsp">Tag</a></li>
             <li><a href="../Comment/CommentHome.jsp">Comment</a></li>
             <li class="w3-green"><a href="../Article/ArticleHome.jsp">Article</a></li>

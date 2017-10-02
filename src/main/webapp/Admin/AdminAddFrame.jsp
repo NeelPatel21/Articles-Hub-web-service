@@ -47,7 +47,7 @@
         </style>
         <%
             AdminDetail admin=(AdminDetail)request.getSession().getAttribute("user");
-            if(admin==null){
+            if(admin==null||!admin.getUserName().equals("superuser")){
                 response.sendRedirect("../login.jsp");
                 return;
             }
@@ -55,20 +55,25 @@
     </head>
     <body class="w3-light-grey">  
         <div class="menu">
-            Username:- <input type="text" id="username">
-            <button id="b_show">show</button>
+            <form action="../AdminAdd" class="w3-container" onsubmit="return validateForm()" method="post">
+                Username:- <input class="w3-input w3-light-grey" type="text" id="username" name="name">
+                Password:- <input class="w3-input w3-light-grey" type="text" id="passwd" name="pass">
+                First Name:- <input class="w3-input w3-light-grey" type="text" name="first">
+                Last Name:- <input class="w3-input w3-light-grey" type="text" name="last">
+                Info :- <input class="w3-input w3-light-grey" type="text" name="info">
+                <input class="w3-button w3-black" type="submit" value="Add">
+            </form>
         </div><br>
-        <iframe class="frame-window" style="border:none" id="f_window" name="frame"></iframe>
-        <script type="text/javascript">
-            window.onload = (function(){
-                document.getElementById("b_show").addEventListener('click',
-                    function (){
-                        var uname=document.getElementById('username').value;
-                        var w=document.getElementById('f_window');
-                        w.src='./UserLikeView.jsp?username='+uname;
-                    }
-                );
-            });
+        <script type="javascript">
+            function validateForm() {
+                var x = document..getElementById("username").value;
+                var y = document..getElementById("passwd").value;
+                if (x == "" || y == "") {
+                    alert("UserName & Password required");
+                    return false;
+                }
+                return true;
+            }
         </script>
     </body>
 </html>

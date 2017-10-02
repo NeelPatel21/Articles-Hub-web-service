@@ -53,6 +53,14 @@
         <servlet-name>LogUpdate</servlet-name>
         <servlet-class>com.articles_hub.admin.LogUpdate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminAdd</servlet-name>
+        <servlet-class>com.articles_hub.admin.AdminAdd</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminRemove</servlet-name>
+        <servlet-class>com.articles_hub.admin.AdminRemove</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
@@ -114,5 +122,13 @@
     <servlet-mapping>
         <servlet-name>LogUpdate</servlet-name>
         <url-pattern>/LogUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminAdd</servlet-name>
+        <url-pattern>/AdminAdd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminRemove</servlet-name>
+        <url-pattern>/AdminRemove</url-pattern>
     </servlet-mapping>
 </web-app>
