@@ -74,6 +74,8 @@ public class AdminUpdate extends HttpServlet {
                 message="error in updating personal details";
 //                resp.setStatus(HttpStatus.BAD_REQUEST_400);
             }
+            AdminDetail admin=adminService.getAdminDetail(userName);
+            session.setAttribute(USER_OBJ, admin);
         }catch(Exception e){
         }
         session.setAttribute(PARAM_MESSAGE,message);
