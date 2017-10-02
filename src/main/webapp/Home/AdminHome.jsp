@@ -190,8 +190,8 @@
                     <header class="w3-container w3-indigo">
                         <h3>System Logs</h3>
                     </header>
-                    <div class="w3-container w3-black w3-text-lime" id="logwin" style="height:250px; overflow-y:auto">
-                        <pre id="log"></pre>
+                    <div class="w3-container w3-black w3-text-lime" id="logwin" style="height:250px; overflow-y:auto; overflow-wrap: normal">
+                        <pre id="log" style="overflow-wrap: normal"></pre>
                     </div>
                     <label><input type="checkbox" id="scroll" checked="true">Auto Scroll</label>
                 </div>
