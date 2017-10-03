@@ -75,7 +75,7 @@ public class AuthenticationService {
                 return null;
             }else if(list.size()>1){
                 LOG.warning("AuthenticationService, userLogin :- "+
-                            "multiple user found, userName :- "+userName);
+                            "multiple user found, users :- "+list);
                 return null;
             }
 //            System.out.println("check 4 "+userName+" "+pass);
@@ -142,7 +142,7 @@ public class AuthenticationService {
             List<UserToken> list = q.list();
             if(list.size()!=1){
                 LOG.warning("AuthenticationService, getToken :- "+
-                            "multiple user found, userName :- "+userName);
+                            "multiple user found, users :- "+list);
                 return null;
             }
 //            System.out.println("check 7 "+list.get(0).getToken());

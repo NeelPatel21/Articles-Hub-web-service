@@ -40,7 +40,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "UserTokens.byName",
-          query = "select distinct t from UserToken t inner join t.user u where u.userName = ':name'")
+          query = "select distinct t from UserToken t inner join t.user u where u.userName = :name")
 })
 @Table(name = "user_tokens")
 public class UserToken {

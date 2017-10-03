@@ -45,12 +45,12 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Tag.byName",
-              query = "from Tag where tagName = ':name' and tagStatus = 'enable'"),
+              query = "from Tag where tagName = :name and tagStatus = 'enable'"),
     @NamedQuery(name = "Tag.byName_all",
-              query = "from Tag where tagName = ':name'"),
+              query = "from Tag where tagName = :name"),
     @NamedQuery(name = "Tag.byName_byStatus",
-              query = "from Tag where tagName = ':name' and tagStatus = ':status'"),
-    @NamedQuery(name = "Tag.byStatus", query = "from Tag where tagStatus = ':status'"),
+              query = "from Tag where tagName = :name and tagStatus = :status"),
+    @NamedQuery(name = "Tag.byStatus", query = "from Tag where tagStatus = :status"),
     @NamedQuery(name = "Tag.allTag", query = "from Tag"),
     @NamedQuery(name = "Tag.count",
               query = "select count(tag) from Tag tag where tagStatus = 'enable'"),

@@ -41,7 +41,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Person.byName",
-          query = "from Person where userName = ':name'"),
+          query = "from Person where userName = :name"),
     @NamedQuery(name = "Person.count",
           query = "select count(p) from Person p")
 })
@@ -144,4 +144,8 @@ public class Person {
         return hash;
     }
     
+    @Override
+    public String toString() {
+        return getUserId()+", "+getUserName();
+    }
 }
