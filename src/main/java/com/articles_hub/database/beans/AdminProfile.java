@@ -36,7 +36,7 @@ import org.hibernate.annotations.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "AdminProfile.byName",
-          query = "from AdminProfile where userName = :name"),
+          query = "from AdminProfile where userName = ':name'"),
     @NamedQuery(name = "AdminProfile.count",
           query = "select count(admin) from AdminProfile admin"),
     @NamedQuery(name = "AdminProfile.allAdmin", query = "from AdminProfile")
