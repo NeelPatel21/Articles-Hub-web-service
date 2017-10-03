@@ -92,7 +92,7 @@ public class Article {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>(); // comments on this article
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "likes", joinColumns = @JoinColumn(name = "article_id"),
               inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserProfile> likes = new HashSet<>(); // likes on this article

@@ -332,6 +332,7 @@ public class UserService {
         Session session=db.getSession();
         Transaction t=session.beginTransaction();
         try{
+            session.setFlushMode(FlushModeType.AUTO);
             Query q= session.getNamedQuery("UserProfile.byName");
             q.setParameter("name", userName);
             List<UserProfile> list = q.list();
@@ -468,15 +469,19 @@ public class UserService {
                 user.getArticles().forEach(article->ArticleService
                     .getArticleService()
                     .removeArticleDetail(article.getArticleId()));
+                session.flush();
                 //remove comments
                 user.getComments().forEach(comment->CommentService
                     .getCommentService()
                     .removeCommentDetail(comment.getCommentId()));
+                session.flush();
                 //remove likes
                 user.getLikes().forEach(like->
                     removeLike(user.getUserName(), like.getArticleId()));
+                session.flush();
                 //remove favorite tags
                 setFavoriteTags(user.getUserName(), new TagDetail[0]);
+                session.flush();
                 System.out.println("before refresh :- "+user.getFavoriteTag());
 //                session.refresh(user);
                 System.out.println("after refresh :- "+user.getFavoriteTag());
