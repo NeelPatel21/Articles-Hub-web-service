@@ -17,6 +17,9 @@
         </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>
+<!--    <welcome-file-list>
+        <welcome-file>home.jsp</welcome-file>
+    </welcome-file-list>-->
     <servlet>
         <servlet-name>invalid url</servlet-name>
         <servlet-class>com.articles_hub.admin.InvalidUrl</servlet-class>
@@ -74,10 +77,15 @@
         <url-pattern>*.JSPX</url-pattern>
         <url-pattern>*.XSP</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+<!--    <servlet-mapping>
         <servlet-name>invalid url</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+        <url-pattern>/Admin/</url-pattern>
+        <url-pattern>/Article/</url-pattern>
+        <url-pattern>/Comment/</url-pattern>
+        <url-pattern>/Home/</url-pattern>
+        <url-pattern>/Tag/</url-pattern>
+        <url-pattern>/User/</url-pattern>
+    </servlet-mapping>-->
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>

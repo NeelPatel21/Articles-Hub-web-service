@@ -1,17 +1,6 @@
 package com.articles_hub.heroku;
 
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.handler.SecuredRedirectHandler;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
@@ -34,7 +23,7 @@ public class Main {
 //        final Server server = new Server();
         
         final WebAppContext root = new WebAppContext();
-
+        root.setWelcomeFiles(new String[]{"home.jsp"});
         root.setContextPath("/");
         // Parent loader priority is a class loader setting that Jetty accepts.
         // By default Jetty will behave like most web containers in that it will
