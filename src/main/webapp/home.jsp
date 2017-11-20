@@ -42,7 +42,7 @@
 <header class="w3-display-container w3-center">
   <a class="w3-button w3-block w3-green w3-hide-large w3-hide-medium" href="<%=appLink%>">Download <i class="fa fa-android"></i></a>
   <div class="mySlides w3-animate-opacity">
-    <img class="w3-image" src="/main-background.jpg" alt="Image 1" style="min-width:500px" width="100%" height="100%">
+    <img class="w3-image" src="/main-background.jpg" alt="Image 1" style="" width="100%" height="100%">
 <!--    <div class="w3-display-middle w3-padding" style="width: calc(100%-40);
                 height: calc(100% - 20px);">
         <img class="w3-image" src="/articles hub logo.png" alt="Image 1" style="min-width:500px; padding-top: 50px; padding-left: 5px; padding-right: 5px" width="100%" height="100%">
@@ -66,11 +66,11 @@
     <div class="w3-col l8 m6">
       <h1 class="w3-jumbo"><b>The App</b></h1>
       <h1 class="w3-xxlarge w3-text-green"><b>Why should I use it?</b></h1>
-      <p class="w3-large">Articles Hub is a simple community based web application.
-      where you can find large number of article on different topics written by users.
-      you can also write your own a articles by simply registering your self as a user.
-      It is <span class="w3-xlarge">100% free</span>. you can spend
-      your free time with the app by reading articles of your choice. you can also
+      <p class="w3-large">'Articles Hub' is a simple community based web application 
+      where you can find large number of articles on different topics written by users.
+      You can also write your own articles by simply registering your self as a user.
+      It is <span class="w3-xlarge">100% free</span>. You can spend
+      your free time with the app by reading articles of your choice. You can also
       share your knowledge or thoughts with others by writing articles.</p>
       <a class="w3-button w3-light-grey w3-padding-large w3-section w3-hide-small" href="<%=appLink%>">
         <i class="fa fa-download"></i> Download Application
@@ -113,10 +113,10 @@
       <h1 class="w3-jumbo"><b>How to write an article?</b></h1>
       <h1 class="w3-xxlarge w3-text-red"><b>I'm not a professional writer!</b></h1>
       <p class="w3-large">You don't have to be a professional writer to write
-          an article. you can write article in <span class="w3-xlarge">any formate</span>.
+          an article. You can write article in <span class="w3-xlarge">any formate</span>.
           Any registered user can simply write an article by picking up appropriate
           title & related tags.
-          Articles' <span class="w3-xlarge">length doesn't matter</span>. you
+          Articles' <span class="w3-xlarge">length doesn't matter</span>. You
           can write an article in few words to more then 1000 words. 
       </p>
       <a class="w3-button w3-grey w3-padding-large w3-section w3-hide-small" href="<%=appLink%>">
@@ -141,7 +141,7 @@
     <div class="w3-col l8 m6">
       <h1 class="w3-jumbo"><b>Features</b></h1>
       <h1 class="w3-xxlarge w3-text-blue"><b>What else I can do with this app?</b></h1>
-      <p class="w3-large">Application introduce number of extra features. You can 
+      <p class="w3-large">Application introduce number of features. You can 
           <span class="w3-xlarge">like</span> & <span class="w3-xlarge">comment</span>
           on articles. You can search articles by tag. You can also select
           <span class="w3-xlarge">favorite tags</span> for personalized experience.
