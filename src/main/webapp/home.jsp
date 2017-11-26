@@ -32,6 +32,10 @@
     <style>
     body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
     body {font-size: 16px;}
+    p { 
+         text-align: justify;
+         text-justify: inter-word;
+    }
     img {margin-bottom: -8px;}
     .mySlides {display: none;}
     </style>
@@ -113,7 +117,7 @@
       <h1 class="w3-jumbo"><b>How to write an article?</b></h1>
       <h1 class="w3-xxlarge w3-text-red"><b>I'm not a professional writer!</b></h1>
       <p class="w3-large">You don't have to be a professional writer to write
-          an article. You can write article in <span class="w3-xlarge">any formate</span>.
+          an article. You can write an article in <span class="w3-xlarge">any formate</span>.
           Any registered user can simply write an article by picking up appropriate
           title & related tags.
           Articles' <span class="w3-xlarge">length doesn't matter</span>. You
@@ -140,7 +144,7 @@
   <div class="w3-row-padding">
     <div class="w3-col l8 m6">
       <h1 class="w3-jumbo"><b>Features</b></h1>
-      <h1 class="w3-xxlarge w3-text-blue"><b>What else I can do with this app?</b></h1>
+      <h1 class="w3-xxlarge w3-text-blue"><b>What else can I do with this app?</b></h1>
       <p class="w3-large">Application introduce number of features. You can 
           <span class="w3-xlarge">like</span> & <span class="w3-xlarge">comment</span>
           on articles. You can search articles by tag. You can also select
@@ -189,9 +193,9 @@
             <!--<img src="/neelpatel.jpeg" alt="" style="width:100%; margin-bottom: 0px;" class="w3-circle w3-hover-opacity">-->
           </div>
           <div class="w3-col l8 m6">
-              <li class="w3-padding-16 w3-left-align w3-large">
-                  <%=userInfo1!=null?userInfo1:""%>
-               </li>
+               <p class="w3-large">
+                   <%=userInfo1!=null?userInfo1:""%>
+               </p>
           </div>
         </div>
           <!--<li class="w3-padding-16 w3-light-grey">Contact</li>-->
@@ -213,18 +217,18 @@
             <!--<img src="/neelpatel.jpeg" alt="" style="width:100%; margin-bottom: 0px;" class="w3-circle w3-hover-opacity">-->
           </div>
           <div class="w3-col l8 m6">
-            <li class="w3-padding-16 w3-left-align w3-large">
+            <p class="w3-large">
               <%=userInfo2!=null?userInfo2:""%>
-            </li>
+            </p>
           </div>
         </div>
           <!--<li class="w3-padding-16 w3-light-grey">Contact</li>-->
           <li class="w3-padding-16 w3-large"><i class="fa fa-envelope"></i> <%=email2!=null?email2:""%></li>
           <li class="w3-padding-16 w3-large"><i class="fa fa-linkedin-square">
             <a href="<%=linkedin_link2!=null?linkedin_link2:""%>" style='font-family: "Poppins"'><%=linkedin2!=null?linkedin2:""%></a></i></li>
-        </ul>
-    </div>
-  </div>
+          </ul>
+        </div>
+     </div>
   <br>
 </div>
 <!-- Footer -->
